@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6af5fa1d-570d-4c96-bb78-f7fdf14f5ff5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/dev.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/chartLib/map_geo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/chartLib/mapv_data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/chartLib/mapv_layers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/draw.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/date.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1WdqzwydIZqGHZ3vWmBcYsmJjDf" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/chartLib" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Github\ncov\src\chartLib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Github\ncov\src\chartLib" />
+      <recent name="F:\Github\ncov\src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6af5fa1d-570d-4c96-bb78-f7fdf14f5ff5" name="Default Changelist" comment="" />
+      <created>1579490085360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579490085360</updated>
+      <workItem from="1579490086879" duration="21090000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2334" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579490141474">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2334" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579490141474" />
+    <state x="2104" y="105" key="DiffContextDialog" timestamp="1579492412707">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2104" y="105" key="DiffContextDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579492412707" />
+    <state width="1898" height="290" key="GridCell.Tab.0.bottom" timestamp="1579511288908">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1898" height="290" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
+    <state width="1898" height="290" key="GridCell.Tab.0.center" timestamp="1579511288908">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1898" height="290" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
+    <state width="1898" height="290" key="GridCell.Tab.0.left" timestamp="1579511288908">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1898" height="290" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
+    <state width="1898" height="290" key="GridCell.Tab.0.right" timestamp="1579511288908">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1898" height="290" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
+    <state x="2750" y="261" key="RollbackChangesDialog" timestamp="1579492459625">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2750" y="261" key="RollbackChangesDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579492459625" />
+    <state x="2381" y="171" key="SettingsEditor" timestamp="1579491259128">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2381" y="171" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579491259128" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1579510746677">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579510746677" />
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2" timestamp="1579490399971">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="272" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579490399971" />
+    <state x="2635" y="383" key="cloudConfig.SelfSettingsDialog" timestamp="1579490386107">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2635" y="383" key="cloudConfig.SelfSettingsDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579490386107" />
+    <state x="-8" y="-8" width="230" height="1025" key="dock-window-1" timestamp="1579512257879">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-8" y="-8" width="230" height="1025" key="dock-window-1/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579512257879" />
+    <state x="900" y="0" width="606" height="1025" key="dock-window-2" timestamp="1579511994580">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="900" y="0" width="606" height="1025" key="dock-window-2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511994580" />
+    <state x="2536" y="245" key="run.anything.popup" timestamp="1579507991285">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2536" y="245" key="run.anything.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579507991285" />
+  </component>
+</project>
