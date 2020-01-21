@@ -1,9 +1,12 @@
 # ncov
 Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situation.  May the world be well. 关注武汉肺炎，数据可视化，以提供帮助分析疫情。 愿世界安好。
 
-https://ncov.datav.ai
-
 > 声明：本库旨在分析有关nCvo官方提供的地点、人数、等医学数据进行分析可视化数据。同时个人也希望能够相关工作提供一丢丢儿分析帮助，如果觉得该仓库帮倒忙，请联系作者删除仓库。并为未来可能引发不好的事件致歉。by @veaba 2020年1月20日10:42:30
+
+
+<p align="center">
+ <a href="https://ncov.datav.ai">2019-nCov感染可视化(科学上网)</a>
+<p>
 
 ![](public/screen.png)
 
@@ -164,6 +167,12 @@ https://ncov.datav.ai
 - todo 地区占比
 - todo 性别占比
 - todo 年龄占比
+- todo 增加爬虫爬取关于`2019-nCoV`权威新闻
+    - 微博
+    - 央视新闻
+    - 新华网
+    - 其他省市地级医疗卫生官网
+
 
 ## toto预测/Forecast
 
@@ -178,9 +187,7 @@ https://ncov.datav.ai
 |发病时间|2003年11月16日|2019年12月|
 |最初爆发地|广东顺德|湖北省武汉市|
 |传染性|高|专家目前说是比SARS低|
-||||
-||||
-||||
+
 
 ## todo引用/Reference
 
@@ -244,10 +251,6 @@ https://ncov.datav.ai
 |2020年1月21日14:06:58|更新珠海20日数据|[珠海确诊3例新型冠状病毒感染的肺炎病例](http://wsjkj.zhuhai.gov.cn/zwgk/tzgg/content/post_2461447.html)|
 |2020年1月21日15:52:37|更新大连数据||
 |2020年1月21日15:56:11|更新贵阳数据||
-||||
-||||
-||||
-||||
-||||
+
 
 
