@@ -1,22 +1,41 @@
 /***********************
- * @name JS
- * @author Jo.gel
+ * @name mapV 使用的数据集
+ * @author veaba
  * @date 2020/1/20 0020
  ***********************/
 import {geo} from "./map_geo";
 import {infectedCountData} from "../../public/data";
-import {today} from "../utils/date";
+import {today, yesterday} from "../utils/date";
 
+let originData = infectedCountData[today] || [];
+// 由于数据更新不及时，数据显示昨天的
+if (originData.length === 0) {
+	originData = infectedCountData[yesterday] || [];
+}
+
+function getCoorDinates(cityName,mapv) {
+	let coordinates = geo[cityName] || [];
+	if (!coordinates.length) {
+		const {lng, lat} = mapv.utilCityCenter.getCenterByCityName(cityName);
+		coordinates = [lng, lat];
+		if (!lng) {
+			coordinates = ["", ""];
+		}
+	}
+	return coordinates
+}
 /**
  * @desc 文字图层data
  * @format [{geometry:{type:'Point',coordinates:[140,99]},text:'武汉【1例】'}]
  * */
-export const textData = () => {
-	const originData = infectedCountData[today] || [];
+export const textData = (mapv) => {
 	return originData.map(item => {
 		const cityName = item.name;
-		const count = item.count;
-		const coordinates = geo[cityName] || [];
+		const count = item.count||0;
+		
+		// 先手动库找到，如果找不到，再去内置库找，真的没有，丢空数组
+		// 这里会产生一个默认的坐标，地图上会看一个错误的坐标点
+		let coordinates = getCoorDinates(cityName,mapv);
 		return {
 			geometry: {
 				type: 'Point',
@@ -32,17 +51,16 @@ export const textData = () => {
  * @format [{geometry:{type:'Point',coordinates:[140,99]},count:11}]
  */
 export const heatMapData = () => {
-	const originData = infectedCountData[today] || [];
 	return originData.map(item => {
 		const cityName = item.name;
 		const count = item.count;
-		const coordinates = geo[cityName] || [];
+		let coordinates = getCoorDinates(cityName,mapv);
 		return {
 			geometry: {
 				type: 'Point',
 				coordinates
 			},
-			count: count
+			count
 		};
 	});
 };
@@ -51,18 +69,50 @@ export const heatMapData = () => {
  * @desc 迁徙data
  * @format [{geometry:{type:'Point',coordinates:[140,99]},count:11}]
  */
-export const moveData = () => {
-	const originData = infectedCountData[today] || [];
+export const movePointData = function (mapv) {
+	let data = [];
+	originData.map(item => {
+		const cityName = item.name;
+		const count = item.count || 0;
+		const fromCenter = {lng: geo['武汉'][0], lat: geo['武汉'][1]};
+		let toCenter = {lng: "", lat: ""};
+		if (geo[cityName] && geo[cityName].length === 2) {
+			const [lng, lat] = geo[cityName];
+			toCenter = {lng, lat};
+		}
+		const curve = mapv.utilCurve.getPoints([fromCenter, toCenter]);
+		curve.map((cur, i) => {
+			data.push({
+				geometry: {
+					type: 'Point',
+					coordinates: cur
+				},
+				count,
+				time: i
+			});
+		});
+	});
+	return data;
+};
+
+
+/**
+ * @desc 迁徙动画
+ * */
+export const moveLineData = function (mapv) {
 	return originData.map(item => {
 		const cityName = item.name;
 		const count = item.count;
-		const coordinates = geo[cityName] || [];
+		const fromCenter = {lng: geo['武汉'][0], lat: geo['武汉'][1]};
+		const [lng = "", lat = ""] = geo[cityName] || [];
+		const toCenter = {lng, lat};
+		const curve = mapv.utilCurve.getPoints([fromCenter, toCenter]);
 		return {
 			geometry: {
-				type: 'Point',
-				coordinates
+				type: 'LineString',
+				coordinates: curve
 			},
-			count: count
+			count
 		};
 	});
 };

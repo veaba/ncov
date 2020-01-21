@@ -2,14 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6af5fa1d-570d-4c96-bb78-f7fdf14f5ff5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dev.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/data.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chartLib/map_geo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chartLib/mapv_data.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chartLib/mapv_layers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/draw.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/date.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/deploy.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/viruses.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/chartLib/mapv_op.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/webpack.config.pro.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev.md" beforeDir="false" afterPath="$PROJECT_DIR$/dev.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chartLib/map_geo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/chartLib/map_geo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chartLib/mapv_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/chartLib/mapv_data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/chartLib/mapv_layers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/draw.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/draw.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/date.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/date.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +31,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -35,9 +48,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/chartLib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/asstes/images" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -49,14 +63,30 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Github\ncov\public" />
+      <recent name="F:\Github\ncov\src\utils" />
+      <recent name="F:\Github\ncov" />
       <recent name="F:\Github\ncov\src\chartLib" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Github\ncov\src\asstes\images" />
+      <recent name="F:\Github\ncov" />
+      <recent name="F:\Github\ncov\public" />
       <recent name="F:\Github\ncov\src\chartLib" />
       <recent name="F:\Github\ncov\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -67,6 +97,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -78,50 +113,72 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1579490085360</updated>
-      <workItem from="1579490086879" duration="21090000" />
+      <workItem from="1579490086879" duration="21132000" />
+      <workItem from="1579569733734" duration="17110000" />
+      <workItem from="1579593807952" duration="9000" />
+      <workItem from="1579593838266" duration="8405000" />
+      <workItem from="1579603244570" duration="34000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
     <state x="2334" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579490141474">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2334" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579490141474" />
-    <state x="2104" y="105" key="DiffContextDialog" timestamp="1579492412707">
+    <state x="2610" y="285" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1579593988925">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2104" y="105" key="DiffContextDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579492412707" />
-    <state width="1898" height="290" key="GridCell.Tab.0.bottom" timestamp="1579511288908">
+    <state x="2610" y="285" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579593988925" />
+    <state x="187" y="144" width="1536" height="832" key="DiffContextDialog" timestamp="1579589979387">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="187" y="144" width="1536" height="832" key="DiffContextDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579589979387" />
+    <state x="2660" y="294" key="FileChooserDialogImpl" timestamp="1579593814657">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="290" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
-    <state width="1898" height="290" key="GridCell.Tab.0.center" timestamp="1579511288908">
+    <state x="2660" y="294" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579593814657" />
+    <state width="1898" height="568" key="GridCell.Tab.0.bottom" timestamp="1579602128437">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="290" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
-    <state width="1898" height="290" key="GridCell.Tab.0.left" timestamp="1579511288908">
+    <state width="1898" height="568" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128437" />
+    <state width="1898" height="568" key="GridCell.Tab.0.center" timestamp="1579602128437">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="290" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
-    <state width="1898" height="290" key="GridCell.Tab.0.right" timestamp="1579511288908">
+    <state width="1898" height="568" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128437" />
+    <state width="1898" height="568" key="GridCell.Tab.0.left" timestamp="1579602128436">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="290" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511288908" />
+    <state width="1898" height="568" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128436" />
+    <state width="1898" height="568" key="GridCell.Tab.0.right" timestamp="1579602128437">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1898" height="568" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128437" />
     <state x="2750" y="261" key="RollbackChangesDialog" timestamp="1579492459625">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2750" y="261" key="RollbackChangesDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579492459625" />
-    <state x="2381" y="171" key="SettingsEditor" timestamp="1579491259128">
+    <state x="2381" y="171" key="SettingsEditor" timestamp="1579586337377">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2381" y="171" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579491259128" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1579510746677">
+    <state x="2381" y="171" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579586337377" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1579586926421">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="498" height="446" key="SwitcherDM/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579510746677" />
+    <state width="498" height="446" key="SwitcherDM/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579586926421" />
     <state x="2472" y="272" key="Vcs.Push.Dialog.v2" timestamp="1579490399971">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -130,17 +187,30 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2635" y="383" key="cloudConfig.SelfSettingsDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579490386107" />
-    <state x="-8" y="-8" width="230" height="1025" key="dock-window-1" timestamp="1579512257879">
+    <state x="296" y="0" width="1613" height="779" key="dock-window-1" timestamp="1579598573272">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-8" y="-8" width="230" height="1025" key="dock-window-1/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579512257879" />
-    <state x="900" y="0" width="606" height="1025" key="dock-window-2" timestamp="1579511994580">
+    <state x="296" y="0" width="1613" height="779" key="dock-window-1/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579598573272" />
+    <state x="604" y="0" width="964" height="1025" maximized="true" key="dock-window-2" timestamp="1579601013193">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="900" y="0" width="606" height="1025" key="dock-window-2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579511994580" />
-    <state x="2536" y="245" key="run.anything.popup" timestamp="1579507991285">
+    <state x="604" y="0" width="964" height="1025" maximized="true" key="dock-window-2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579601013193" />
+    <state x="177" y="0" width="1613" height="1025" key="dock-window-3" timestamp="1579603257448">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="177" y="0" width="1613" height="1025" key="dock-window-3/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1579603257448" />
+    <state x="177" y="0" width="1613" height="1025" key="dock-window-3/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602303339" />
+    <state x="2487" y="236" width="786" height="608" key="find.popup" timestamp="1579586784075">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2536" y="245" key="run.anything.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579507991285" />
+    <state x="2487" y="236" width="786" height="608" key="find.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579586784075" />
+    <state x="2536" y="245" key="run.anything.popup" timestamp="1579574573325">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2536" y="245" key="run.anything.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579574573325" />
+    <state x="2543" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1579585768203">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2543" y="235" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579585768203" />
   </component>
 </project>

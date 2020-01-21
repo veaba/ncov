@@ -24,7 +24,16 @@ export const origin_city = {
  * @desc 感染数据，可以根据时间线绘制感染变化
  * @todo 1、未能找到更前的数据；2、补充更多的数据
  * @最早发病时间：@http://www.942db.com/a/xinwenpinglun/2020/0110/30.html
- * @format
+ * @format  {
+ *   name:"城市", {string}
+ *   count:确诊人数 {number} or undefined
+ *   dead:死亡人数,{number} or undefined
+ *   cure: 治愈人数,{number} 治愈出
+ *   suspected：疑似人数 {number} or undefined，不算count里面
+ *   mid:重症,{number} or undefined
+ *   high:危重症,{number} or undefined
+ *
+ * }
  * */
 export const infectedCountData = {
 	'2019-12-12': [],
@@ -80,6 +89,64 @@ export const infectedCountData = {
 			count: 1,
 		},
 		{
+			name: "珠海",
+			count: 3,
+		},
+		{
+			name:"上海",
+			count:1
+		},
+		{
+			name: "日本",
+			count: 1,
+		},
+		{
+			name: "泰国",
+			count: 2,
+		},
+		{
+			name: "韩国",
+			count: 1,
+		}
+	],
+	'2020-01-21': [
+		{
+			name: '武汉',
+			count: 198,
+			dead:4,
+			cure:25,
+		},
+		{
+			name: "北京",
+			count: 2,
+		},
+		{
+			name: "深圳",
+			count: 1,
+		},
+		{
+			name: "珠海",
+			count: 3,
+		},
+		{
+			name: "山东",
+			count: 0,
+			suspected:1
+		},
+		{
+			name:"上海",
+			count:2,
+			suspected:4
+		},
+		{
+			name:"大连",
+			count:1
+		},
+		{
+			name:"贵阳",
+			suspected:1
+		},
+		{
 			name: "日本",
 			count: 1,
 		},
@@ -92,6 +159,7 @@ export const infectedCountData = {
 			count: 1,
 		}
 	]
+	
 };
 
 /**

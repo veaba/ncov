@@ -1,6 +1,7 @@
 <template>
 		<div class="home">
 				<div id="map"></div>
+				<img src="./assets/images/viruses.png" alt="">
 		</div>
 </template>
 
@@ -8,7 +9,7 @@
 	import {ref, onMounted, reactive} from 'vue';
 	import {infectedCountData, origin_city} from '../public/data';
 	import {today} from './utils/date';
-	import {drawMap} from './draw'
+	import {drawMap} from './utils/draw'
 	
 	export default {
 		setup() {
@@ -19,6 +20,7 @@
 				};
 			});
 			return {
+			
 			};
 		},
 		methods: {

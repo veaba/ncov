@@ -7,11 +7,17 @@ const path = require('path');
 const {VueLoaderPlugin} = require('vue-loader');                // vue-loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');// css
 const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.html 到dist 目录
+const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
+const {CleanWebpackPlugin} =require('clean-webpack-plugin');      // 清空dist目录
 module.exports = (env = {}) => ({
 	mode: env.prod ? 'production' : 'development',
 	devtool: env.prod ? false : 'source-map',
 	// devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
 	entry: path.resolve(__dirname, './src/main.js'),
+	output: {
+		path: path.resolve(__dirname, './dist'),
+		publicPath: '/dist/'
+	},
 	resolve: {
 		alias: {
 			// 这在技术上是不需要的，因为bundler的默认'vue'条目
@@ -26,16 +32,13 @@ module.exports = (env = {}) => ({
 			{
 				test: /\.vue$/,
 				use: 'vue-loader',
-				exclude: /node_modules/,
 			},
 			{
-				test: /\.(jpg|png|gif|svg)$/,
+				test: /\.png$/,
 				use: {
 					loader: 'url-loader',
 					options: {limit: 8192}
-				},
-				include: path.resolve(__dirname + '/src/'),
-				exclude: /node_modules/
+				}
 			},
 			{
 				test: /\.css$/,
@@ -45,29 +48,43 @@ module.exports = (env = {}) => ({
 						options: {hmr: !env.prod}
 					},
 					'css-loader'
-				],
-				exclude: /node_modules/,
+				]
 			}
 		]
 	},
 	plugins: [
-		// 生成index.html
-		new HtmlWebpackPlugin({
-			title: "关注2019新型冠状病毒(Focus 2019-nCoV)——大数据可视化",
-			filename: "index.html",
-			template: __dirname+"/public/index.html",
-			chunks: ["app"],
-		}),
+		new CleanWebpackPlugin(),
 		new VueLoaderPlugin(),
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
+		// 生成index.html
+		new HtmlWebpackPlugin({
+			filename: "index.html",
+			template: __dirname+"/public/index.html",
+			chunks: ["app"],
+			minify: {
+				collapseWhitespace: true
+			}
+		}),
+		new CopyWebpackPlugin([
+			// copy lib
+			{
+				from: __dirname + '/src/chartLib',
+				to: __dirname + '/dist/chartLib',
+			},
+			// 后续向对外暴露API文件
+			{
+				from: __dirname + '/public/data.js',
+				to: __dirname + '/dist/data.js',
+			}
+		])
 	],
 	devServer: {
 		inline: true,
 		hot: true,
 		stats: 'minimal',
-		contentBase: "dist",
+		contentBase: __dirname,
 		overlay: true
 	}
 });
