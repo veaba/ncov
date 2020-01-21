@@ -7,17 +7,16 @@
  * @desc 原始具体地点
  * */
 export const origin_location = {
-	name: '武汉华南海鲜批发市场',
-	geo: [114.268361, 30.623735]
+  name: "武汉华南海鲜批发市场",
+  geo: [114.268361, 30.623735]
 };
-
 
 /**
  * @desc 原始感染城市
  * */
 export const origin_city = {
-	name: '武汉',
-	geo: [114.3162, 30.581084]
+  name: "武汉",
+  geo: [114.3162, 30.581084]
 };
 
 /**
@@ -167,7 +166,6 @@ export const infectedCountData = {
  * */
 export const infectedDateData = {};
 
-
 /**
  * @desc todo 以武汉为起始点对世界各地感染的迁徙图
  * */
@@ -180,14 +178,14 @@ export const AIData = {};
 
 // expose
 export function DATA() {
-	return {
-		origin_location,
-		origin_city,
-		infectedCountData,
-		infectedDateData,
-		transferData,
-		AIData
-	};
+  return {
+    origin_location,
+    origin_city,
+    infectedCountData,
+    infectedDateData,
+    transferData,
+    AIData
+  };
 }
 
 window.DATA = DATA;

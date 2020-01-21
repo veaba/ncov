@@ -86,11 +86,74 @@ https://ncov.datav.ai
 以上来自：湖北省卫生计生宣教中心 & 武汉市卫生计生宣教中心 2020年1月
 
 ## todo预防、治疗、救助/Support
+
 ### 武汉市设置发热门诊机构和定点救助医疗机构名单
 来源: [武汉市设置发热门诊医疗机构和定点救治医疗机构名单](http://wjw.wuhan.gov.cn/front/web/showDetail/2020012009078)
 
 <table cellpadding="0" cellspacing="0" height="2135" align="center"><colgroup><col width="105" style="width:105px"><col width="352" style="width:352px"><col width="174" style="width:174px"></colgroup><tbody><tr height="33" style="height:33px" class="firstRow"><td height="33" width="97" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 黑体, SimHei;">辖区</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 黑体, SimHei;">设置发热门诊医疗机构</span></td><td width="174" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 黑体, SimHei;">定点医疗机构</span></td></tr><tr height="33" style="height:33px"><td rowspan="8" height="266" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">江岸区（发热门诊8家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市中医医院</span></td><td rowspan="18" width="174" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">市金银潭医院<br>市肺科医院<br>市汉口医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">中部战区总医院（汉口院区）</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">长航总医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第八医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市中心医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市汉口医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉儿童医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第六医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="5" height="166" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">江汉区（发热门诊5家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">协和医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省中西医结合医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市中心医院（后湖院区）</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市红十字会医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉亚洲心脏病医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="5" height="166" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">硚口区（发热门诊5家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">华中科技大学同济医学院附属同济医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省第三人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第一医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第四医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市肺科医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="4" height="133" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">汉阳区（发热门诊4家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第五医院</span></td><td rowspan="23" width="174" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">市金银潭医院<br>市肺科医院<br>市汉口医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市汉阳医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市中医医院（汉阳院区）</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉龙阳医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="9" height="299" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武昌区（发热门诊9家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉大学人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉大学中南医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉科技大学附属天佑医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省中医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第三医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市武昌医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第七医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武警湖北省总队医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">解放军中部战区总医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="6" height="200" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">青山区（发热门诊6家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">华润武钢总医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市普仁医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市武东医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武钢第二职工医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第九医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市石化医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="4" height="133" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><p><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">洪山区（发热门诊4家）</span></p></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市第三医院（光谷院区）</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省中医院（光谷院区）</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省妇幼保健院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省荣军医院</span></td></tr><tr height="49" style="height:49px"><td rowspan="2" height="82" width="97" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">东湖高新区<br>(发热门诊2家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">华中科技大学同济医学院附属同济医院（光谷院区）</span></td><td rowspan="3" width="174" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">市金银潭医院<br>市肺科医院<br>市汉口医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉大学人民医院（东院）</span></td></tr><tr height="50" style="height:50px"><td height="50" width="97" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">东湖风景区<br>(发热门诊1家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">华中科技大学同济医学院附属梨园医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="4" height="150" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">蔡甸区（发热门诊4家）</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市蔡甸区人民医院</span></td><td rowspan="4" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">蔡甸区人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市蔡甸区中医医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉济和医院</span></td></tr><tr height="50" style="height:50px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">华中科技大学同济医学院附属同济医院（中法新城院区）</span></td></tr><tr height="33" style="height:33px"><td rowspan="3" height="100" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">江夏区(发热门诊3家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市江夏区第一人民医院</span></td><td rowspan="3" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">江夏区第一人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市江夏区中医医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">江夏区纸坊街社区卫生服务中心</span></td></tr><tr height="36" style="height:36px"><td rowspan="2" height="69" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">东西湖区(发热门诊2家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市东西湖区人民医院</span></td><td rowspan="2" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">东西湖区人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉太康医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="3" height="100" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">新洲区(发热门诊3家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市新洲区人民医院</span></td><td rowspan="3" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">新洲区人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">湖北省第三人民医院阳逻院区</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市新洲区中医医院</span></td></tr><tr height="33" style="height:33px"><td rowspan="2" height="67" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">黄陂区(发热门诊2家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市黄陂区人民医院</span></td><td rowspan="2" x:str="" style="border-width: 1px; border-style: solid;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">黄陂区人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市黄陂区中医医院</span></td></tr><tr height="54" style="height:54px"><td rowspan="3" height="121" width="97" x:str="" style="border-width: 1px; border-style: solid; word-break: break-all;" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉经济技术开发区（汉南区）(发热门诊3家)</span></td><td width="360" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">华中科技大学同济医学院附属协和医院（西院）</span></td><td rowspan="3" x:str="" style="border-width: 1px; border-style: solid; border-bottom-color: rgb(0, 0, 0);" align="center" valign="middle"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">汉南区人民医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉亚心总医院</span></td></tr><tr height="33" style="height:33px"><td width="344" x:str="" style="border-width: 1px; border-style: solid;"><span style="font-family: 仿宋_GB2312, FangSong_GB2312;">武汉市汉南区人民医院</span></td></tr></tbody></table>
 
+## todo 指定救治定点医院
+- [北京建立新型冠状病毒肺炎防控机制 指定救治定点医院](http://news.cctv.com/2020/01/20/ARTI3zez5zham6NAMKx1tmkK200120.shtml?spm=C94212.P4YnMod9m2uD.ENPMkWvfnaiV.583)
+
+## todo 确诊汇总/Confirm list
+|时间|地点|确诊人数|死亡人数|康复人数|权威通报|
+|----|---|------|-------|-------|------|
+|2020-01-20|珠海|3|||[珠海市卫生健康局-珠海确诊3例新型冠状病毒感染的肺炎病例](http://wsjkj.zhuhai.gov.cn/zwgk/tzgg/content/post_2461447.html)|
+|2020-01-20|韩国|1|||[韩国出现一新型冠状病毒肺炎确诊病例]()|
+|2020-01-20|北京|5|||[央视新闻-北京新增3例新型冠状病毒感染的肺炎病例 目前共确诊5例](http://news.cctv.com/2020/01/20/ARTI0Mhxwq18zOBK0j7k1Dp2200120.shtml?spm=C94212.P4YnMod9m2uD.ENPMkWvfnaiV.114)|
+|2020-01-20|上海|1|||[央视新闻-卫健委确认上海首例新型冠状病毒肺炎确诊病例](http://news.cctv.com/2020/01/20/ARTImfMV89IyZgdvbC43DJYq200120.shtml?spm=C94212.P4YnMod9m2uD.ENPMkWvfnaiV.125)|
+|||||||
+|2020-01-19|深圳|1|||[央视新闻-深圳通报首例肺炎确诊病例情况 另有8例观察病例隔离治疗](http://news.cctv.com/2020/01/20/ARTIW02M3sZ7cIZWnY3nmCKi200120.shtml?spm=C94212.P4YnMod9m2uD.ENPMkWvfnaiV.539)|
+|||||||
+|||||||
+|2020-01-18||||||
+|||||||
+|||||||
+|2020-01-17||||||
+|||||||
+|2020-01-16|日本|1|||[中国国家应急广播-日本确诊首例新型冠状病毒病例](http://www.cneb.gov.cn/2020/01/16/ARTI1579160638826593.shtml)|
+|||||||
+|2020-01-15||||||
+|||||||
+|2020-01-14||||||
+|||||||
+|2020-01-13||||||
+|||||||
+|2020-01-12||||||
+|||||||
+|2020-01-11||||||
+|||||||
+|2020-01-10||||||
+|||||||
+|2020-01-09||||||
+|||||||
+|2020-01-08||||||
+|||||||
+|2020-01-07||||||
+|||||||
+|2020-01-06||||||
+|||||||
+|2020-01-05||||||
+|||||||
+|2020-01-04||||||
+|||||||
+|2020-01-03||||||
+|||||||
+|2020-01-02||||||
+|||||||
+|2020-01-01||||||
+|||||||
+|2020-12-31||||||
+|||||||
+|2020-12-30||||||
+|||||||
+|2020-12-29||||||
+|||||||
+|2020-12-29||||||
+|||||||
+|||||||
+
+## todo预防与治疗/Prevention and treatment
 
 ## todo模块/Modules
 - doing 感染地图，热点分布图
@@ -98,6 +161,9 @@ https://ncov.datav.ai
 - todo 迁徙图
 - todo 根据时间线变换感染地图
 - todo 查看传播层级
+- todo 地区占比
+- todo 性别占比
+- todo 年龄占比
 
 ## toto预测/Forecast
 
@@ -105,30 +171,54 @@ https://ncov.datav.ai
 
 ## todo 对比2003SaRS
 
+> 可能是我多想了，我发现非典和新型的病毒也是11-12月份冬天发作的。为什么会是这个时间点。1、冬天流行感冒
+
+|比较项目|SARS(非典/严重急性呼吸系统综合征)|2019-nCoV(2019新型冠状病毒)|
+|-------|-----------------------------|-------------------------|
+|发病时间|2003年11月16日|2019年12月|
+|最初爆发地|广东顺德|湖北省武汉市|
+|传染性|高|专家目前说是比SARS低|
+||||
+||||
+||||
+
 ## todo引用/Reference
 
 - [百度百科](https://baike.baidu.com/item/2019%E6%96%B0%E5%9E%8B%E5%86%A0%E7%8A%B6%E7%97%85%E6%AF%92/24267858?fr=aladdin)
 - [维基百科](https://zh.wikipedia.org/wiki/2019%E2%80%932020%E5%B9%B4%E6%AD%A6%E6%BC%A2%E8%82%BA%E7%82%8E%E4%BA%8B%E4%BB%B6)
 - [钱江晚报](https://baijiahao.baidu.com/s?id=1656226002264134700&wfr=spider&for=pc)
+- [央视新闻微博：#新型冠状病毒传染性比SARS弱#](https://weibo.com/2656274875/Iqph9cxWa?ref=home&rid=3_262144_8_4726514314144536405_0_0_0)
 - [武汉市卫生健康委员会](http://wjw.wuhan.gov.cn/)
-
-### todo 国内权威机构
-|地点|机构名称|网址/新闻|
+- [珠海确诊3例新型冠状病毒感染的肺炎病例](http://wsjkj.zhuhai.gov.cn/zwgk/tzgg/content/post_2461447.html)
+### todo 国内权威机构/Organizitions
+|地点/账号|机构名称/专家/渠道|网址/新闻|
 |---|---|---|
-|武汉|||
-|北京|||
-|广州|||
-|深圳|||
-|杭州|||
-|舟山|||
-|温州|||
-|韩国|||
-|泰国|||
-|台湾|||
-|香港|||
-
+|健康中国|国家卫生健康委员会官方微博|[微博@健康中国](https://weibo.com/n/%E5%81%A5%E5%BA%B7%E4%B8%AD%E5%9B%BD?from=feed&loc=at)
+|世界卫生组织|世界卫生组织官方微博|[微博@世界卫生组织](https://weibo.com/n/%E6%AD%A6%E6%B1%89%E5%8F%91%E5%B8%83?from=feed&loc=at)|
+|健康武汉官微|健康武汉官微，是武汉市卫健委对外发布健康科普资讯的平台。|[微博@健康武汉官微](https://weibo.com/n/%E5%81%A5%E5%BA%B7%E6%AD%A6%E6%B1%89%E5%AE%98%E5%BE%AE?from=feed&loc=at)|
+|上海发布|上海市政府新闻办公室官方微博|[微博@上海发布](https://weibo.com/n/%E4%B8%8A%E6%B5%B7%E5%8F%91%E5%B8%83?from=feed&loc=at)|
+|健康上海12320|上海市卫生健康委员会官方微博|[微博@健康上海12320](https://weibo.com/n/%E5%81%A5%E5%BA%B7%E4%B8%8A%E6%B5%B712320?from=feed&loc=at)|
+|广东发布|广东省人民政府新闻办公室官方微博|[微博@广东发布](https://weibo.com/n/%E5%B9%BF%E4%B8%9C%E5%8F%91%E5%B8%83?from=feed&loc=at)|
+|深圳卫健委|深圳市卫生健康委员会官方微博|[微博@深圳卫健委](https://weibo.com/szhpfpc?from=feed&loc=at&nick=%E6%B7%B1%E5%9C%B3%E5%8D%AB%E5%81%A5%E5%A7%94&is_hot=1)|
+|浙江发布|浙江省人民政府新闻办公室官方微博|[微博@浙江发布](https://weibo.com/n/%E6%B5%99%E6%B1%9F%E5%8F%91%E5%B8%83?from=feed&loc=at)|
+|健康浙江|浙江省卫生和计划生育委员会官方微博|[微博@健康浙江]()|
+|北京发布|浙江省人民政府新闻办公室官方微博|[微博@北京发布](https://weibo.com/n/%E5%8C%97%E4%BA%AC%E5%8F%91%E5%B8%83?from=feed&loc=at)|
+|首都健康|北京市卫生健康委员会官方微博|[微博@首都健康](https://weibo.com/n/%E9%A6%96%E9%83%BD%E5%81%A5%E5%BA%B7?from=feed&loc=at)|
+|健康大兴|北京市大兴区卫生健康委员会官方微博|[微博@健康大兴](https://weibo.com/n/%E5%81%A5%E5%BA%B7%E5%A4%A7%E5%85%B4?from=feed&loc=at)|
+|疫苗与科学|医疗专家|[微博@疫苗与科学](https://weibo.com/n/%E7%96%AB%E8%8B%97%E4%B8%8E%E7%A7%91%E5%AD%A6?from=feed&loc=at)|
+|妇产科的陈大夫|医疗专家|[微博@妇产科的陈大夫](https://weibo.com/n/%E5%A6%87%E4%BA%A7%E7%A7%91%E7%9A%84%E9%99%88%E5%A4%A7%E5%A4%AB?from=feed&loc=at)|
+|学妇产科的董小姐|医疗专家|[微博@学妇产科的董小姐](https://weibo.com/n/%E5%AD%A6%E5%A6%87%E4%BA%A7%E7%A7%91%E7%9A%84%E8%91%A3%E5%B0%8F%E5%A7%90?from=feed&loc=at)|
+|泌尿外科杨大夫|医疗专家|[微博@泌尿外科杨大夫](https://weibo.com/n/%E6%B3%8C%E5%B0%BF%E5%A4%96%E7%A7%91%E6%9D%A8%E5%A4%A7%E5%A4%AB?from=feed&loc=at)|
+|白衣奶爸|医疗专家|[微博@白衣奶爸](https://weibo.com/n/%E7%99%BD%E8%A1%A3%E5%A5%B6%E7%88%B8?from=feed&loc=at)| 
+|肝胆外科罗大夫|医疗专家|[微博@肝胆外科罗大夫](https://weibo.com/n/%E8%82%9D%E8%83%86%E5%A4%96%E7%A7%91%E7%BD%97%E5%A4%A7%E5%A4%AB?from=feed&loc=at)| 
+|妇科小医生|医疗专家|[微博@妇科小医生](https://weibo.com/n/%E5%A6%87%E7%A7%91%E5%B0%8F%E5%8C%BB%E7%94%9F?from=feed&loc=at)| 
+|泌尿外科柒大夫|医疗专家|[微博@泌尿外科柒大夫](https://weibo.com/n/%E6%B3%8C%E5%B0%BF%E5%A4%96%E7%A7%91%E6%9F%92%E5%A4%A7%E5%A4%AB?from=feed&loc=at)|
+|央视新闻|中央电视台新闻中心官方微博|[微博@](https://weibo.com/n/%E5%A4%AE%E8%A7%86%E6%96%B0%E9%97%BB?from=feed&loc=at)|
+|人民日报|《人民日报》法人微博|[微博@](https://weibo.com/n/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?from=feed&loc=at)|
 
 ### todo 新闻/News
+
+- [2020-01-20：微博#4名医护人员感染新型冠状病毒肺炎#](https://weibo.com/2803301701/IqpJvqseJ?ref=home&rid=1_0_8_4726802386191007145_0_1_0)
 
 ## todo 贡献/Contribute
 
@@ -140,8 +230,7 @@ https://ncov.datav.ai
 
 ### 为什么会有本站？
 
-现在官方没有一个信息汇总的入口，关注疫情的新闻散乱并迭代块，并难以收集信息
-
+现在官方没有一个信息汇总的入口，关注疫情的新闻散乱并迭代快，并难以收集信息
 
 - 基于Vue+Mapv 实现，具体见 [开发文档](dev.md)
 - 同时本仓库也为外部提供API用于分析，直接引用 https://ncov.datav.ai/data.js 即可，详见开发文档
@@ -160,4 +249,5 @@ https://ncov.datav.ai
 ||||
 ||||
 ||||
+
 
