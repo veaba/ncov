@@ -7,16 +7,16 @@
  * @desc 原始具体地点
  * */
 export const origin_location = {
-  name: "武汉华南海鲜批发市场",
-  geo: [114.268361, 30.623735]
+	name: "武汉华南海鲜批发市场",
+	geo: [114.268361, 30.623735]
 };
 
 /**
  * @desc 原始感染城市
  * */
 export const origin_city = {
-  name: "武汉",
-  geo: [114.3162, 30.581084]
+	name: "武汉",
+	geo: [114.3162, 30.581084]
 };
 
 /**
@@ -74,8 +74,7 @@ export const infectedCountData = {
 	'2020-01-17': [],
 	'2020-01-18': [],
 	'2020-01-19': [],
-	'2020-01-20': [
-		{
+	'2020-01-20': [{
 			name: '武汉',
 			count: 136,
 		},
@@ -92,8 +91,8 @@ export const infectedCountData = {
 			count: 3,
 		},
 		{
-			name:"上海",
-			count:1
+			name: "上海",
+			count: 1
 		},
 		{
 			name: "日本",
@@ -108,12 +107,11 @@ export const infectedCountData = {
 			count: 1,
 		}
 	],
-	'2020-01-21': [
-		{
+	'2020-01-21': [{
 			name: '武汉',
 			count: 198,
-			dead:4,
-			cure:25,
+			dead: 4,
+			cure: 25,
 		},
 		{
 			name: "北京",
@@ -130,20 +128,20 @@ export const infectedCountData = {
 		{
 			name: "山东",
 			count: 0,
-			suspected:1
+			suspected: 1
 		},
 		{
-			name:"上海",
-			count:2,
-			suspected:4
+			name: "上海",
+			count: 2,
+			suspected: 4
 		},
 		{
-			name:"大连",
-			count:1
+			name: "大连",
+			count: 1
 		},
 		{
-			name:"贵阳",
-			suspected:1
+			name: "贵阳",
+			suspected: 1
 		},
 		{
 			name: "日本",
@@ -157,8 +155,148 @@ export const infectedCountData = {
 			name: "韩国",
 			count: 1,
 		}
+	],
+	'2020-01-22': [{
+			name: '湖北',
+			count: 270,
+			dead: 6,
+			cure: 25,
+			suspected: 11
+		},
+		{
+			name: "广东",
+			count: 26,
+			dead: 1
+		},
+		{
+			name: "北京",
+			count: 2,
+		},
+		{
+			name: "上海",
+			count: 9,
+			suspected: 10
+		},
+
+		{
+			name: "浙江",
+			count: 5,
+			suspected: 11
+		},
+		{
+			name: "重庆",
+			count: 5,
+		},
+		{
+			name: "天津",
+			count: 2,
+		},
+		{
+			name: "山东",
+			count: 1,
+		},
+		{
+			name: "河南",
+			count: 1,
+		},
+		{
+			name: "四川",
+			count: 2,
+			suspected: 6,
+		},
+		{
+			name: "湖南",
+			count: 1
+		},
+		{
+			name: "宁夏",
+			suspected: 1
+		},
+		{
+			name: "吉林",
+			count: 1
+		},
+		{
+			name: "贵州",
+			suspected: 1
+		},
+		{
+			name: "广西",
+			suspected: 2
+		},
+		{
+			name: "云南",
+			count: 1
+		},
+		{
+			name: "江西",
+			count: 2
+		},
+
+		{
+			name: "安徽",
+			count: 0,
+			suspected: 3
+		},
+		{
+			name: "辽宁",
+			suspected: 1
+		},
+		{
+			name: "吉林",
+			suspected: 1
+		},
+		{
+			name: "黑龙江",
+			suspected: 1
+		},
+		{
+			name: "海南",
+			suspected: 1
+		},
+		{
+			name: "台湾",
+			count: 1
+		},
+		{
+			name: "澳门",
+			count: 1
+		},
+		{
+			name: "香港",
+			count: 1
+		},
+		{
+			name: "日本",
+			count: 1,
+		},
+		{
+			name: "泰国",
+			count: 4,
+		},
+		{
+			name: "韩国",
+			count: 1,
+			suspected: 15,
+		},
+		{
+			name: "新加坡",
+			suspected: 7,
+		},
+		{
+			name: "菲律宾",
+			suspected: 4,
+		},
+		{
+			name: "美国",
+			count: 1,
+		},
+		{
+			name: "澳大利亚",
+			suspected: 1,
+		}
 	]
-	
+
 };
 
 /**
@@ -178,14 +316,14 @@ export const AIData = {};
 
 // expose
 export function DATA() {
-  return {
-    origin_location,
-    origin_city,
-    infectedCountData,
-    infectedDateData,
-    transferData,
-    AIData
-  };
+	return {
+		origin_location,
+		origin_city,
+		infectedCountData,
+		infectedDateData,
+		transferData,
+		AIData
+	};
 }
 
 window.DATA = DATA;

@@ -19,8 +19,8 @@ export const drawMap = () => {
 	});
 	
 	// 根据城市名称提取坐标，国内省会可以提取
-	const cityCenter = mapv.utilCityCenter.getCenterByCityName("贵阳");
-	console.info("拾取坐标：",cityCenter);
+	// const cityCenter = mapv.utilCityCenter.getCenterByCityName("贵阳");
+	// console.info("拾取坐标：",cityCenter);
 	// 文字图层
 	const textDataSet = new mapv.DataSet(textData(mapv));
 	const textMapVLayer = new mapv.baiduMapLayer(map, textDataSet, textOp);

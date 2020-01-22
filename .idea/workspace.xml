@@ -2,26 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6af5fa1d-570d-4c96-bb78-f7fdf14f5ff5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/deploy.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/images/viruses.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chartLib/mapv_op.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webpack.config.pro.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev.md" beforeDir="false" afterPath="$PROJECT_DIR$/dev.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chartLib/map_geo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/chartLib/map_geo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chartLib/mapv_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/chartLib/mapv_data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chartLib/mapv_layers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/draw.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/draw.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/date.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/date.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +101,7 @@
       <workItem from="1579593807952" duration="9000" />
       <workItem from="1579593838266" duration="8405000" />
       <workItem from="1579603244570" duration="34000" />
+      <workItem from="1579655438718" duration="1227000" />
     </task>
     <servers />
   </component>
@@ -151,22 +135,22 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2660" y="294" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579593814657" />
-    <state width="1898" height="568" key="GridCell.Tab.0.bottom" timestamp="1579602128437">
+    <state width="1898" height="308" key="GridCell.Tab.0.bottom" timestamp="1579660842004">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="568" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128437" />
-    <state width="1898" height="568" key="GridCell.Tab.0.center" timestamp="1579602128437">
+    <state width="1898" height="308" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579660842004" />
+    <state width="1898" height="308" key="GridCell.Tab.0.center" timestamp="1579660842004">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="568" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128437" />
-    <state width="1898" height="568" key="GridCell.Tab.0.left" timestamp="1579602128436">
+    <state width="1898" height="308" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579660842004" />
+    <state width="1898" height="308" key="GridCell.Tab.0.left" timestamp="1579660842003">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="568" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128436" />
-    <state width="1898" height="568" key="GridCell.Tab.0.right" timestamp="1579602128437">
+    <state width="1898" height="308" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579660842003" />
+    <state width="1898" height="308" key="GridCell.Tab.0.right" timestamp="1579660842004">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1898" height="568" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579602128437" />
+    <state width="1898" height="308" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1579660842004" />
     <state x="2750" y="261" key="RollbackChangesDialog" timestamp="1579492459625">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

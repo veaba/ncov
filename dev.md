@@ -37,4 +37,4 @@ const data=[
 为外部提供2019-nCoV 数据
 
 直接拉取本站js
-https://ncov.datav.ai/data.js，里面暴露DATA对象，也支持es 的export，详见文件
+[data.js](https://2019-ncov.datav.ai/data.js)，里面暴露DATA对象，也支持es 的export，详见文件

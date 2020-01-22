@@ -16,10 +16,11 @@ if (originData.length === 0) {
 function getCoorDinates(cityName,mapv) {
 	let coordinates = geo[cityName] || [];
 	if (!coordinates.length) {
-		const {lng, lat} = mapv.utilCityCenter.getCenterByCityName(cityName);
-		coordinates = [lng, lat];
+		const {lng="", lat=""} = mapv.utilCityCenter.getCenterByCityName(cityName)||{};
 		if (!lng) {
 			coordinates = ["", ""];
+		}else{
+			coordinates = [lng, lat];
 		}
 	}
 	return coordinates
@@ -32,7 +33,6 @@ export const textData = (mapv) => {
 	return originData.map(item => {
 		const cityName = item.name;
 		const count = item.count||0;
-		
 		// 先手动库找到，如果找不到，再去内置库找，真的没有，丢空数组
 		// 这里会产生一个默认的坐标，地图上会看一个错误的坐标点
 		let coordinates = getCoorDinates(cityName,mapv);
@@ -74,12 +74,9 @@ export const movePointData = function (mapv) {
 	originData.map(item => {
 		const cityName = item.name;
 		const count = item.count || 0;
-		const fromCenter = {lng: geo['武汉'][0], lat: geo['武汉'][1]};
-		let toCenter = {lng: "", lat: ""};
-		if (geo[cityName] && geo[cityName].length === 2) {
-			const [lng, lat] = geo[cityName];
-			toCenter = {lng, lat};
-		}
+		const fromCenter = {lng: geo['湖北'][0], lat: geo['湖北'][1]};
+		const  [lng, lat] =getCoorDinates(cityName,mapv)
+		let toCenter = {lng, lat};
 		const curve = mapv.utilCurve.getPoints([fromCenter, toCenter]);
 		curve.map((cur, i) => {
 			data.push({
@@ -104,7 +101,7 @@ export const moveLineData = function (mapv) {
 		const cityName = item.name;
 		const count = item.count;
 		const fromCenter = {lng: geo['武汉'][0], lat: geo['武汉'][1]};
-		const [lng = "", lat = ""] = geo[cityName] || [];
+		const  [lng, lat] =getCoorDinates(cityName,mapv)
 		const toCenter = {lng, lat};
 		const curve = mapv.utilCurve.getPoints([fromCenter, toCenter]);
 		return {

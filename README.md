@@ -5,7 +5,7 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 
 
 <p align="center">
- <a href="https://ncov.datav.ai">2019-nCov感染可视化(科学上网)</a>
+ <a href="https://2019-ncov.datav.ai">2019-nCov感染可视化(科学上网)</a>
 <p>
 
 ![](public/screen.png)
@@ -240,7 +240,7 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 现在官方没有一个信息汇总的入口，关注疫情的新闻散乱并迭代快，并难以收集信息
 
 - 基于Vue+Mapv 实现，具体见 [开发文档](dev.md)
-- 同时本仓库也为外部提供API用于分析，直接引用 https://ncov.datav.ai/data.js 即可，详见开发文档
+- 同时本仓库也为外部提供API用于分析，直接引用 [data.js](https://2019-ncov.datav.ai/data.js)即可，详见开发文档
 
 ## 更新日志/Update Log
 |日期|操作|依据|
@@ -251,6 +251,6 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 |2020年1月21日14:06:58|更新珠海20日数据|[珠海确诊3例新型冠状病毒感染的肺炎病例](http://wsjkj.zhuhai.gov.cn/zwgk/tzgg/content/post_2461447.html)|
 |2020年1月21日15:52:37|更新大连数据||
 |2020年1月21日15:56:11|更新贵阳数据||
-
+|2020年1月22日13:36:35|更新全国数据，确诊440例|https://news.sina.cn/zt_d/yiqing0121?from=timeline&isappinstalled=0|
 
 
