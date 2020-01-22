@@ -1,5 +1,5 @@
 # !/bin/bash
-# 基于Github Actions 部署脚本
+# 基于Github Actions 前端部署脚本
 # todo 获取最新的commit 时间以显示最真实的实时数据
 set -e
 # 检查Actions目录配置

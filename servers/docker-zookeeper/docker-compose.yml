@@ -1,0 +1,17 @@
+version: "3"
+services:
+ zookeeper: 
+    image: wurstmeister/zookeeper
+    restart: always
+    container_name: server-zookeeper-172.2.0.20
+    ports:
+      - 2181:2181
+    volumes:
+      - /etc/localtime:/etc/localtime
+    networks:
+      default:
+        ipv4_address: 172.2.0.20
+networks:
+  default:
+    external:
+      name: 2019_nCoV_network

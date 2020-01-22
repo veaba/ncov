@@ -220,8 +220,8 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 |肝胆外科罗大夫|医疗专家|[微博@肝胆外科罗大夫](https://weibo.com/n/%E8%82%9D%E8%83%86%E5%A4%96%E7%A7%91%E7%BD%97%E5%A4%A7%E5%A4%AB?from=feed&loc=at)| 
 |妇科小医生|医疗专家|[微博@妇科小医生](https://weibo.com/n/%E5%A6%87%E7%A7%91%E5%B0%8F%E5%8C%BB%E7%94%9F?from=feed&loc=at)| 
 |泌尿外科柒大夫|医疗专家|[微博@泌尿外科柒大夫](https://weibo.com/n/%E6%B3%8C%E5%B0%BF%E5%A4%96%E7%A7%91%E6%9F%92%E5%A4%A7%E5%A4%AB?from=feed&loc=at)|
-|央视新闻|中央电视台新闻中心官方微博|[微博@](https://weibo.com/n/%E5%A4%AE%E8%A7%86%E6%96%B0%E9%97%BB?from=feed&loc=at)|
-|人民日报|《人民日报》法人微博|[微博@](https://weibo.com/n/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?from=feed&loc=at)|
+|央视新闻|中央电视台新闻中心官方微博|[微博@央视新闻](https://weibo.com/n/%E5%A4%AE%E8%A7%86%E6%96%B0%E9%97%BB?from=feed&loc=at)|
+|人民日报|《人民日报》法人微博|[微博@人民日报](https://weibo.com/n/%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5?from=feed&loc=at)|
 
 ### todo 新闻/News
 

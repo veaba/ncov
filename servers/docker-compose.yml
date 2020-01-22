@@ -1,0 +1,67 @@
+# todo 这是一键启动所有后端服务的脚本
+# todo 这些脚本需要手动调整，不宜直接暴露出去
+version: "3"
+services:
+  # Zookeeper-server
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    container_name: server-zookeeper-172.2.0.20
+    ports:
+      - 2181:2181
+    volumes:
+      - /etc/localtime:/etc/localtime
+    networks:
+      default:
+        ipv4_address: 172.2.0.20
+  # Kafka-server
+  kafka:
+    image: wurstmeister/kafka
+    restart: always
+    container_name: server-kafka-172.2.0.30
+    ports:
+      - 9092:9092
+    # 传递变量
+    environment:
+      KAFKA_BROKER_ID: 0
+      KAFKA_ZOOKEEPER_CONNECT: 172.2.0.20:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.2.0.30:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+    # 时间
+    volumes:
+      - /etc/localtime:/etc/localtime
+    networks:
+      default:
+        ipv4_address: 172.2.0.30
+  # Redis-server
+  redis:
+    container_name: server-redis-172.2.0.50
+    image: redis
+    restart: always
+    volumes:
+      - ./data:/data # 暂时用不到
+    command: redis-server --requirepass yourpassword
+    networks:
+      default:
+        ipv4_address: 172.2.0.50
+  # MongoDB-server
+  mongo:
+    image: mongo
+    restart: always
+    #ports:
+    #  - "27017:27017"
+    container_name: server-mongo-172.2.0.40 #如果要伸缩，就不能使用自定义名称
+    volumes:
+      - /home/ubuntu/docker-mongo:/opt/mongo
+    command: --dbpath=/opt/mongo/data  --auth
+    environment: ## username and password
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+    networks:
+      default:
+        ipv4_address: 172.2.0.40 #指定ip ，如果要伸缩，就不能自定义ip
+networks:
+  default:
+    external:
+      name: 2019_nCoV_network

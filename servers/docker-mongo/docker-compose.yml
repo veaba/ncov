@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mongo: 
+    image: mongo
+    restart: always
+    #ports:
+    #  - "27017:27017"
+    container_name: server-mongo-172.2.0.40 #如果要伸缩，就不能使用自定义名称
+    volumes: 
+      - /home/ubuntu/docker-mongo:/opt/mongo
+    command: --dbpath=/opt/mongo/data  --auth
+    environment: ## username and password
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+    
+    networks:
+      default:
+        ipv4_address: 172.2.0.40 #指定ip ，如果要伸缩，就不能自定义ip
+networks:
+  default: 
+    external: 
+      name: 2019_nCoV_network
+
+

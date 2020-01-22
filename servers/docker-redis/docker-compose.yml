@@ -1,0 +1,17 @@
+# 部署Redis
+version: "3"
+services:
+  redis:
+    container_name: server-redis-172.2.0.50
+    image: redis
+    restart: always
+    volumes:
+      - ./data:/data # 暂时用不到
+    command: redis-server --requirepass yourpassword
+    networks:
+      default:
+        ipv4_address: 172.2.0.50
+networks:
+  default:
+    external:
+      name: 2019_nCoV_network

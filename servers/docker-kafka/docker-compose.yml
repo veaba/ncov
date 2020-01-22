@@ -1,0 +1,23 @@
+services:
+  server:
+    image: wurstmeister/kafka
+    restart: always
+    container_name: server-kafka-172.2.0.30
+    ports:
+      - 9092:9092
+    # 传递变量
+    environment:
+      KAFKA_BROKER_ID: 0
+      KAFKA_ZOOKEEPER_CONNECT: 172.2.0.20:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.2.0.30:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+    # 时间
+    volumes:
+      - /etc/localtime:/etc/localtime
+    networks:
+      default:
+        ipv4_address: 172.2.0.30
+networks:
+  default:
+    external:
+      name: 2019_nCoV_network
