@@ -35,9 +35,13 @@ module.exports = (env = {}) => ({
 			},
 			{
 				test: /\.png$/,
+				exclude: /^node_modules$/,
 				use: {
 					loader: 'url-loader',
-					options: {limit: 8192}
+					options: {
+						limit: 8192,
+						name:"assets/img/[name]-[hash:8].[ext]"
+					}
 				}
 			},
 			{
@@ -77,6 +81,10 @@ module.exports = (env = {}) => ({
 			{
 				from: __dirname + '/public/data.js',
 				to: __dirname + '/dist/data.js',
+			},
+			{
+				from: __dirname + '/public/screen.png',
+				to: __dirname + '/dist/screen.png',
 			}
 		])
 	],

@@ -8,7 +8,7 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
  <a href="https://2019-ncov.datav.ai">2019-nCov感染可视化(科学上网)</a>
 <p>
 
-![](public/screen.png)
+![](https://2019-ncov.datav.ai/screen.png)
 
 ##  科普
 
