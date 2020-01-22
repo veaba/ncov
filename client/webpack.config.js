@@ -47,6 +47,12 @@ module.exports = (env = {}) => ({
 					'css-loader'
 				],
 				exclude: /node_modules/,
+			},
+			// 增加scss
+			{
+				test: /\.(scss)$/,
+				use: ['vue-style-loader','css-loader','sass-loader'],
+				exclude: /node_modules/
 			}
 		]
 	},
@@ -55,7 +61,7 @@ module.exports = (env = {}) => ({
 		new HtmlWebpackPlugin({
 			title: "关注2019新型冠状病毒(Focus 2019-nCoV)——大数据可视化",
 			filename: "index.html",
-			template: __dirname+"/public/index.html",
+			template: __dirname + "/public/index.html",
 			chunks: ["app"],
 		}),
 		new VueLoaderPlugin(),

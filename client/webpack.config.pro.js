@@ -16,7 +16,7 @@ module.exports = (env = {}) => ({
 	entry: path.resolve(__dirname, './src/main.js'),
 	output: {
 		path: path.resolve(__dirname, './dist'),
-		publicPath: '/dist/'
+		// publicPath: ''
 	},
 	resolve: {
 		alias: {
@@ -40,7 +40,7 @@ module.exports = (env = {}) => ({
 					loader: 'url-loader',
 					options: {
 						limit: 8192,
-						name:"assets/img/[name]-[hash:8].[ext]"
+						name:"/assets/img/[name]-[hash:8].[ext]"
 					}
 				}
 			},
@@ -53,6 +53,12 @@ module.exports = (env = {}) => ({
 					},
 					'css-loader'
 				]
+			},
+			// 增加scss
+			{
+				test: /\.(scss)$/,
+				use: ['vue-style-loader','css-loader','sass-loader'],
+				exclude: /node_modules/
 			}
 		]
 	},
