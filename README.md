@@ -90,6 +90,14 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 
 ## todo预防、治疗、救助/Support
 
+### 预防和日常防护
+
+[来源:@人民日报 微博](https://weibo.com/2803301701/IqHgkeDcB?ref=home&rid=0_0_8_1413025454238785321_0_0_0)
+
+
+- 病毒`56℃`，30分钟就死亡了
+- `乙醚`、7`5%的乙醇`等都可以有效灭活病毒。
+
 ### 武汉市设置发热门诊机构和定点救助医疗机构名单
 来源: [武汉市设置发热门诊医疗机构和定点救治医疗机构名单](http://wjw.wuhan.gov.cn/front/web/showDetail/2020012009078)
 
@@ -251,6 +259,6 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 |2020年1月21日14:06:58|更新珠海20日数据|[珠海确诊3例新型冠状病毒感染的肺炎病例](http://wsjkj.zhuhai.gov.cn/zwgk/tzgg/content/post_2461447.html)|
 |2020年1月21日15:52:37|更新大连数据||
 |2020年1月21日15:56:11|更新贵阳数据||
-|2020年1月22日13:36:35|更新全国数据，确诊440例|https://news.sina.cn/zt_d/yiqing0121?from=timeline&isappinstalled=0|
-
+|2020年1月22日13:36:35|更新数据，确诊440例|https://news.sina.cn/zt_d/yiqing0121?from=timeline&isappinstalled=0|
+|2020年1月22日20:14:52|更新数据，截止19时30分,确诊440例|[@央视新闻 微博](https://weibo.com/2656274875/IqHbC1YnS?ref=home&rid=0_0_8_3069760263467797195_0_0_0)|
 
