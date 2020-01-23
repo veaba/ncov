@@ -430,7 +430,7 @@ export const infectedCountData = {
     },
     {
       name: "澳门",
-      count: 1
+      count: 2
     },
     {
       name: "香港",

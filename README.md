@@ -262,3 +262,4 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 |2020年1月22日13:36:35|更新数据，确诊440例|https://news.sina.cn/zt_d/yiqing0121?from=timeline&isappinstalled=0|
 |2020年1月22日20:14:52|更新数据，截止19时30分,确诊440例|[@央视新闻 微博](https://weibo.com/2656274875/IqHbC1YnS?ref=home&rid=0_0_8_3069760263467797195_0_0_0)|
 |2020年1月23日09:54:33|更新数据，截止1月22日24:00|[@央视新闻 微博](https://weibo.com/2656274875/IqM0vr2gv?ref=home&rid=3_0_8_4726774365866631473_8_1_0)|
+|2020年1月23日10:03:44|更新澳门数据|[@央视新闻 微博](https://weibo.com/2656274875/IqMFijroT?ref=home&rid=0_67108864_8_3383001934968834430_0_0_0)|
