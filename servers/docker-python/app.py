@@ -35,11 +35,11 @@ def kafka_consumer():
     #     recv = "%s:%d:%d: key=%s value=%s" % (
     #         msg.topic, msg.partition, msg.offset, msg.key, msg.value)  # 打印消息的topic、partition、offset及其他元信息
     #     print(recv)
-    client = KafkaClient(zookeeper_hosts='127.0.0.1:2181')
+    client = KafkaClient(zookeeper_hosts='127.0.0.1:9092')
     topic = client.topics['hello-kafka-test']
 
     with topic.get_sync_producer() as producer:
-        producer.produce('msg')
+        producer.produce('hello-kafka-test')
 
 
 def pykafka_consumer():
