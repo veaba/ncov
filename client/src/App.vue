@@ -1,43 +1,41 @@
 <template>
 		<div class="home">
-				<h1 v-if="commitList">【最新更新时间】：{{commitList?fmtTime(commitList.commit.committer.date):""}}</h1>
+				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">@央视新闻</a></h1>
 				<div id="map"></div>
 		</div>
 </template>
 
 <script>
-	import {onUpdated, watch, ref, onMounted, reactive} from 'vue';
+	import {onMounted} from 'vue';
 	import {drawMap} from './utils/draw';
-	import {fmtTime} from './utils/date';
+	// import {fmtTime} from './utils/date';
 	
 	export default {
 		setup() {
-			let commitList = ref(null);
-			// 获取Repo Commit 时间,这个有权限控制403
-			// 2020-01-22T12:58:47Z
-			watch(() => {
-				fetch('https://api.github.com/repos/veaba/ncov/commits', {
-					headers: {
-						'Accept': 'application/json/vnd.github.cloak-preview',
-					}
-				})
-					.then(res => res.json())
-					.then(json => {
-						commitList.value = reactive(json[0]);
-					});
-			});
+			// let commitList = ref(null);
+			// // 获取Repo Commit 时间,这个有权限控制403
+			// // 2020-01-22T12:58:47Z
+			// watch(() => {
+			// 	fetch('https://api.github.com/repos/veaba/ncov/commits', {
+			// 		headers: {
+			// 			'Accept': 'application/json/vnd.github.cloak-preview',
+			// 		}
+			// 	})
+			// 		.then(res => res.json())
+			// 		.then(json => {
+			// 			commitList.value = reactive(json[0]);
+			// 		});
+			// });
 			onMounted(() => {
 				drawMap();
 				window.onresize = function () {
 					drawMap();
 				};
 			});
-			onUpdated(() => {
-				// console.info(this);
-			});
+			
 			return {
-				commitList:commitList||{},
-				fmtTime
+				updateDataTime:"截止1月22日 24:00",
+				sourceUrl:"https://weibo.com/2656274875/IqM0vr2gv?ref=home&rid=3_0_8_4726774365866631473_8_1_0"
 			};
 		},
 	};
@@ -67,6 +65,9 @@
 						color: #ffc107;
 						text-align: center;
 						z-index: 99;
+						a{
+							color: red
+						}
 						
 				}
 		}

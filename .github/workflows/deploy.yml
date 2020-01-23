@@ -1,6 +1,10 @@
 name: 2019-nCoV CI
 
-on: [push]
+# master才触发部署
+on: 
+  push:
+    branches:
+      - master
 
 jobs:
   build:
