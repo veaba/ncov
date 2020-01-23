@@ -7,7 +7,7 @@ services:
     #  - "27017:27017"
     container_name: server-mongo-172.2.0.40 #如果要伸缩，就不能使用自定义名称
     volumes: 
-      - /home/ubuntu/docker-mongo:/opt/mongo
+      - .:/opt/mongo
     command: --dbpath=/opt/mongo/data  --auth
     environment: ## username and password
       MONGO_INITDB_ROOT_USERNAME: username

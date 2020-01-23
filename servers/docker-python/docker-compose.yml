@@ -1,0 +1,19 @@
+# 跑不起来
+version: "3"
+services:
+  python:
+    image: python
+    restart: always
+    ports:
+      - 8081:8081
+    container_name: server-python-172.2.0.60
+    volumes:
+     - .:/opt/python
+    command: python /home/python/web_socket.py
+    networks:
+      default:
+        ipv4_address: 172.2.0.60
+networks:
+  default:
+    external:
+      name: 2019_nCoV_network
