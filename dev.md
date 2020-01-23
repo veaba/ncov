@@ -38,3 +38,17 @@ const data=[
 
 直接拉取本站js
 [data.js](https://2019-ncov.datav.ai/data.js)，里面暴露DATA对象，也支持es 的export，详见文件
+
+
+## 特性
+
+### todo 特性1
+2020年1月23日10:16:14，在feat-auth 分支中引入如下几个功能：
+
+- Github授权，发布新闻
+- 授权微博发布新闻，这个次要，后续再做
+
+### 时间线
+
+
+### 增加router

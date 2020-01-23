@@ -1,16 +1,33 @@
 <template>
 		<div class="home">
-				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">@央视新闻</a></h1>
+				<h1 v-if="false">【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">@央视新闻</a></h1>
+				<MapModule></MapModule>
 				<div id="map"></div>
+				<PostModule></PostModule>
 		</div>
 </template>
 
 <script>
 	import {onMounted} from 'vue';
 	import {drawMap} from './utils/draw';
-	// import {fmtTime} from './utils/date';
+	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
+	import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
+	import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
+	import NewsModule from "./components/modules/News.vue";                   // todo 滚动播报新闻，来源权威机构，后续需要确认机构名单
+	import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
+	import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
+	import MapModule from "./components/modules/Map.vue";                         // todo 地图
 	
 	export default {
+		components: {
+			BarrageModule,
+			ConsoleModule,
+			MessageModule,
+			MapModule,
+			NewsModule,
+			PostModule,
+			TimelineModule,
+		},
 		setup() {
 			// let commitList = ref(null);
 			// // 获取Repo Commit 时间,这个有权限控制403
@@ -34,8 +51,8 @@
 			});
 			
 			return {
-				updateDataTime:"截止1月22日 24:00",
-				sourceUrl:"https://weibo.com/2656274875/IqM0vr2gv?ref=home&rid=3_0_8_4726774365866631473_8_1_0"
+				updateDataTime: "截止1月22日 24:00",
+				sourceUrl: "https://weibo.com/2656274875/IqM0vr2gv?ref=home&rid=3_0_8_4726774365866631473_8_1_0"
 			};
 		},
 	};
@@ -52,11 +69,30 @@
 				width: 100%;
 				height: 100%;
 		}
+		
+		.left-layout {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 400px;
+				/*height: 100%;*/
+				border: 1px solid red;
+				z-index: 1;
+		}
+		
+		.right-layout {
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 500px;
+				/*height: 100%;*/
+				border: 1px solid green;
+				z-index: 1;
+		}
 </style>
 <style lang="scss" scoped>
 		.home {
 				position: relative;
-				
 				h1 {
 						position: absolute;
 						width: 100%;
@@ -65,8 +101,9 @@
 						color: #ffc107;
 						text-align: center;
 						z-index: 99;
-						a{
-							color: red
+						
+						a {
+								color: red
 						}
 						
 				}
@@ -77,6 +114,5 @@
 				height: 100%;
 				
 		}
-
 
 </style>
