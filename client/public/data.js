@@ -318,12 +318,12 @@ export const infectedCountData = {
     },
     {
       name: "广东",
-      count: 26,
+      count: 32,
       suspected: 1
     },
     {
       name: "北京",
-      count: 14
+      count: 22
     },
     {
       name: "上海",
@@ -333,12 +333,12 @@ export const infectedCountData = {
 
     {
       name: "浙江",
-      count: 10
+      count: 27
       //   suspected: 11
     },
     {
       name: "重庆",
-      count: 6
+      count: 9
     },
     {
       name: "天津",
@@ -346,7 +346,7 @@ export const infectedCountData = {
     },
     {
       name: "山东",
-      count: 2,
+      count: 6,
       suspected: 2
     },
     {
@@ -355,7 +355,7 @@ export const infectedCountData = {
     },
     {
       name: "四川",
-      count: 5,
+      count: 8,
       suspected: 2
     },
     {
@@ -372,7 +372,7 @@ export const infectedCountData = {
     },
     {
       name: "贵州",
-      count: 1
+      count: 3
     },
     {
       name: "广西",
@@ -384,16 +384,20 @@ export const infectedCountData = {
     },
     {
       name: "江西",
-      count: 2
+      count: 3
     },
     {
       name: "安徽",
-      count: 1,
+      count: 9,
       suspected: 4
     },
     {
       name: "辽宁",
-      count: 2
+      count: 3
+    },
+    {
+      name: "陕西",
+      count: 3
     },
     {
       name: "山西",
@@ -409,20 +413,24 @@ export const infectedCountData = {
     },
     {
       name: "吉林",
-      suspected: 1
+      count: 1
+    },
+    {
+      name: "新疆",
+      count: 2
     },
     {
       name: "黑龙江",
-      count: 1,
+      count: 2,
       suspected: 1
     },
     {
       name: "福建",
-      count: 1
+      count: 5
     },
     {
       name: "海南",
-      count: 4
+      count: 5
     },
     {
       name: "台湾",
@@ -434,7 +442,7 @@ export const infectedCountData = {
     },
     {
       name: "香港",
-        count: 1,
+      count: 4,
       suspected: 117
     },
     {
@@ -443,7 +451,7 @@ export const infectedCountData = {
     },
     {
       name: "泰国",
-      count: 3,
+      count: 4,
       cure: 2
     },
     {
@@ -453,6 +461,7 @@ export const infectedCountData = {
     },
     {
       name: "新加坡",
+      count:1,
       suspected: 7
     },
     {
