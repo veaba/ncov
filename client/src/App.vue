@@ -1,6 +1,6 @@
 <template>
 		<div class="home">
-				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">网易新闻</a></h1>
+				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻</a></h1>
 				<div id="map"></div>
 		</div>
 </template>
@@ -34,8 +34,8 @@
 			});
 			
 			return {
-				updateDataTime:"截止1月23日 18:00",
-				sourceUrl:"http://news.163.com/special/epidemic/?_nw_=1&_anw_=1"
+				updateDataTime:"截止1月24日 9时",
+				sourceUrl:"https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao"
 			};
 		},
 	};
