@@ -66,7 +66,7 @@ def spider_cctv_web_single(page):
     #         ob = {
     #             'title': news.find_element_by_css_selector('.tit').text,  # 标题
     #             'create_time': create_time,  # 发布时间
-    #             'chanel': '央视新闻',  # 来源
+    #             'channel': '央视新闻',  # 来源
     #             'news_url': news_url,  # 新闻地址
     #             'desc': news.find_element_by_css_selector('.bre').text,  # 描述
     #         }

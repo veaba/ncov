@@ -1,5 +1,13 @@
 {
   "dependencies": {
-    "kafka-node": "^5.0.0"
+    "date-fns": "^2.9.0",
+    "express": "^4.17.1",
+    "kafka-node": "^5.0.0",
+    "mongoose": "^5.8.9",
+    "socket.io": "^2.3.0",
+    "tracer": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/socket.io": "^2.1.4"
   }
 }

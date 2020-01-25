@@ -11,7 +11,7 @@
 	
 	import {onMounted} from 'vue';
 	import {drawMap} from './utils/draw';
-	import {onSocket, emitSocket} from './utils/socketIo';
+	import {onSocket, emitSocket, onAll} from './utils/socketIo';
 	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
 	import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
 	import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
@@ -49,14 +49,12 @@
 			// });
 			onMounted(async () => {
 				drawMap();
+				await onAll('all');
 				await onSocket('broadcast');
-				await onSocket('my_message');
-				await onSocket('emit_broadcast');
+				// await onSocket('my_message');
+				// await onSocket('emit_broadcast');
 				setInterval(() => {
-					const eventName = 'hello';
-					const sendData = '客户端的消息';
-					// emitSocket(eventName, sendData);
-					// emitSocket('my_broadcast_event', 'sendData');
+					emitSocket('broadcast', 'sendData', 'hi');
 				}, 2000);
 				window.onresize = function () {
 					drawMap();
@@ -64,8 +62,8 @@
 			});
 			
 			return {
-				updateDataTime:"截止1月24日 9时",
-				sourceUrl:"https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao"
+				updateDataTime: "截止1月24日 9时",
+				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao"
 			};
 		},
 	};
