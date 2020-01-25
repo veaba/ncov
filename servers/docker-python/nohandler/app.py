@@ -1,7 +1,6 @@
-from server_app import server_app
+from nohandler.server_app import server_app
 from spider_app import spider_app
-from socket_app import socket_app
-from config import KAFKA_NEWS_TOPIC, KAFKA_HOT_TOPIC
+from nohandler.socket_app import socket_app
 import threading
 
 

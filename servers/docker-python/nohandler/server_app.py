@@ -1,9 +1,6 @@
 from aiohttp import web
-import asyncio
 import socketio
-import time
-from socket_app import socket_app
-import threading
+from nohandler.socket_app import socket_app
 
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
@@ -57,7 +54,7 @@ async def my_broadcast_event(sid, message):
 # 断开连接
 @sio.event
 def disconnect(sid):
-    print('disconnect ', sid)
+    print('disconnect: ', sid)
 
 
 async def background_task():
@@ -78,18 +75,16 @@ async def xx():
         await sio.emit('my_response', {'x': 44})
 
 
-def socket_emit(x=None, o=None):
+async def socket_emit(x=None, o=None):
     print(x)
     # sio.emit('my_response', {'data': 'dsads'})
-    sio.start_background_task(background_task)
+    await sio.start_background_task(xx)
 
 
 def server_app(application):
-    print(222)
-    sio.start_background_task(xx)
-    print(112)
+    sio.start_background_task(background_task)
+    sio.start_background_task(socket_app, socket_emit)
     web.run_app(application)
-    print(222)  # 这里不会再执行了，除非进入其他线程里面
 
 
 # We kick off our server

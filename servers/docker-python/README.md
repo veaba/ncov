@@ -1,5 +1,6 @@
 # todo 后端Python,python的socket有点难搞！
 
+没处理好整个流程，现在仅spider_app可以正常走
 
 ## todo 后续准备迁移到go land上面去
 

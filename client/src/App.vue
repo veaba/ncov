@@ -1,8 +1,6 @@
 <template>
 		<div class="home">
-				<h1 v-if="false">【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">@央视新闻</a></h1>
-				<!--小地图/常见地图-->
-				<MapModule></MapModule>
+				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻</a></h1>
 				<div id="map"></div>
 				<!--发布模块-->
 				<PostModule></PostModule>
@@ -66,8 +64,8 @@
 			});
 			
 			return {
-				updateDataTime: "截止1月22日 24:00",
-				sourceUrl: "https://weibo.com/2656274875/IqM0vr2gv?ref=home&rid=3_0_8_4726774365866631473_8_1_0"
+				updateDataTime:"截止1月24日 9时",
+				sourceUrl:"https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao"
 			};
 		},
 	};

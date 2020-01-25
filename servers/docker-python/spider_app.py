@@ -6,7 +6,10 @@ import math
 import time
 from selenium import webdriver
 from config import CCTV_WEB_URL, KAFKA_NEWS_TOPIC, KAFKA_HOT_TOPIC
+from mongo import update_news
 from producer import kafka_producer
+
+
 # from topic_kafka import delete_kafka
 
 
@@ -53,19 +56,21 @@ def spider_cctv_web_single(page):
             create_time = news.find_element_by_css_selector('.tim').text
             create_time = re.sub(r'发(.+?)：', '', create_time)
             ob = {
-                'title': news.find_element_by_css_selector('.tit').text,  # 标题
-                'create_time': create_time,  # 发布时间
-                'chanel': '央视新闻',  # 来源
-                'news_url': news_url,  # 新闻地址
-                'desc': news.find_element_by_css_selector('.bre').text,  # 描述
+                "title": news.find_element_by_css_selector('.tit').text,  # 标题
+                "create_time": create_time,  # 发布时间
+                "chanel": "央视新闻",  # 来源
+                "news_url": news_url,  # 新闻地址
+                "desc": news.find_element_by_css_selector('.bre').text,  # 描述
             }
             print('爬取的数据，准备写kafka', ob)
-
+            msg_json = ob
             # 广播新闻,热门
             if re.match(r'增加|新增|确诊|首例|死亡|首|', ob['title']):
                 kafka_producer(ob, KAFKA_HOT_TOPIC)
+                update_news(msg_json, 'broadcast')
             # 一般新闻
             kafka_producer(ob, KAFKA_NEWS_TOPIC)
+            update_news(msg_json, 'news')
 
     driver.quit()
 
