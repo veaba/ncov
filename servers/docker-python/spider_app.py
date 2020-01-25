@@ -12,8 +12,8 @@ import platform
 
 
 # from topic_kafka import delete_kafka
-
-
+#
+# chrome_driver='/opt/python/chromedriver'
 # 爬取央视网全部页面
 # 如果入参是setInterval=2，则每x 分钟爬取前两页
 def spider_cctv_web(web_url, pre_page=None):
@@ -21,11 +21,13 @@ def spider_cctv_web(web_url, pre_page=None):
     if platform.system().lower() == 'windows':
         options = webdriver.ChromeOptions()
         options.add_argument("headless")  # 静默
+        driver=webdriver.Chrome(options=options)
     else:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome(options=options, executable_path='chromedriver')
+    #    driver = webdriver.Chrome()
     driver.get(web_url)
     js = 'location.reload()'
     driver.execute_script(js)
@@ -52,11 +54,12 @@ def spider_cctv_web_single(page):
     if platform.system().lower() == 'windows':
         options = webdriver.ChromeOptions()
         options.add_argument("headless")  # 静默
+        driver = webdriver.Chrome(options=options)
     else:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome(options=options, executable_path='chromedriver')
     driver.get(page_url)
     js = 'location.reload()'
     driver.execute_script(js)
