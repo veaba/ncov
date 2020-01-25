@@ -13,8 +13,7 @@ services:
       - /bin/bash
       - -c
       - |
-      - pip install -r requirements.txt
-      - python /opt/python/spider_app.py
+      - pip install -r /opt/python/requirements.txt && python /opt/python/spider_app.py
     networks:
       default:
         ipv4_address: 172.4.0.60
