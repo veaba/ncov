@@ -18,9 +18,6 @@ def kafka_producer(json, topic_key):
     producer.close()
 
 
-def socket_app():
-
-
 if __name__ == '__main__':
     create_topic(KAFKA_NEWS_TOPIC)  # 创建topic
-    socket_app()
+    kafka_producer({}, KAFKA_NEWS_TOPIC)

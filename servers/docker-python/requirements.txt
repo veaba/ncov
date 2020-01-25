@@ -2,3 +2,4 @@ python-socketio==4.4.0
 aiohttp==3.6.2
 kafka
 kafka-python
+pymongo

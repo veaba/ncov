@@ -5,20 +5,18 @@ import re
 import math
 import time
 from selenium import webdriver
-from config import CCTV_WEB_URL, KAFKA_NEWS_TOPIC
-from producer_kafka import kafka_producer
-from topic_kafka import delete_kafka
+from config import CCTV_WEB_URL, KAFKA_NEWS_TOPIC, KAFKA_HOT_TOPIC
+from producer import kafka_producer
+# from topic_kafka import delete_kafka
 
 
 # 爬取央视网全部页面
-# todo 如果入参是setInterval=2，则每x 分钟爬取前两页
-def spider_cctv_web(page_url, pre_page=None):
-    if not page_url:
-        return RuntimeError('请输入页面地址')
+# 如果入参是setInterval=2，则每x 分钟爬取前两页
+def spider_cctv_web(web_url, pre_page=None):
     options = webdriver.ChromeOptions()
     options.add_argument("headless")  # 静默
     driver = webdriver.Chrome(options=options)
-    driver.get(page_url)
+    driver.get(web_url)
     js = 'location.reload()'
     driver.execute_script(js)
 
@@ -40,8 +38,6 @@ def spider_cctv_web(page_url, pre_page=None):
 
 def spider_cctv_web_single(page):
     page_url = CCTV_WEB_URL + '&page=' + str(page + 1)
-    if not page_url:
-        return
     options = webdriver.ChromeOptions()
     options.add_argument("headless")  # 静默
     driver = webdriver.Chrome(options=options)
@@ -64,14 +60,23 @@ def spider_cctv_web_single(page):
                 'desc': news.find_element_by_css_selector('.bre').text,  # 描述
             }
             print('爬取的数据，准备写kafka', ob)
+
+            # 广播新闻,热门
+            if re.match(r'增加|新增|确诊|首例|死亡|首|', ob['title']):
+                kafka_producer(ob, KAFKA_HOT_TOPIC)
+            # 一般新闻
             kafka_producer(ob, KAFKA_NEWS_TOPIC)
+
     driver.quit()
 
 
-if __name__ == '__main__':
-    delete_kafka(KAFKA_NEWS_TOPIC)  # 先删除topic
+# 运行爬虫+kafka生产者
+def spider_app():
     spider_cctv_web(CCTV_WEB_URL)  # 先执行全部，再执行定时器部分
     while True:
         spider_cctv_web(CCTV_WEB_URL, pre_page=2)
-        print('定时器===', time.time())
         time.sleep(2 * 60)  # 2*60
+
+
+if __name__ == '__main__':
+    spider_app()

@@ -4,3 +4,4 @@ node_modules
 .vscode
 .idea
 config.py
+config.js

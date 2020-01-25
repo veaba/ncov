@@ -9,7 +9,7 @@ services:
     container_name: server-python-172.2.0.60
     volumes:
      - .:/opt/python
-    command: python /home/python/web_socket.py
+    command: python /home/python/server_app.py
     networks:
       default:
         ipv4_address: 172.2.0.60

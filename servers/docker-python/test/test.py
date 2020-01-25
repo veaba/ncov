@@ -1,18 +1,57 @@
 # import time
+# import asyncio
 #
-# print(111)
 #
-# time.sleep(2)
+# # 定义异步函数
+# async def hello1(x):
+#     await asyncio.sleep(1)
+#     print(x, time.time())
 #
-# print(222)
 #
-# while True:
-#     print(333)
-#     time.sleep(2)
+# async def hello2(o):
+#     await asyncio.sleep(1)
+#     print(o, time.time())
+#
+#
+# async def hello3(o):
+#     await asyncio.sleep(1)
+#     print(o, time.time())
+#
+#
+# def run():
+#     # while True:
+#     for i in range(10):
+#         loop.run_until_complete(hello1(11))
+#         loop.run_until_complete(hello1(22))
+#         loop.run_until_complete(hello1(33))
+#
+#
+# loop = asyncio.get_event_loop()
+# if __name__ == '__main__':
+#     run()
 
-a = 2
 
-if a == 2:
-    b = '22'
-    print(b, 111)
-print(b, 222)
+import time
+import asyncio
+
+
+# 定义异步函数
+async def hello():
+    await asyncio.sleep(1)
+    print('Hello World:%s' % time.time())
+
+
+def hello1():
+    time.sleep(1)
+    print('dx %s' % time.time())
+
+
+def run():
+    for i in range(5):
+        loop.run_until_complete(hello())
+        loop.run_until_complete(hello1())  # 这个会错误
+
+
+loop = asyncio.get_event_loop()
+if __name__ == '__main__':
+    run()
