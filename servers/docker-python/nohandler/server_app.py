@@ -1,6 +1,8 @@
-from aiohttp import web
+import json
 import socketio
-from nohandler.socket_app import socket_app
+from aiohttp import web
+# from socket_app import socket_app
+from mongo import update_news, query_list
 
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
@@ -14,8 +16,9 @@ async def index(request):
 # 连接消息
 @sio.event
 def connect(sid, environ):
-    print('connect_sid', sid)
-    print('connect_environ', environ)
+    pass
+    # print('connect_sid', sid)
+    # print('connect_environ', environ)
 
 
 # 全局性
@@ -54,16 +57,25 @@ async def my_broadcast_event(sid, message):
 # 断开连接
 @sio.event
 def disconnect(sid):
-    print('disconnect: ', sid)
+    pass
+    # print('disconnect: ', sid)
 
 
 async def background_task():
-    count = 0
     while True:
-        await sio.sleep(3)
-        count += 1
-        x = {'data': 'sd'}
-        await sio.emit('my_response', x)
+        # 每一分钟读取数据库,前20条，并打标记，过滤打非标记，再入库
+        await sio.sleep(5)
+        news_list = query_list('broadcast')
+        # 广播的数据
+        broadcast_list = [item for item in json.loads(news_list) if 'is_read' not in item]
+        await sio.emit('my_response', {'code': 0, 'data': broadcast_list})
+        for item in broadcast_list:
+            print(item)
+            # item['_id'] = item['_id']['$oid']
+            del item['_id']
+            item['is_read'] = 1
+            print('1111=>',item)
+            update_news(item, 'broadcast')
 
 
 app.router.add_get('/', index)
@@ -75,15 +87,8 @@ async def xx():
         await sio.emit('my_response', {'x': 44})
 
 
-async def socket_emit(x=None, o=None):
-    print(x)
-    # sio.emit('my_response', {'data': 'dsads'})
-    await sio.start_background_task(xx)
-
-
 def server_app(application):
     sio.start_background_task(background_task)
-    sio.start_background_task(socket_app, socket_emit)
     web.run_app(application)
 
 

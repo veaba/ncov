@@ -83,7 +83,7 @@ def spider_cctv_web_single(page):
             # 广播新闻,热门
             if re.match(r'增加|新增|确诊|首例|死亡|首|', ob['title']):
                 kafka_producer(ob, KAFKA_HOT_TOPIC)
-                update_news(msg_json, 'broadcast')
+                update_news(msg_json, 'broadcasts')
             # 一般新闻
             kafka_producer(ob, KAFKA_NEWS_TOPIC)
             update_news(msg_json, 'news')

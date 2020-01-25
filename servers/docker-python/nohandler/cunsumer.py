@@ -1,18 +1,11 @@
-# 暂时无法使用
+import json
+# from socket_app import socket_app
 from pykafka import KafkaClient
 from config import KAFKA_HOST, KAFKA_NEWS_TOPIC, KAFKA_HOT_TOPIC
-from mongo import update_news
-import json
-import time
-import threading
-
-def test():
-    # socket_emit()
-    pass
 
 
 # 消费者,collection_mame
-async def kafka_consumer(topic_key, collection_name, socket_emit):
+async def kafka_consumer(topic_key, collection_name):
     # socket_emit()
     print(topic_key, collection_name)
     if not topic_key:
@@ -34,33 +27,8 @@ async def kafka_consumer(topic_key, collection_name, socket_emit):
             # todo 进入消息队列的次序是不对，所以，需要根据时间排序才可能真的使用
             # 如果是新闻，直接update到news表里面
             # todo
-            # print("msg_json:", msg_json)
-            update_news(msg_json, collection_name)
-            socket_emit('my_response', msg_json)
-            # pool.submit(socket_emit, "my_response", msg_json)
-            # if collection_name == 'news':
-            #     print(collection_name)
-            #     update_news(msg_json, collection_name)
-            # # 将新闻更新到广播表里面
+            print("msg_json:", msg_json)
 
             if collection_name == 'broadcasts':
                 pass
         # update_news(msg_json, collection_name)
-
-
-def socket_app(socket_emit):
-    print(time.time())
-    kafka_consumer(KAFKA_NEWS_TOPIC, 'news', socket_emit)
-    # threads_list = [
-    #     # threading.Thread(target=kafka_consumer, args=(KAFKA_NEWS_TOPIC, 'news')),
-    #     threading.Thread(target=kafka_consumer, args=(KAFKA_NEWS_TOPIC, 'news', socket_emit)),
-    # ]
-    # # socket_emit(65)
-    # for t in threads_list:
-    #     t.start()
-
-
-if __name__ == '__main__':
-    # kafka_consumer(KAFKA_NEWS_TOPIC, 'news')
-    test()
-    pass
