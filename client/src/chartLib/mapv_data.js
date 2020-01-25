@@ -13,6 +13,7 @@ if (originData.length === 0) {
 	originData = infectedCountData[yesterday] || [];
 }
 
+console.info(originData,yesterday);
 function getCoorDinates(cityName,mapv) {
 	let coordinates = geo[cityName] || [];
 	if (!coordinates.length) {

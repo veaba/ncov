@@ -35,7 +35,7 @@ export const origin_city = {
  * }
  * */
 export const infectedCountData = {
-  "2020-01-24": [
+  "2020-01-25": [
     {
       name: "湖北",
       count: 750,
