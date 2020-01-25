@@ -1,6 +1,6 @@
 <template>
 		<div class="home">
-				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻</a></h1>
+				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">腾讯新闻</a></h1>
 				<div id="map"></div>
 		</div>
 </template>
@@ -34,8 +34,8 @@
 			});
 			
 			return {
-				updateDataTime:"截止1月24日 9时",
-				sourceUrl:"https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao"
+				updateDataTime:"截止1月25日 16时",
+				sourceUrl:"https://news.qq.com//zt2020/page/feiyan.htm#news"
 			};
 		},
 	};
