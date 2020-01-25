@@ -5,7 +5,7 @@ services:
     restart: always
     #ports:
     #  - "27017:27017"
-    container_name: server-mongo-172.2.0.40 #如果要伸缩，就不能使用自定义名称
+    container_name: server-mongo-172.4.0.40 #如果要伸缩，就不能使用自定义名称
     volumes: 
       - .:/opt/mongo
     command: --dbpath=/opt/mongo/data  --auth
@@ -15,7 +15,7 @@ services:
     
     networks:
       default:
-        ipv4_address: 172.2.0.40 #指定ip ，如果要伸缩，就不能自定义ip
+        ipv4_address: 172.4.0.40 #指定ip ，如果要伸缩，就不能自定义ip
 networks:
   default: 
     external: 

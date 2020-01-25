@@ -14,7 +14,7 @@ docker容器化，一键启动后端脚本
 ### todo docker组网
 
 ```shell
-docker network create --subnet=172.2.0.0/16 2019_nCoV_network
+docker network create --subnet=172.4.0.0/16 2019_nCoV_network
 
 ```
 
