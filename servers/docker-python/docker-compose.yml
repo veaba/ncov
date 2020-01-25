@@ -4,12 +4,12 @@ services:
   python:
     image: python
     restart: always
-    ports:
-      - 8081:8081
+    #ports:
+    #  - 8081:8081
     container_name: server-python-172.4.0.60
     volumes:
      - .:/opt/python
-    command: python /home/python/spider_app.py
+    command: python /opt/python/spider_app.py
     networks:
       default:
         ipv4_address: 172.4.0.60
