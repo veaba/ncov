@@ -3,3 +3,4 @@ aiohttp==3.6.2
 kafka
 kafka-python
 pymongo
+selenium

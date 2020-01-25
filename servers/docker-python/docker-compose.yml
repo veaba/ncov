@@ -9,7 +9,12 @@ services:
     container_name: server-python-172.4.0.60
     volumes:
      - .:/opt/python
-    command: python /opt/python/spider_app.py
+    command:
+      - /bin/bash
+      - -c
+      - |
+      - pip install -r requirements.txt
+      - python /opt/python/spider_app.py
     networks:
       default:
         ipv4_address: 172.4.0.60
