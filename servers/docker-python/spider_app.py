@@ -8,6 +8,7 @@ from selenium import webdriver
 from config import CCTV_WEB_URL, KAFKA_NEWS_TOPIC, KAFKA_HOT_TOPIC
 from mongo import update_news
 from producer import kafka_producer
+import platform
 
 
 # from topic_kafka import delete_kafka
@@ -17,7 +18,13 @@ from producer import kafka_producer
 # 如果入参是setInterval=2，则每x 分钟爬取前两页
 def spider_cctv_web(web_url, pre_page=None):
     options = webdriver.ChromeOptions()
-    options.add_argument("headless")  # 静默
+    if platform.system().lower() == 'windows':
+        options = webdriver.ChromeOptions()
+        options.add_argument("headless")  # 静默
+    else:
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome(options=options)
     driver.get(web_url)
     js = 'location.reload()'
@@ -26,12 +33,12 @@ def spider_cctv_web(web_url, pre_page=None):
     # 首次确立count
     if not pre_page:
         page_node = driver.find_element_by_css_selector('.lmdhd')
-        page_text = page_node.text
-        page_count_all = re.sub(r'[^\d]', '', page_text)
-        page_count = math.ceil(int(page_count_all) / 10)
-        # 央妈不支持超过30page的查询
-        if page_count > 30:
-            page_count = 30
+    page_text = page_node.text
+    page_count_all = re.sub(r'[^\d]', '', page_text)
+    page_count = math.ceil(int(page_count_all) / 10)
+    # 央妈不支持超过30page的查询
+    if page_count > 30:
+        page_count = 30
         driver.quit()
     else:
         page_count = pre_page
