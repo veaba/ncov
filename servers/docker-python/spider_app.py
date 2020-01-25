@@ -33,13 +33,13 @@ def spider_cctv_web(web_url, pre_page=None):
     # 首次确立count
     if not pre_page:
         page_node = driver.find_element_by_css_selector('.lmdhd')
-    page_text = page_node.text
-    page_count_all = re.sub(r'[^\d]', '', page_text)
-    page_count = math.ceil(int(page_count_all) / 10)
-    # 央妈不支持超过30page的查询
-    if page_count > 30:
-        page_count = 30
-        driver.quit()
+        page_text = page_node.text
+        page_count_all = re.sub(r'[^\d]', '', page_text)
+        page_count = math.ceil(int(page_count_all) / 10)
+        # 央妈不支持超过30page的查询
+        if page_count > 30:
+            page_count = 30
+            driver.quit()
     else:
         page_count = pre_page
     for page in range(page_count, -1, -1):
@@ -49,7 +49,13 @@ def spider_cctv_web(web_url, pre_page=None):
 def spider_cctv_web_single(page):
     page_url = CCTV_WEB_URL + '&page=' + str(page + 1)
     options = webdriver.ChromeOptions()
-    options.add_argument("headless")  # 静默
+    if platform.system().lower() == 'windows':
+        options = webdriver.ChromeOptions()
+        options.add_argument("headless")  # 静默
+    else:
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome(options=options)
     driver.get(page_url)
     js = 'location.reload()'
