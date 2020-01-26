@@ -265,3 +265,5 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 |2020年1月23日10:03:44|更新澳门数据|[@央视新闻 微博](https://weibo.com/2656274875/IqMFijroT?ref=home&rid=0_67108864_8_3383001934968834430_0_0_0)|
 |2020年1月23日21:29:22|更新数据，截止2020/01/23 18点:00|[来自网易新闻](http://news.163.com/special/epidemic/?_nw_=1&_anw_=1)|
 |2020年1月24日09:31:44|更新数据，截止2020/01/24 9点|[来自 新浪新闻](https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao)|
+|2020年1月25日18:01:51|更新数据，截止2020/01/25 16点|[来自 腾讯新闻](https://news.qq.com//zt2020/page/feiyan.htm#news)|
+|2020年1月26日10:47:55|更新数据，截止2020/01/26 10点|[来自 腾讯新闻](https://news.qq.com//zt2020/page/feiyan.htm#news)|
