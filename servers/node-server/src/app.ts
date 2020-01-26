@@ -68,26 +68,43 @@ const cureChannel: any = io.of('/cure')
         // todo
     });
 
-// 报告频道，确保数据可信,会写入到数据库
+// 报告频道，确保数据可信,会写入到数据库，
+// todo 一有报告就实时推送到前端
 const reportChannel: any = io.of('/report')
     .on('connection', async (socket: any) => {
         console.info('nCoV报告频道，乐观讲，不一定是坏消息');
         await connectSocket(socket); // 记录连接
         // todo 检查权限
-        // todo 检查消息
+        // 检查消息+记录日志，成功或者失败
         await onSocket(socket, 'report');
-
-        // 记录日志，成功或者失败
-        // await logSocket(socket);
-
-
-        // todo 数据入库
-        // todo 返回前端
+        // 数据入库 +返回前端
         await successSocket(socket)
     });
 
+
+/**
+ *  eventName={
+        ageChart =>,疫情感染年龄分布 饼图 {}，各阶段的年龄
+        sexChart =>，疫情感染性别分布，饼图
+        statisticsChart => 疫情生命特征统计分布 柱状图 {count确诊,dead陨落,cure治愈,suspected疑似,track追踪}
+        worldMap => 中间那个大地图所需的数据
+        chinaTotalChart => 中国境内统计的横向 柱状带小柱图，有新数据会动，会排序 {count确诊,dead陨落,cure治愈,suspected疑似,track追踪,province}省份
+        loveChart => 爱心地图，迁徙线，红点小红心，表示从x国，x地到中国境内的资助，在大地图上展示
+        chartPieChart   => 省份占比,
+
+    }
+ * @desc 异步地图涂推送图标数据
+
+ }*/
+const asyncChannel = io.of('/chart')
+    .on('connection', async (socket: any) => {
+
+    });
+
 setInterval(async () => {
-    await _bo('/broadcast', 'sendData', 'test')
+    await _bo('/broadcast', 'sendData', 'test');
+    await _bo('/asyncChannel', 'worldMap', '世界地图数据')
+    console.info(2222222222);
     // todo 2*60*1000
 }, 5 * 1000);
 

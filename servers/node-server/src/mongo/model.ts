@@ -100,8 +100,14 @@ const weibosSchema = new Schema({});
  * */
 const reportSchema = new Schema({
     sid: String,                // socket sid，与插入库的单位形成闭环，实现数据溯源
-    name: String,               // 名字，可能为空
-    sex: Number,                // 性别,1男 -1女
+    pass: Boolean,              // todo 专业人员，管理管理员手动审核通过才算完成
+    reporter: String,           // 发起报告的人
+    reporterEmail: String,      // 发起报告的人的游戏
+    weiboName: String,          // 如果开发给微博用户，则需要这一项
+    githubName: String,         // Github 用户ID
+    name: String,               // 患者名字，可能为空
+    sex: Number,                // 性别,1男 -1女 0 未知
+    profession: Number,         // 职业 1：一般人、2：医生
     age: Number,                // 年龄
     country: String,            // 国家
     province: String,           // 省级市
@@ -111,7 +117,6 @@ const reportSchema = new Schema({
     newsUrl: String,            // 新闻地址
     report: String,             // 报告机构
     desc: String,               // 描述
-
     // 用于迁徙分析
     from: String,               // 从哪来
     to: String,                 // 到哪去

@@ -4,8 +4,9 @@
  * @date 2020/1/20 0020
  ***********************/
 import {textOp, heatMapOp, movePointOp, flyLineOp, moveLineOp} from "../chartLib/mapv_op";
-import {textData, heatMapData, moveLineData,movePointData} from "../chartLib/mapv_data";
+import {textData, heatMapData, moveLineData, movePointData} from "../chartLib/mapv_data";
 
+// 人工版本的绘图
 export const drawMap = () => {
 	// 百度地图API功能
 	const map = new BMap.Map("map", {
@@ -30,7 +31,7 @@ export const drawMap = () => {
 	const heatMapVLayer = new mapv.baiduMapLayer(map, heatMapDataSet, heatMapOp);
 	
 	// 迁徙图层-点移动
-	const movePointDataSet = new mapv.DataSet(movePointData.call(mapv,mapv));
+	const movePointDataSet = new mapv.DataSet(movePointData.call(mapv, mapv));
 	const movePointMapVLayer = new mapv.baiduMapLayer(map, movePointDataSet, movePointOp);
 	
 	// console.info("movePointDataSet",movePointDataSet);
@@ -42,3 +43,11 @@ export const drawMap = () => {
 	
 };
 
+/**
+ * @desc 实时绘图、异步绘图
+ * */
+export const realtimeDrawMap = (socket) => {
+	console.info('---> 实时绘图 <----');
+	// todo 解析数据
+	// socket.on('')
+};

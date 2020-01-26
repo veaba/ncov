@@ -72,11 +72,67 @@ export const onSocket = async (socket: any, eventName: string, isCheck?: Boolean
     })
 };
 
+
+/**
+ * @desc ageChart,疫情感染年龄分布 饼图 {}，各阶段的年龄
+ * */
+const ageChart = async () => {
+
+};
+
+
+/**
+ * @desc sexChart,疫情感染性别分布，饼图
+ * */
+const sexChart = async () => {
+
+};
+
+
+/**
+ * @desc statisticsChart,疫情生命特征统计分布 柱状图 {count确诊,dead陨落,cure治愈,suspected疑似,track追踪}
+ * */
+const statisticsChart = async () => {
+
+};
+
+
+/**
+ * @desc worldMap, 中间那个大地图所需的数据
+ * */
+const worldMap = async () => {
+
+};
+
+
+/**
+ * @desc chinaTotalChart,中国境内统计的横向 柱状带小柱图，有新数据会动，会排序 {count确诊,dead陨落,cure治愈,suspected疑似,track追踪,province}省份
+ * */
+const chinaTotalChart = async () => {
+
+};
+
+
+/**
+ * @desc loveChart,爱心地图，迁徙线，红点小红心，表示从x国，x地到中国境内的资助，在大地图上展示
+ * */
+const loveChart = async () => {
+
+};
+
+
+/**
+ * @desc chartPieChart,省份占比
+ * */
+const chartPieChart = async () => {
+
+};
+
+
 /**
  * @desc 循环插入
  * */
 const insertForReport = async (num: number = 0, data: any, sid: string, collection_name: string) => {
-    console.info('循环插入', num);
     if (!num) {
         return
     }
