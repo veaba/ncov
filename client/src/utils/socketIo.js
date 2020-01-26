@@ -1,13 +1,9 @@
-var socket = require('socket.io-client')('http://127.0.0.1:8080/broadcast');
-var all = require('socket.io-client')('http://127.0.0.1:8080');
+var socket = require('socket.io-client')('http://127.0.0.1:9999', {
+	reconnectionAttempts: 10 //自动重连
+});
 
-export const onAll = (eventName) => {
-	console.info(all);
-	all.on('sendData', (data) => {
-		console.info(1111, data);
-	});
-};
-export const onSocket = (eventName) => {
+export const onSocket = (room, eventName) => {
+	socket.nsp = '/' + room;
 	socket.on(eventName, (data) => {
 		return new Promise(((resolve, reject) => {
 			resolve(data);
@@ -18,8 +14,7 @@ export const onSocket = (eventName) => {
 	});
 };
 
-export const emitSocket = (channel, eventName, data) => {
-	console.info(channel, eventName, data);
+export const emitSocket = (room, eventName, data) => {
+	socket.nsp = '/' + room;
 	socket.emit(eventName, data);
-	// socket.of(channel).emit(eventName, data);
 };

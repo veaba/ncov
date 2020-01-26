@@ -3,7 +3,7 @@
  * @time 2020年1月25日23:37:52
  * @author veaba
  * */
-import {_io} from "../app";
+// import {_io} from "../app";
 
 import {getBroadcastChannelList, updateOne} from "../mongo/curd";
 
@@ -18,8 +18,8 @@ const broadcastTask = async () => {
         // 说明是新的
         if (!item.is_new) {
             sendData.push(item);
-            // 并更新这些值
-            await updateOne({_id: item._id}, {...item, is_new: true}, 'broadcasts_tests')
+            // todo 并更新这些值
+            // await updateOne({_id: item._id}, {...item, is_new: true}, 'broadcasts')
         }
     }
     return sendData

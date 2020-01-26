@@ -49,12 +49,21 @@
 			// });
 			onMounted(async () => {
 				drawMap();
-				await onAll('all');
 				await onSocket('broadcast');
 				// await onSocket('my_message');
 				// await onSocket('emit_broadcast');
 				setInterval(() => {
 					emitSocket('broadcast', 'sendData', 'hi');
+					emitSocket('report', 'report', {
+						name: '无名之人',
+						country: '中国',
+						province: "北京",
+						city: "北京",
+						area: "海淀区",
+						newsUrl: "https://weibo.com/2656274875/IrfW6AWVC?from=page_1002062656274875_profile&wvr=6&mod=weibotime",
+						reportDate: 1580022981616,//todo 这是一个number类型
+						count: 5,
+					});
 				}, 2000);
 				window.onresize = function () {
 					drawMap();

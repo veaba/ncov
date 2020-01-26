@@ -7,8 +7,8 @@
 import {
     BroadcastSchema, BroadcastTestSchema,
     HelpsSchema,
-    HospitalsSchema,
-    LovesSchema, NcovsSchema,
+    HospitalsSchema, LogSchema,
+    LovesSchema, ReportSchema,
     NewsSchema, SocketSchema,
     TimelinesSchema,
     UsersSchema, WeibosSchema
@@ -20,11 +20,10 @@ import {_dbSuccess} from "../utils/exception";
  * */
 const getBroadcastChannelList = async () => {
     const $match: any = {};//匹配的查询字段
-    // todo
-    const list = await TheModel('broadcasts_tests').aggregate([
+    const list = await TheModel('broadcasts').aggregate([
         {$match: $match},
         {$sort: {_id: -1}},
-        // {$limit: 20},
+        {$limit: 20},
     ]);
     return list || []
 };
@@ -40,45 +39,53 @@ const updateOne = async (obj: object, newObj: object, type: string) => {
     return await TheModel(type).updateOne(obj, newObj) || {}
 };
 
-const insertOne = async (obj: object, type: string) => {
-    console.info(111111, obj);
-    return await TheSchema(obj, type).save() || {}
+/**
+ * @desc 插入单挑数据
+ * @param obj
+ * @param collection_name 表名称
+ * */
+const insertOne = async (obj: object, collection_name: string) => {
+    return await TheSchema(obj, collection_name).save() || {}
 };
 
 /**
  * @desc 创建等model
  * */
-const TheSchema = (obj: object, type: string) => {
+const TheSchema = (obj: object, collection_name: string) => {
+    console.info(collection_name);
     let models: any = {};
-    switch (type) {
-        case 'broadcast':
+    switch (collection_name) {
+        case 'broadcasts':
             models = new BroadcastSchema(obj);
             break;
-        case 'help':
+        case 'helps':
             models = new HelpsSchema(obj);
             break;
-        case 'hospital':
+        case 'hospitals':
             models = new HospitalsSchema(obj);
             break;
-        case 'love':
+        case 'logs':
+            models = new LogSchema(obj);
+            break;
+        case 'loves':
             models = new LovesSchema(obj);
             break;
-        case 'news':
+        case 'newss':
             models = new NewsSchema(obj);
             break;
-        case 'socket':
+        case 'sockets':
             models = new SocketSchema(obj);
             break;
-        case 'timeline':
+        case 'timelines':
             models = new TimelinesSchema(obj);
             break;
-        case 'ncov':
-            models = new NcovsSchema(obj);
+        case 'reports':
+            models = new ReportSchema(obj);
             break;
-        case 'user':
+        case 'users':
             models = new UsersSchema(obj);
             break;
-        case 'weibo':
+        case 'weibos':
             models = new WeibosSchema(obj);
             break;
         default:
@@ -96,40 +103,44 @@ const TheSchema = (obj: object, type: string) => {
 /**
  * @desc model
  * */
-const TheModel = (type: string) => {
+const TheModel = (collection_name: string) => {
+    console.info(collection_name);
     let models: any = {};
-    switch (type) {
-        case 'broadcast':
+    switch (collection_name) {
+        case 'broadcasts':
             models = BroadcastSchema;
             break;
         case 'broadcasts_tests':
             models = BroadcastTestSchema; // TODO 移除
             break;
-        case 'help':
+        case 'helps':
             models = HelpsSchema;
             break;
-        case 'hospital':
+        case 'hospitals':
             models = HospitalsSchema;
             break;
-        case 'love':
+        case 'logs':
+            models = LogSchema;
+            break;
+        case 'loves':
             models = LovesSchema;
             break;
-        case 'news':
+        case 'newss':
             models = NewsSchema;
             break;
-        case 'socket':
+        case 'sockets':
             models = SocketSchema;
             break;
-        case 'timeline':
+        case 'timelines':
             models = TimelinesSchema;
             break;
-        case 'ncov':
-            models = NcovsSchema;
+        case 'reports':
+            models = ReportSchema;
             break;
-        case 'user':
+        case 'users':
             models = UsersSchema;
             break;
-        case 'weibo':
+        case 'weibos':
             models = WeibosSchema;
             break;
         default:
