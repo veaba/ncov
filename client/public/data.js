@@ -38,56 +38,57 @@ export const infectedCountData = {
   "2020-01-26": [
     {
       name: "湖北",
-      count: 1486,
+      count: 1423,
       dead: 52,
       cure: 32,
       suspected: 0
     },
     {
       name: "广东",
-      count: 182,
+      count: 146,
       cure: 2,
       suspected: 1
     },
     {
       name: "北京",
-      count: 91,
-      cure:2
+      count: 68,
+      cure: 2
     },
     {
       name: "上海",
-      count: 40,
-      cure:1,
+      count: 53,
+      dead: 1,
+      cure: 1,
       suspected: 22
     },
 
     {
       name: "浙江",
-      count: 187,
-      cure:1
+      count: 128,
+      cure: 1
     },
     {
       name: "重庆",
-      count: 137,
+      count: 110,
       suspected: 13
     },
     {
       name: "天津",
-      count: 13
+      count: 14
     },
     {
       name: "山东",
-      count: 72,
+      count: 63
       // suspected: 2
     },
     {
       name: "河南",
-      count: 151,
-      dead:1
+      count: 128,
+      dead: 1
     },
     {
       name: "四川",
-      count: 66,
+      count: 69,
       suspected: 2
     },
     {
@@ -96,7 +97,7 @@ export const infectedCountData = {
     },
     {
       name: "宁夏",
-      count: 6
+      count: 4
     },
     {
       name: "吉林",
@@ -104,45 +105,46 @@ export const infectedCountData = {
     },
     {
       name: "贵州",
-      count: 8
+      count: 7
     },
     {
       name: "广西",
-      count: 59
+      count: 46
     },
     {
       name: "云南",
-      count: 18
+      count: 19
     },
     {
       name: "江西",
-      count: 66
+      count: 48
     },
     {
       name: "安徽",
-      count: 107,
+      count: 70,
       suspected: 4
     },
     {
       name: "辽宁",
-      count: 33
+      count: 23
     },
     {
       name: "陕西",
-      count: 25
+      count: 22
     },
     {
       name: "山西",
-      count: 16
+      count: 13
     },
     {
-      name:"河北",
-      count: 21,
-      dead:1
+      name: "河北",
+      count: 18,
+      dead: 1
     },
     {
-      name:"江苏",
-      count: 32
+      name: "江苏",
+      count: 47,
+      cure: 1
     },
     {
       name: "吉林",
@@ -150,11 +152,11 @@ export const infectedCountData = {
     },
     {
       name: "甘肃",
-      count: 10
+      count: 14
     },
     {
       name: "青海",
-      count: 1
+      count: 4
     },
     {
       name: "新疆",
@@ -162,58 +164,59 @@ export const infectedCountData = {
     },
     {
       name: "内蒙古",
-      suspected: 12
+      count: 11
     },
     {
       name: "黑龙江",
-      count: 22,
+      count: 21,
       suspected: 2,
-      dead:1
+      dead: 1
     },
     {
       name: "福建",
-      count: 30,
+      count: 35,
       suspected: 2
     },
     {
       name: "海南",
-      count: 32,
+      count: 22,
       suspected: 32
     },
     {
       name: "台湾",
-      count: 3
+      count: 4
     },
     {
       name: "澳门",
-      count: 2
+      count: 6
     },
     {
       name: "香港",
-      count: 5,
+      count: 8,
       suspected: 36
     },
     {
       name: "日本",
-      count: 3
+      count: 4,
+      cure: 2
     },
     {
       name: "泰国",
-      count: 5,
+      count: 8,
       cure: 2
     },
     {
       name: "韩国",
-      count: 3,
+      count: 4,
       suspected: 15
     },
     {
       name: "越南",
-      count: 2,
+      count: 2
     },
     {
       name: "新加坡",
-      count:4,
+      count: 4,
       suspected: 7
     },
     {
@@ -222,7 +225,7 @@ export const infectedCountData = {
     },
     {
       name: "美国",
-      count: 2
+      count: 5
     },
     {
       name: "巴西",
@@ -230,7 +233,7 @@ export const infectedCountData = {
     },
     {
       name: "澳大利亚",
-      count:1,
+      count: 4,
       suspected: 1
     },
     {
@@ -243,7 +246,7 @@ export const infectedCountData = {
     },
     {
       name: "意大利",
-      count:2,
+      count: 2,
       suspected: 1
     },
     {
@@ -252,25 +255,29 @@ export const infectedCountData = {
     },
     {
       name: "法国",
-      count:2
+      count: 3
     },
     {
       name: "尼泊尔",
-      count:1
+      count: 1
     },
     {
       name: "马来西亚",
-      count:4,
-      suspected:4
+      count: 4,
+      suspected: 4
     },
     {
       name: "德国",
-      suspected:4
+      suspected: 4
     },
     {
       name: "芬兰",
-      count:2,
-      suspected:4
+      count: 2,
+      suspected: 4
+    },
+    {
+      name: "加拿大",
+      count: 1,
     }
   ]
 };
