@@ -1,6 +1,12 @@
 ## todo 
 
-### todo python 那个kafka 写到数据库，应该按照次序来
+## 爬虫
+- [x] 央视新闻官网
+- 央视新闻微博 todo 
+- 人民日报微博 todo
+- 新华日报微博 todo
+
+## todo python 那个kafka 写到数据库，应该按照次序来
 
 ## 权限检查
 
@@ -61,3 +67,4 @@ const ReportSchema ={
  https://github.com/login/oauth/authorize?client_id=xx
 
 ## todo  redis 续命
+

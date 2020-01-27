@@ -11,12 +11,15 @@
 						</span>
 						
 						<ul v-show="isShowMenu">
-								<li v-if="authObj.isAuth" @click.native="onClickReportButton()">录入</li>
+								<li v-if="authObj.isAuth" @click="onClickReportButton()">录入</li>
 								<li v-if="authObj.isAuth">爱心</li>
 								<li v-if="authObj.isAuth">紧急</li>
 								<!--<li @click="onClickHelp">帮助</li>-->
+								<!--todo-->
+								<li @click="onClickAudit" class="is-audit-button">审核</li>
+								<li @click="onClickTimeline">时间轴</li>
 								<li v-if="!authObj.isAuth">
-										<a :href="oAuthUrl" target="_blank">
+										<a :href="authObj.oAuthUrl" target="_blank">
 												<img src="../../assets/images/github-logo.png"
 												     style="width: 24px;
 										     height: 24px;
@@ -40,23 +43,20 @@
 			},
 			reportButton: {
 				type: Object
+			},
+		},
+		data() {
+			return {
+				isShowMenu: false,
 			}
 		},
 		setup() {
-			return {
-				isShowMenu: false,
-				oAuthUrl: 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=http://localhost:9999/redirect/github/' + localStorage.getItem('/broadcast') || ''
-			};
+			return {};
 		},
+		mounted() {
 		
+		},
 		methods: {
-			// onOAuthGithub() {
-			// 	console.info(this.oAuthUrl);
-			// 	axios.get(this.oAuthUrl)
-			// 		.then(res => {
-			// 			console.info(res);
-			// 		})
-			// },
 			onClickShowMenu() {
 				this.isShowMenu = !this.isShowMenu;
 				console.info(this.isShowMenu);
@@ -68,7 +68,15 @@
 			// todo
 			onClickHelp() {
 				alert('todo~')
-			}
+			},
+			// 时间轴
+			onClickTimeline() {
+				alert('todo~')
+			},
+			// 审核
+			onClickAudit() {
+				this.$emit('onSetAuditButton', true)
+			},
 		}
 	};
 </script>

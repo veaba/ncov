@@ -19,8 +19,11 @@ const usersSchema = new Schema({
     createTime: Number,         // 创建时间
     updateTime: Number,         // 更新时间
     isAdmin: Boolean,           // 是否admin
-    sid: String,                //
+    sid: String,                // socket id，会随时更新，一个授权过后的sid对应用户
     loginCount: Number,         // 登录的次数
+    reportTimes: Number,        // 所贡献的报告数目
+    passCount: Number,          // 所通过审核的数目
+    auditCount: Number,         // 所审核的的数目
     githubOAuthObj: Object      // Github OAuth
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
@@ -76,7 +79,7 @@ const logSchema = new Schema({
     eventName: String,             // 事件名称
     logType: {
         type: String,
-        match: /^(error|success|paramsError|unbelievable|noReportTime)/, // 错误、成功、参数错误、不可信
+        match: /^(error|success|paramsError|unbelievable|noReportTime|noAuth)/, // 错误、成功、参数错误、不可信，非授权
         default() {
             return 'error'
         }
@@ -101,22 +104,22 @@ const weibosSchema = new Schema({});
  * @desc report 感染的案例数据，患者为单位
  * */
 const reportSchema = new Schema({
-    sid: String,                // socket sid，与插入库的单位形成闭环，实现数据溯源
-    pass: Boolean,              // todo 专业人员，管理管理员手动审核通过才算完成
+    sid: String,                // * socket sid，与插入库的单位形成闭环，实现数据溯源
+    pass: Boolean,              // 专业人员，管理管理员手动审核通过才算完成
     reporter: String,           // 发起报告的人
     reporterEmail: String,      // 发起报告的人的邮箱
     weiboName: String,          // 如果开发给微博用户，则需要这一项
-    githubName: String,         // Github 用户ID
+    githubName: String,         // *Github 用户ID，也就是users 表的name
     name: String,               // 患者名字，可能为空
     sex: Number,                // 性别,1男 -1女 0 未知
     profession: Number,         // 职业 1：一般人、2：医生
     age: Number,                // 年龄
-    country: String,            // 国家
-    province: String,           // 省级市
+    country: String,            // *国家
+    province: String,           // *省级市
     city: String,               // 城市
     area: String,               // 区/县等第三级单位
     // 信息来源
-    newsUrl: String,            // 新闻地址
+    newsUrl: String,            // *新闻地址
     report: String,             // 报告机构
     desc: String,               // 描述
     // 用于迁徙分析
@@ -132,12 +135,12 @@ const reportSchema = new Schema({
     org: String,                // 报告的卫生机构
     hideHour: Number,           // 潜伏期，单位：小时
 
-    // 症状
+    // 症状，四个必填一个
     isConfirm: String,          // 是否确认
     isDead: Boolean,            // 是否陨落
     isCure: Boolean,            // 是否治愈
-
     isSuspected: Boolean,       // 是否是疑似
+
     status: {                   // 表示危急
         type: String,
         match: /^(mid|high)/    // mid=>中危/重，high=>危重
@@ -146,8 +149,12 @@ const reportSchema = new Schema({
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 /**
  * @desc timelines 时间轴
+ * @todo isoDate
  * */
-const timelinesSchema = new Schema({});
+const timelinesSchema = new Schema({
+    reportDate: Number          // timeline 报告时间
+
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 /**
  * @desc 统计socket连接的用户数据，主要为了统计同时在线用户的时间

@@ -5,11 +5,11 @@
  * */
 
 import {getKeysDB, insertOne, isHasOne, updateOne} from "../mongo/curd";
-import {_sid_obj} from "./utils";
+import {_authUser, _sid_obj} from "./utils";
 import {getTime} from 'date-fns'
 import {ReportInterface} from "../interface/interface";
 import {isNumber, isObject} from "./check";
-import {_success, _error} from "../app";
+import {_pushSuccess, _pushError} from "../app";
 import {delKey, getHash} from "../redis/redis";
 
 /**
@@ -29,56 +29,92 @@ export const connectSocket = async (socket: any) => {
 };
 
 /**
- * @desc 收到消息
+ * @desc 收到消息,
  * @report 需要检查权限
  * @feat 非授权访问下，有计数超过3次的socket，将主动断开链接
+ * @check  检查权限，redis 不存在sid、admin
  * */
 export const onSocket = async (socket: any, eventName: string) => {
     const {id, nsp} = socket;
     const {name} = nsp || {};   // 频道
     const {sid} = _sid_obj(id);
+    const channel = (name || '').replace('/', '', '');
+    let logType = '';
     socket.on(eventName, async (data: any) => {
         switch (eventName) {
-            // channel->report
+            // channel->report，发起报告审核,管理直接通过
             case 'report':
-                // 检查权限，redis 不存在sid则
-                if (!await getHash(sid)) {
-                    const {noAuthCount = 0}: any = await getKeysDB({sid}, ['noAuthCount'], 'sockets');
-                    // 开始计数，如果超过3次未授权，则服务端主动关闭客户端的连接
-                    if (noAuthCount > 3) {
-                        socket.disconnect();
-                        return
-                    }
-                    await updateOne({sid}, {$inc: {noAuthCount: 1}}, 'sockets');
-                    await _success('/broadcast', 'auth', data, 2403, '未授权访问，次数 ' + noAuthCount);
-                }
+                // 非登录用户直接打断
+                await _authUser(socket, sid, data, name, eventName, 'noAuth'); // 非登录用户
                 const reqData: ReportInterface.insert = data;
-                let logType = '';
+
                 if (!isObject(reqData)) {
                     logType = 'paramsError';
                 } else {
                     // 先确认必填项,校验时间类型
                     if (reqData.country && reqData.province && reqData.reportDate && isNumber(reqData.reportDate) && reqData.newsUrl && (reqData.count || reqData.cure || reqData.dead || reqData.suspected)) {
                         logType = 'success';
-                        // 拆开count、dead、cure 治愈，循环插入
-                        // console.info('成功==========');
-                        await insertForReport(reqData.count, {...reqData, isConfirm: true}, sid, 'reports');
-                        await insertForReport(reqData.dead, {...reqData, isDead: true}, sid, 'reports');
-                        await insertForReport(reqData.cure, {...reqData, isCure: true}, sid, 'reports');
-                        await insertForReport(reqData.suspected, {...reqData, isSuspected: true}, sid, 'reports')
-                    } else {
-                        // console.info('失败=========');
-                        // console.info('==x=> ', reqData.country && reqData.province && reqData.reportDate && isNumber(reqData.reportDate));
-                        // console.info('==o=> ', reqData.newsUrl && (reqData.count || reqData.cure || reqData.dead || reqData.suspected));
-                        // 告诉前端，这里不错其他细分错误了
-                        const channel = (name || '').replace('/', '', '');
-                        await _error(channel, eventName, reqData)
+                        const redisObj: any = await getHash(sid);
+                        const passObj: any = {};
+
+                        // 补充信息
+                        reqData.githubName = redisObj.name;
+
+                        // 普通用户
+                        if (!redisObj.isAdmin) {
+                            console.info('普通用户');
+                            passObj.pass = false;
+                        } else {
+                            //管理员，默认是通过审核的
+                            passObj.pass = true;
+                            console.info('管理员');
+                        }
+
+                        // 拆开count、dead、cure 治愈，循环插入，并未用户增加贡献值
+                        await insertForReport(reqData.count, {
+                            ...reqData,
+                            sid,
+                            isConfirm: true, ...passObj
+                        }, sid, 'reports', redisObj.name);
+                        await insertForReport(reqData.dead, {
+                            ...reqData,
+                            sid,
+                            isDead: true, ...passObj
+                        }, sid, 'reports', redisObj.name);
+                        await insertForReport(reqData.cure, {
+                            ...reqData,
+                            sid,
+                            isCure: true, ...passObj
+                        }, sid, 'reports', redisObj.name);
+                        await insertForReport(reqData.suspected, {
+                            ...reqData,
+                            sid,
+                            isSuspected: true, ...passObj
+                        }, sid, 'reports', redisObj.name);
+                        await _pushSuccess(channel, eventName, [], '已收录，谢谢你的贡献，管理员审核通过后将采用', 0,)
                     }
+                    return await _pushError(channel, eventName, reqData, '无效数据');
                 }
-                // noAuthCount
                 await logSocket(socket, data, name, eventName, logType);
                 break;
-            case 'xx'://todo
+            // client apply，在前端控制台里面应用/审核通过生效的正式案例
+            case 'apply':
+                await _authUser(socket, sid, data, name, eventName, 'noAuth'); // 非登录用户
+                const applyReq: ReportInterface.apply = data;
+                if (!isObject(applyReq)) {
+                    const hasReport = await isHasOne({_id: applyReq._id}, 'reports');
+                    const redisObj: any = await getHash(sid);
+                    if (redisObj.isAdmin) {
+                        if (hasReport) {
+                            await updateOne({_id: applyReq._id}, {pass: true}, 'users');
+                            await updateOne({_id: redisObj._id}, {$inc: {auditCount: 1}}, 'users');
+                            const {githubName} = await getKeysDB({id: applyReq._id}, ['githubName'], 'reports');
+                            await updateOne({name: githubName}, {$inc: {passCount: 1}}, 'users')
+                            // todo 地图获取相应的模块更新数据
+                        }
+                    } else await _pushError(channel, eventName, applyReq, '权限不够');
+                }
+                await logSocket(socket, data, name, eventName, logType);
                 break;
             default:
                 throw new Error('未能识别Channel类型');
@@ -146,12 +182,14 @@ const chartPieChart = async () => {
 /**
  * @desc 循环插入
  * */
-const insertForReport = async (num: number = 0, data: any, sid: string, collection_name: string) => {
+const insertForReport = async (num: number = 0, data: any, sid: string, collection_name: string, username: string) => {
     if (!num) {
         return
     }
     for (let i = 0; i <= num; i++) {
-        await insertOne({...data, sid}, collection_name)
+        await insertOne({...data, sid}, collection_name);
+        await updateOne({name: username}, {$inc: {reportTimes: 1}}, 'users');//贡献值+1
+        await _pushSuccess('broadcast', 'console', data, '推送审核') // 推送到前端console
     }
 };
 /**

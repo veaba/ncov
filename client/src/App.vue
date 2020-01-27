@@ -1,13 +1,20 @@
 <template>
 		<div class="home">
-				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻</a></h1>
+				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻
+						{{auditButtonStatus}}
+				</a></h1>
 				<div id="map"></div>
 				<!--发布模块-->
 				<PostModule></PostModule>
 				
-				<DashboardModule :authObj="authObj" :reportButton="reportButton"></DashboardModule>
+				<DashboardModule :authObj="authObj" :reportButton="reportButton"
+				                 @onSetAuditButton="onSetAuditButton"
+				></DashboardModule>
 				
 				<PostModule :reportButton="reportButton" :reportData="reportData"></PostModule>
+				
+				<!--				v-if="auditButton.isOpen"-->
+				<ConsoleModule v-if="auditButtonStatus"  @onClickMapHideAudit="onClickMapHideAudit" :auditButtonStatus="auditButtonStatus"></ConsoleModule>
 		</div>
 </template>
 
@@ -37,7 +44,8 @@
 			TimelineModule,
 		},
 		mounted() {
-			onSocket.call(this, 'sendData');
+			onSocket.call(this, 'broadcast');   // 获取广播出来的新闻
+			onSocket.call(this, 'console');    // todo 待审核推送过来
 			drawMap();
 			window.onresize = function () {
 				drawMap();
@@ -46,8 +54,9 @@
 				emitSocket('report', '报告~');
 			}, 5000)
 		},
-		setup() {
+		data() {
 			return {
+				auditButtonStatus: false,//控制台
 				authObj: {
 					isAuth: false,
 				},
@@ -72,8 +81,22 @@
 					newsUrl: "",
 					reportDate: ""
 				}
-			};
+			}
 		},
+		// setup() {
+		// 	return {
+		//
+		// 	};
+		// },
+		methods: {
+			onSetAuditButton(val) {
+				this.auditButtonStatus = !this.auditButtonStatus
+			},
+			onClickMapHideAudit(val) {
+				console.info(val);
+				this.auditButtonStatus = val
+			}
+		}
 	};
 </script>
 <style lang="scss">

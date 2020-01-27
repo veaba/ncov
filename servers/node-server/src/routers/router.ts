@@ -11,8 +11,8 @@ const router = Router();
 import {githubOAuthConfig} from '../config'
 import {axios} from "../utils/axios";
 import {setHash} from "../redis/redis";
-import {_success} from "../app";
-import {authFail, authSuccess} from "../utils/utils";
+import {_pushSuccess} from "../app";
+import {_authFail, _authSuccess} from "../utils/utils";
 
 const handlerRedirect = async (req: any, res: any) => {
     const {query} = req;
@@ -20,7 +20,7 @@ const handlerRedirect = async (req: any, res: any) => {
     // 得到一个{code:988f6df528f1bf0f4ba2}, 拿到授权码后。再去请求令牌
     if (!code) {
         res.set('Content-Type', 'text/html');
-        res.send(authFail());
+        res.send(_authFail());
     }
     // access_token=davasdsaxsasadsad&scope=&token_type=bearer
     const githubToken = await axios.post(githubOAuthConfig.getTokenUrl, {
@@ -32,7 +32,7 @@ const handlerRedirect = async (req: any, res: any) => {
     const access_token = allUrl.get('access_token');
     const sid = req.params.sid;
     if (!sid) {
-        return res.send(authFail());
+        return res.send(_authFail());
     }
     axios.get(githubOAuthConfig.getApiUrl, {
         headers: {
@@ -45,21 +45,21 @@ const handlerRedirect = async (req: any, res: any) => {
                 const reqRedisObj: any = {
                     isAdmin: false
                 };
+                // 管理员
+                if (apiRes.login === 'veaba') {
+                    reqRedisObj.isAdmin = true
+                }
                 if (await isHasOne({name: apiRes.login}, 'users')) {
                     await updateOne({name: apiRes.login}, {
                         githubOAuthObj: apiRes,
                     }, 'users');
-                    const {_id} = await getKeysDB({name: apiRes.login}, ['_id'], 'users');
+                    const {_id} = await getKeysDB({name: apiRes.login}, [], 'users');
                     reqRedisObj._id = _id;
                     reqRedisObj.avatar_url = apiRes.avatar_url;
-                    reqRedisObj.name = apiRes.name;
+                    reqRedisObj.name = apiRes.login;
                     reqRedisObj.sid = sid;
                 } else {
-                    // 管理员
-                    if (apiRes.login === 'veaba') {
-                        reqRedisObj.isAdmin = true
-                    }
-                    const {_id, name, isAdmin, githubOAuthObj} = await insertOne({
+                    const {_id, name, githubOAuthObj} = await insertOne({
                         name: apiRes.login,
                         githubOAuthObj: apiRes,
                         ...reqRedisObj
@@ -70,13 +70,12 @@ const handlerRedirect = async (req: any, res: any) => {
                     reqRedisObj.sid = sid;
                 }
                 await setHash(sid, reqRedisObj);
-                await _success('/broadcast', 'auth', '已授权访问Github', 0);
+                await _pushSuccess('/broadcast', 'auth', [], '已授权访问Github', 0);
                 // 插入到redis里面去，表示登录在线的，断开socket即失去登录状态
                 res.set('Content-Type', 'text/html');
-                res.send(authSuccess());
+                res.send(_authSuccess());
             }
         });
-
 };
 
 // const test = async (req: any, res: any) => {

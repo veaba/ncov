@@ -52,7 +52,6 @@ const insertOne = async (obj: object, collection_name: string) => {
  * @desc 创建等model
  * */
 const TheSchema = (obj: object, collection_name: string) => {
-    console.info(collection_name);
     let models: any = {};
     switch (collection_name) {
         case 'broadcasts':
@@ -104,7 +103,6 @@ const TheSchema = (obj: object, collection_name: string) => {
  * @desc model
  * */
 const TheModel = (collection_name: string) => {
-    console.info(collection_name);
     let models: any = {};
     switch (collection_name) {
         case 'broadcasts':
@@ -160,14 +158,23 @@ const isHasOne = async (obj: object, collection_name: string) => {
 };
 
 /**
- * @desc 根据入参对象，获取多个key值的返回结果
+ * @desc 拉取全部
+ * */
+const getAllList = async (obj: object, collection_name: string) => {
+    return (await TheModel(collection_name).find(obj))
+};
+
+/**
+ * @desc 根据入参对象，获取多个key值的返回结果，默认keys为空也全部，有keys 一定会有_id
  * @param obj
- * @param keys
+ * @param keys ['a','b']
  * @param collection_name
  * @return {key,..} => {_id:2333}
  * */
 const getKeysDB = async (obj: object, keys: string[], collection_name: string) => {
-    return JSON.parse(JSON.stringify(await TheModel(collection_name).findOne(obj, [...keys]) || {}))
+    let selectedObj: any = {};
+    keys.map(item => selectedObj[item] = 1);
+    return JSON.parse(JSON.stringify(await TheModel(collection_name).findOne(obj, selectedObj) || {}))
 };
 export {
     TheSchema,
@@ -175,5 +182,6 @@ export {
     updateOne,
     insertOne,
     isHasOne,
-    getKeysDB
+    getKeysDB,
+    getAllList
 }

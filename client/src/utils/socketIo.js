@@ -11,7 +11,7 @@ export const onSocket = function (eventName) {
 		const {id} = socket;
 		const {channel, sid} = sid_obj(id);
 		if (sid) {
-			localStorage.setItem(channel, sid);
+			this.authObj.oAuthUrl = 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=http://localhost:9999/redirect/github/' + sid;
 		}
 	});
 	// 系统首次广播判断授权
@@ -24,7 +24,6 @@ export const onSocket = function (eventName) {
 			this.authObj.isAuth = true;
 			console.info(this.authObj, '授权');
 		}
-		
 	});
 	socket.on(eventName, (data) => {
 		console.info(data);

@@ -1,3 +1,7 @@
+import {getHash} from "../redis/redis";
+import {logSocket} from "./socket";
+import {_pushError} from "../app";
+
 const cryPto = require('crypto');
 /**
  * @desc 密码加密模块
@@ -16,10 +20,10 @@ const _md5 = (password: string): string => {
     return cryPto.createHash('md5').update(password).digest('hex')
 };
 
-/*
-* @desc 分离频道和sid
-* @eg broadcast#PzRhGmFZpPAtFQdJAAAA
-* */
+/**
+ * @desc 分离频道和sid
+ * @eg broadcast#PzRhGmFZpPAtFQdJAAAA
+ * */
 const _sid_obj = (str_sid: string) => {
     const [channel, sid] = (str_sid || '').trim().split('#');
     return {
@@ -28,7 +32,10 @@ const _sid_obj = (str_sid: string) => {
     }
 };
 
-const authSuccess = () => {
+/**
+ * @desc 返回OAuth 成功
+ * */
+const _authSuccess = () => {
     return Buffer.from(`
                       <html lang="zh">
                         <head>
@@ -64,8 +71,12 @@ const authSuccess = () => {
                         </body>
                        </html>
         `)
-}
-const authFail = () => {
+};
+
+/**
+ * @desc 返回OAuth 失败
+ * */
+const _authFail = () => {
     return Buffer.from(`
           <html lang="zh">
             <head>
@@ -94,6 +105,18 @@ const authFail = () => {
             </body>
            </html>
         `)
-}
+};
 
-export {_encryptedPWD, _md5, _sid_obj, authSuccess, authFail}
+
+/**
+ * @desc 检查socket的emit是否是授权用户，也就是必须是用户，且授权过的，其中包含普通用户和管理员
+ * @todo
+ * */
+const _authUser = async (socket: any, sid: string, data: any, channel: string, eventName: string, logType: string,) => {
+    if (!await getHash(sid)) {
+        await _pushError(channel, eventName, data, '非法用户，即将断开连接');
+        await logSocket(socket, data, name, eventName, logType);
+        return socket.disconnect()
+    }
+};
+export {_encryptedPWD, _md5, _sid_obj, _authSuccess, _authFail, _authUser}
