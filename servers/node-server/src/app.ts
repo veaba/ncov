@@ -3,15 +3,23 @@
  * @time 2020年1月25日20:38:36
  * @author veaba
  * */
-import {broadcastTask} from "./utils/task";
+import {isObject} from "./utils/check";
 
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-
+const bodyParser = require('body-parser');
+// 请求体解析
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+import {broadcastTask} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
 import {connectSocket, logSocket, onSocket, successSocket} from "./utils/socket";
+import {router} from './routers/router'
+import {getKeysDB} from "./mongo/curd";
 
+app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
 });
@@ -19,14 +27,17 @@ app.get('/', (req: any, res: any) => {
 
 io.on('connection', (socket: any) => {
     console.info('is Connected');
+
 });
+
 
 // 广播
 const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {
-        await connectSocket(socket)
+        await connectSocket(socket);
+        // await _success('/broadcast', 'auth', '未授权访问', 2403)
+        await onSocket(socket, 'report'); // report 检查权限+检查消息+记录日志，成功或者失败
     });
-
 
 // 新发现,探索
 const exploreChannel: any = io.of('/explore')
@@ -74,11 +85,7 @@ const reportChannel: any = io.of('/report')
     .on('connection', async (socket: any) => {
         console.info('nCoV报告频道，乐观讲，不一定是坏消息');
         await connectSocket(socket); // 记录连接
-        // todo 检查权限
-        // 检查消息+记录日志，成功或者失败
-        await onSocket(socket, 'report');
-        // 数据入库 +返回前端
-        await successSocket(socket)
+        await onSocket(socket, 'report'); // report 检查权限+检查消息+记录日志，成功或者失败
     });
 
 
@@ -102,41 +109,40 @@ const asyncChannel = io.of('/chart')
     });
 
 setInterval(async () => {
-    await _bo('/broadcast', 'sendData', 'test');
-    await _bo('/asyncChannel', 'worldMap', '世界地图数据')
-    console.info(2222222222);
-    // todo 2*60*1000
-}, 5 * 1000);
+    // await _success('/broadcast', 'sendData', 'test');
+    // await _success('/asyncChannel', 'worldMap', '世界地图数据');
+}, 10 * 1000);
 
 setInterval(async () => {
-    await _bo('/broadcast', 'sendData', await broadcastTask());
+    await _success('/broadcast', 'sendData', await broadcastTask());
     // todo 2*60*1000
-}, 30 * 1000);
+}, 10 * 1000);
 
 // async function _io(name: string, data: any) {
 //     return io.sockets.emit(name, data)
 // }
 
 /**
- * @desc 向订阅的频道推送消息
+ * @desc 向订阅的频道推送消息，成功的提示
  * */
-const _bo = async (channel: string, eventName: string, data: any) => {
-    return io.of(channel).emit(eventName, {errorCode: 0, data, msg: "success"})
+const _success = async (channel: string, eventName: string, data: any, code?: number, msg?: string) => {
+    return io.of(channel).emit(eventName, {code: code, data, msg: msg || 'success'})
 };
 /**
  * @desc 向订阅的频道报告错误的消息
  * */
-const _error = async (channel: string, eventName: string, data: any, msg?: string) => {
+const _error = async (channel: string, eventName: string, data: any, code?: number, msg?: string) => {
     //todo记录错误日志
-    return io.of(channel).emit(eventName, {errorCode: 1, data, msg: msg || 'error'})
+    return io.of(channel).emit(eventName, {code: 1, data, msg: msg || 'error'})
 };
 http.listen(9999, async () => {
     await connectMongo();
-    console.info('biubiu，走您~~', 8080);
+    console.info('biubiu，走您~~', 9999);
 });
 
 export {
     broadcastChannel,
-    _error
+    _error,
+    _success
     // _io
 }

@@ -5,7 +5,7 @@
 				<!--发布模块-->
 				<PostModule></PostModule>
 				
-				<DashboardModule :reportButton="reportButton"></DashboardModule>
+				<DashboardModule :authObj="authObj" :reportButton="reportButton"></DashboardModule>
 				
 				<PostModule :reportButton="reportButton" :reportData="reportData"></PostModule>
 		</div>
@@ -15,7 +15,7 @@
 	
 	import {onMounted} from 'vue';
 	import {drawMap, realtimeDrawMap} from './utils/draw';
-	import {onSocket, emitSocket, socket} from './utils/socketIo';
+	import {onSocket, emitSocket} from './utils/socketIo';
 	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
 	import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
 	import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
@@ -36,39 +36,21 @@
 			PostModule,
 			TimelineModule,
 		},
-		setup() {
-			onMounted(async () => {
+		mounted() {
+			onSocket.call(this, 'sendData');
+			drawMap();
+			window.onresize = function () {
 				drawMap();
-				realtimeDrawMap(socket('asyncChannel'));
-				// onSocket('asyncChannel', 'worldMap')
-				// 	.then(x => {
-				// 		console.info(x);
-				// 	});
-				const x = await onSocket('broadcast', 'sendData');
-				console.info(x);
-				// await onSocket('my_message');
-				// await onSocket('emit_broadcast');
-				//
-				
-				setInterval(() => {
-					// emitSocket('broadcast', 'sendData', 'hi');
-					// 前端推送报告到后端
-					// emitSocket('report', 'report', {
-					// 	name: '无名之人',
-					// 	country: '中国',
-					// 	province: "北京",
-					// 	city: "北京",
-					// 	area: "海淀区",
-					// 	newsUrl: "https://weibo.com/2656274875/IrfW6AWVC?from=page_1002062656274875_profile&wvr=6&mod=weibotime",
-					// 	reportDate: 1580022981616,//todo 这是一个number类型
-					// 	count: 5,
-					// });
-				}, 2000);
-				window.onresize = function () {
-					drawMap();
-				};
-			});
+			};
+			setInterval(() => {
+				emitSocket('report', '报告~');
+			}, 5000)
+		},
+		setup() {
 			return {
+				authObj: {
+					isAuth: false,
+				},
 				updateDataTime: "截止1月24日 9时",
 				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao",
 				reportButton: {
@@ -101,7 +83,8 @@
 				width: 100vw;
 				height: 100vh;
 		}
-		ul{
+		
+		ul {
 				padding-inline-start: 0;
 		}
 		

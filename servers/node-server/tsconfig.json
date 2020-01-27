@@ -50,8 +50,8 @@
       "node",
       "express",
       "mongoose",
-//      "body-parser",
-//      "redis",
+      "body-parser",
+      "redis",
       "date-fns",
       "socket.io"
     ],

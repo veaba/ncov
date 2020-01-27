@@ -10,16 +10,18 @@ const Schema = mongoose.Schema;
 
 /**
  * @desc users 授权会员表
+ * @todo 可以做个记录登录次数的功能
  * */
 const usersSchema = new Schema({
     name: String,               // 用户姓名
     phone: String,              // 手机11位
     password: String,           // 密码
-    creator: String,            // 创建者的id
     createTime: Number,         // 创建时间
     updateTime: Number,         // 更新时间
     isAdmin: Boolean,           // 是否admin
-    loginCount: Number          // 登录的次数
+    sid: String,                //
+    loginCount: Number,         // 登录的次数
+    githubOAuthObj: Object      // Github OAuth
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 /**
@@ -102,7 +104,7 @@ const reportSchema = new Schema({
     sid: String,                // socket sid，与插入库的单位形成闭环，实现数据溯源
     pass: Boolean,              // todo 专业人员，管理管理员手动审核通过才算完成
     reporter: String,           // 发起报告的人
-    reporterEmail: String,      // 发起报告的人的游戏
+    reporterEmail: String,      // 发起报告的人的邮箱
     weiboName: String,          // 如果开发给微博用户，则需要这一项
     githubName: String,         // Github 用户ID
     name: String,               // 患者名字，可能为空
@@ -152,9 +154,15 @@ const timelinesSchema = new Schema({});
  * */
 const socketSchema = new Schema({
     sid: String,          // socket id
-    beginTime: Number,   // 进入的时间
-    endTime: Number,     // 断开的时间
+    beginTime: Number,    // 进入的时间
+    endTime: Number,      // 断开的时间
     channel: String,      // 频道名称
+    noAuthCount: {
+        type: Number,       // 非法report情况下，超过3次，自动关闭socket
+        default(): number {
+            return 1
+        }
+    }
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 

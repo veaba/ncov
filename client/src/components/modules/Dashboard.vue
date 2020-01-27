@@ -11,30 +11,52 @@
 						</span>
 						
 						<ul v-show="isShowMenu">
-								<li @click.native="onClickReportButton()">录入</li>
-								<li>爱心</li>
-								<li>紧急</li>
-								<li>帮助</li>
+								<li v-if="authObj.isAuth" @click.native="onClickReportButton()">录入</li>
+								<li v-if="authObj.isAuth">爱心</li>
+								<li v-if="authObj.isAuth">紧急</li>
+								<!--<li @click="onClickHelp">帮助</li>-->
+								<li v-if="!authObj.isAuth">
+										<a :href="oAuthUrl" target="_blank">
+												<img src="../../assets/images/github-logo.png"
+												     style="width: 24px;
+										     height: 24px;
+										     top: 4px;
+												 position: relative;" alt="">
+										</a>
+								</li>
 						</ul>
 				</div>
 		</div>
 </template>
 
 <script>
+	import {axios} from '../../utils/axios'
+	
 	export default {
 		name: "Dashboard",
 		props: {
+			authObj: {
+				type: Object,
+			},
 			reportButton: {
 				type: Object
 			}
 		},
 		setup() {
 			return {
-				isShowMenu: false
+				isShowMenu: false,
+				oAuthUrl: 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=http://localhost:9999/redirect/github/' + localStorage.getItem('/broadcast') || ''
 			};
 		},
 		
 		methods: {
+			// onOAuthGithub() {
+			// 	console.info(this.oAuthUrl);
+			// 	axios.get(this.oAuthUrl)
+			// 		.then(res => {
+			// 			console.info(res);
+			// 		})
+			// },
 			onClickShowMenu() {
 				this.isShowMenu = !this.isShowMenu;
 				console.info(this.isShowMenu);
@@ -42,6 +64,10 @@
 			onClickReportButton() {
 				console.info(this.reportButton);
 				this.reportButton.isOpen = !this.reportButton.isOpen;
+			},
+			// todo
+			onClickHelp() {
+				alert('todo~')
 			}
 		}
 	};
@@ -69,6 +95,7 @@
 						display: block;
 						list-style: none;
 						cursor: pointer;
+						line-height: 32px;
 						
 						&:hover {
 								opacity: 0.6;

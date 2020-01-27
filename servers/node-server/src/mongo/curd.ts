@@ -33,10 +33,10 @@ const getBroadcastChannelList = async () => {
  * @desc 单个更新数据
  * @param obj 查找的参数
  * @param newObj 对象，要更新的数据
- * @param type 必填
+ * @param collection_name
  */
-const updateOne = async (obj: object, newObj: object, type: string) => {
-    return await TheModel(type).updateOne(obj, newObj) || {}
+const updateOne = async (obj: object, newObj: object, collection_name: string) => {
+    return await TheModel(collection_name).updateOne(obj, newObj) || {}
 };
 
 /**
@@ -148,9 +148,32 @@ const TheModel = (collection_name: string) => {
     }
     return models
 };
+
+/**
+ * @desc 查询是不是存在
+ * @param obj
+ * @param collection_name
+ * @return 返回一个boolean，存在返回true，不存在false
+ */
+const isHasOne = async (obj: object, collection_name: string) => {
+    return !!(await TheModel(collection_name).where(obj).countDocuments())
+};
+
+/**
+ * @desc 根据入参对象，获取多个key值的返回结果
+ * @param obj
+ * @param keys
+ * @param collection_name
+ * @return {key,..} => {_id:2333}
+ * */
+const getKeysDB = async (obj: object, keys: string[], collection_name: string) => {
+    return JSON.parse(JSON.stringify(await TheModel(collection_name).findOne(obj, [...keys]) || {}))
+};
 export {
     TheSchema,
     getBroadcastChannelList,
     updateOne,
-    insertOne
+    insertOne,
+    isHasOne,
+    getKeysDB
 }

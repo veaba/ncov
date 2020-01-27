@@ -4,34 +4,36 @@
  * @author veaba
  * */
 
-import {insertOne, updateOne} from "../mongo/curd";
+import {getKeysDB, insertOne, isHasOne, updateOne} from "../mongo/curd";
 import {_sid_obj} from "./utils";
 import {getTime} from 'date-fns'
 import {ReportInterface} from "../interface/interface";
 import {isNumber, isObject} from "./check";
-import {_error} from "../app";
+import {_success, _error} from "../app";
+import {delKey, getHash} from "../redis/redis";
 
 /**
- * @desc 记录socket连接数
+ * @desc 记录socket连接数，新连接插入，断开更新
  * @param socket {Object}
  * */
 export const connectSocket = async (socket: any) => {
     const {id, handshake} = socket;
     const {issued} = handshake;
-    await insertOne({..._sid_obj(id), beginTime: issued}, 'sockets');
+    await insertOne({..._sid_obj(id), noAuthCount: 1, beginTime: issued}, 'sockets');
     socket.on('disconnect', async () => {
         const {id} = socket;
         const {sid} = _sid_obj(id);
         await updateOne({sid}, {..._sid_obj(id), endTime: getTime(new Date())}, 'sockets');
+        await delKey(sid)
     })
 };
 
 /**
  * @desc 收到消息
- *
- * @todo
+ * @report 需要检查权限
+ * @feat 非授权访问下，有计数超过3次的socket，将主动断开链接
  * */
-export const onSocket = async (socket: any, eventName: string, isCheck?: Boolean) => {
+export const onSocket = async (socket: any, eventName: string) => {
     const {id, nsp} = socket;
     const {name} = nsp || {};   // 频道
     const {sid} = _sid_obj(id);
@@ -39,6 +41,17 @@ export const onSocket = async (socket: any, eventName: string, isCheck?: Boolean
         switch (eventName) {
             // channel->report
             case 'report':
+                // 检查权限，redis 不存在sid则
+                if (!await getHash(sid)) {
+                    const {noAuthCount = 0}: any = await getKeysDB({sid}, ['noAuthCount'], 'sockets');
+                    // 开始计数，如果超过3次未授权，则服务端主动关闭客户端的连接
+                    if (noAuthCount > 3) {
+                        socket.disconnect();
+                        return
+                    }
+                    await updateOne({sid}, {$inc: {noAuthCount: 1}}, 'sockets');
+                    await _success('/broadcast', 'auth', data, 2403, '未授权访问，次数 ' + noAuthCount);
+                }
                 const reqData: ReportInterface.insert = data;
                 let logType = '';
                 if (!isObject(reqData)) {
@@ -48,20 +61,21 @@ export const onSocket = async (socket: any, eventName: string, isCheck?: Boolean
                     if (reqData.country && reqData.province && reqData.reportDate && isNumber(reqData.reportDate) && reqData.newsUrl && (reqData.count || reqData.cure || reqData.dead || reqData.suspected)) {
                         logType = 'success';
                         // 拆开count、dead、cure 治愈，循环插入
-                        console.info('成功==========');
+                        // console.info('成功==========');
                         await insertForReport(reqData.count, {...reqData, isConfirm: true}, sid, 'reports');
                         await insertForReport(reqData.dead, {...reqData, isDead: true}, sid, 'reports');
                         await insertForReport(reqData.cure, {...reqData, isCure: true}, sid, 'reports');
                         await insertForReport(reqData.suspected, {...reqData, isSuspected: true}, sid, 'reports')
                     } else {
-                        console.info('失败=========');
-                        console.info('==x=> ', reqData.country && reqData.province && reqData.reportDate && isNumber(reqData.reportDate));
-                        console.info('==o=> ', reqData.newsUrl && (reqData.count || reqData.cure || reqData.dead || reqData.suspected));
+                        // console.info('失败=========');
+                        // console.info('==x=> ', reqData.country && reqData.province && reqData.reportDate && isNumber(reqData.reportDate));
+                        // console.info('==o=> ', reqData.newsUrl && (reqData.count || reqData.cure || reqData.dead || reqData.suspected));
                         // 告诉前端，这里不错其他细分错误了
                         const channel = (name || '').replace('/', '', '');
-                        await _error(channel, eventName, reqData, 'paramsError')
+                        await _error(channel, eventName, reqData)
                     }
                 }
+                // noAuthCount
                 await logSocket(socket, data, name, eventName, logType);
                 break;
             case 'xx'://todo

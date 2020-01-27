@@ -54,3 +54,10 @@ const ReportSchema ={
 ```
 
 ## todo 后台机制
+
+
+## OAuth
+
+ https://github.com/login/oauth/authorize?client_id=xx
+
+## todo  redis 续命

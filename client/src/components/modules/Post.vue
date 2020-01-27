@@ -1,10 +1,11 @@
 <!--
 @desc 这个页面将收录用户提交的请求
 @todo 但需要手动确认才可以，这需要做权限划分
+@todo 是更新至，还是新增的病例
 -->
 <template>
 		<div v-show="reportButton.isOpen" class="right-layout post-modules">
-				<h2>向 <a href="https://github.com/veaba/ncov" target="_blank">nCov仓库</a> 报告案例，收录到库中 </h2>
+				<h2>向 <a href="https://github.com/veaba/ncov" target="_blank">nCov仓库</a> 报告新增病例，收录到库中 </h2>
 				<blockquote>
 						<strong>注意：</strong>
 						请注意，你的报告提交后由管理员人工审核，但你为这份报告的真实性负法律责任。

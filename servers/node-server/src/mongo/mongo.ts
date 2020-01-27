@@ -31,10 +31,10 @@ const connectMongo = async () => {
 /**
  * @desc 创建数据
  * @param obj {object} 入参的原始参数数据
- * @param type {string} type，判断是哪个type 的model
+ * @param collection_name
  */
-const createDB = async (obj: object, type: string) => {
-    let model: any = TheSchema(obj, type);
+const createDB = async (obj: object, collection_name: string) => {
+    let model: any = TheSchema(obj, collection_name);
     return new Promise((resolve, reject) => {
         model.save()
             .then((res: any) => {

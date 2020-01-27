@@ -16,7 +16,6 @@ module.exports = (env = {}) => ({
 	entry: path.resolve(__dirname, './src/main.js'),
 	output: {
 		path: path.resolve(__dirname, './dist'),
-		// publicPath: ''
 	},
 	resolve: {
 		alias: {
@@ -91,6 +90,10 @@ module.exports = (env = {}) => ({
 			{
 				from: __dirname + '/public/screen.png',
 				to: __dirname + '/dist/screen.png',
+			},
+			{
+				from: __dirname + '/public/favicon.icon',
+				to: __dirname + '/dist/favicon.icon',
 			}
 		])
 	],

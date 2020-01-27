@@ -28,4 +28,72 @@ const _sid_obj = (str_sid: string) => {
     }
 };
 
-export {_encryptedPWD, _md5, _sid_obj}
+const authSuccess = () => {
+    return Buffer.from(`
+                      <html lang="zh">
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>恭喜，你已授权成功！Github OAuth to 2019-nCoV Success!</title>
+                            <style>
+                                .auth{
+                                    margin: 200px auto 0 ;
+                                    width: 460px;
+                                    height: 300px;
+                                }
+                                a{
+                                    font-weight: 500;
+                                }
+                                a:visited{
+                                    color: #0366d6;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="main-auth">
+                                <div class="auth">
+                                    <h2>授权成功，有问题联系 <a href="http://github.com/veaba/ncov/">社区项目</h2>
+                                    
+                                    <p>此窗口即将关闭</p>
+                                </div>
+                            </div>
+                            <script>
+                                setTimeout(()=>{
+                                    window.close();
+                                },3000)
+                            </script>
+                        </body>
+                       </html>
+        `)
+}
+const authFail = () => {
+    return Buffer.from(`
+          <html lang="zh">
+            <head>
+                <meta charset="UTF-8">
+                <title>授权失败！Github OAuth to 2019-nCoV Fail!</title>
+                <style>
+                    .auth{
+                        margin: 200px auto 0 ;
+                        width: 460px;
+                        height: 300px;
+                    }
+                    a{
+                        font-weight: 500;
+                    }
+                    a:visited{
+                        color: #0366d6;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="main-auth">
+                    <div class="auth">
+                        <h2>授权失败,请联系 <a href="http://github.com/veaba/ncov/">社区项目</h2>
+                    </div>
+                </div>
+            </body>
+           </html>
+        `)
+}
+
+export {_encryptedPWD, _md5, _sid_obj, authSuccess, authFail}

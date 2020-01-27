@@ -50,4 +50,8 @@ export const realtimeDrawMap = (socket) => {
 	console.info('---> 实时绘图 <----');
 	// todo 解析数据
 	// socket.on('')
+	
+	// console.info(socket);
+	
+
 };
