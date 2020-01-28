@@ -11,7 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
 const {CleanWebpackPlugin} =require('clean-webpack-plugin');      // 清空dist目录
 module.exports = (env = {}) => ({
 	mode: env.prod ? 'production' : 'development',
-	devtool: env.prod ? false : 'source-map',
+	// devtool: env.prod ? false : 'source-map',
 	// devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
 	entry: path.resolve(__dirname, './src/main.js'),
 	output: {
