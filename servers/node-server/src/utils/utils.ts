@@ -1,5 +1,5 @@
 import {getHash} from "../redis/redis";
-import {logSocket} from "./socket";
+import {logSocket} from "../sockets/socket";
 import {_pushError} from "../app";
 
 const cryPto = require('crypto');
@@ -110,13 +110,13 @@ const _authFail = () => {
 
 /**
  * @desc 检查socket的emit是否是授权用户，也就是必须是用户，且授权过的，其中包含普通用户和管理员
- * @todo
+ * @todo 可能后续直接断开
  * */
 const _authUser = async (socket: any, sid: string, data: any, channel: string, eventName: string, logType: string,) => {
     if (!await getHash(sid)) {
-        await _pushError(channel, eventName, data, '非法用户，即将断开连接');
-        await logSocket(socket, data, name, eventName, logType);
-        return socket.disconnect()
+        await logSocket(socket, data, channel, eventName, logType);
+        return await _pushError(channel, eventName, data, '非法用户，即将断开连接');
+        // return socket.disconnect()
     }
 };
 export {_encryptedPWD, _md5, _sid_obj, _authSuccess, _authFail, _authUser}

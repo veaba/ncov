@@ -34,7 +34,7 @@ declare namespace ReportInterface {
         isCure?: boolean,           // 是否治愈
         isSuspected?: boolean,      // 是否是疑似
         status?: ReportStatus,      // 表示危急
-        reportDate: Number          // 确认日期，年月日，时分秒自动补0,*必填
+        reportDate: number | string // 确认日期，年月日，时分秒自动补0,*必填
         // 用于计数，循环插入，四项至少存在一项
         count?: number,
         dead?: number,
@@ -47,7 +47,8 @@ declare namespace ReportInterface {
     }
 
     interface apply {
-        _id: string                 // 报告id
+        _id: string,                 // 报告id
+        ids: string[],                 // 自报告id
     }
 }
 

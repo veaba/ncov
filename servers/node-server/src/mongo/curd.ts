@@ -11,49 +11,71 @@ import {
     LovesSchema, ReportSchema,
     NewsSchema, SocketSchema,
     TimelinesSchema,
-    UsersSchema, WeibosSchema
+    UsersSchema, WeibosSchema, AuditSchema
 } from "./model";
 import {_dbSuccess} from "../utils/exception";
 
 /**
  * @desc 拉取广播数据
  * */
-const getBroadcastChannelList = async () => {
+export const taskChannelList = async (collection: string, limit?: number) => {
     const $match: any = {};//匹配的查询字段
-    const list = await TheModel('broadcasts').aggregate([
+    const list = await TheModel(collection).aggregate([
         {$match: $match},
         {$sort: {_id: -1}},
-        {$limit: 20},
+        {$limit: limit || 20},
     ]);
     return list || []
 };
 
 
 /**
- * @desc 单个更新数据
+ * @desc 更新单个数据
  * @param obj 查找的参数
  * @param newObj 对象，要更新的数据
  * @param collection_name
  */
-const updateOne = async (obj: object, newObj: object, collection_name: string) => {
+export const updateOne = async (obj: object, newObj: object, collection_name: string) => {
     return await TheModel(collection_name).updateOne(obj, newObj) || {}
 };
 
 /**
- * @desc 插入单挑数据
+ * @desc 插入单个数据
  * @param obj
  * @param collection_name 表名称
  * */
-const insertOne = async (obj: object, collection_name: string) => {
+export const insertOne = async (obj: object, collection_name: string) => {
     return await TheSchema(obj, collection_name).save() || {}
+};
+
+/**
+ * @desc 判断是否是mongoDB的id格式
+ * @param _id
+ * */
+const isIdDB = (_id: string) => {
+    return !!(_id && _id.length === 24);
+};
+
+/**
+ * @desc 通过_id删除数据
+ * */
+export const deleteOneById = async (_id: string, collection_name: string) => {
+    if (isIdDB(_id)) {
+        return await TheModel(collection_name).findOneAndRemove({_id})
+    }
+    throw new Error('非法_id==>:' + _id)
 };
 
 /**
  * @desc 创建等model
  * */
-const TheSchema = (obj: object, collection_name: string) => {
+export const TheSchema = (obj: object, collection_name: string) => {
+    console.info("TheSchema-collection_name", collection_name);
     let models: any = {};
     switch (collection_name) {
+        case 'audits':
+            models = new AuditSchema(obj);
+            break;
         case 'broadcasts':
             models = new BroadcastSchema(obj);
             break;
@@ -102,9 +124,13 @@ const TheSchema = (obj: object, collection_name: string) => {
 /**
  * @desc model
  * */
-const TheModel = (collection_name: string) => {
+export const TheModel = (collection_name: string) => {
+    console.info("Model-collection_name", collection_name);
     let models: any = {};
     switch (collection_name) {
+        case 'audits':
+            models = AuditSchema;
+            break;
         case 'broadcasts':
             models = BroadcastSchema;
             break;
@@ -153,14 +179,14 @@ const TheModel = (collection_name: string) => {
  * @param collection_name
  * @return 返回一个boolean，存在返回true，不存在false
  */
-const isHasOne = async (obj: object, collection_name: string) => {
+export const isHasOne = async (obj: object, collection_name: string) => {
     return !!(await TheModel(collection_name).where(obj).countDocuments())
 };
 
 /**
  * @desc 拉取全部
  * */
-const getAllList = async (obj: object, collection_name: string) => {
+export const getAllList = async (obj: object, collection_name: string) => {
     return (await TheModel(collection_name).find(obj))
 };
 
@@ -171,17 +197,8 @@ const getAllList = async (obj: object, collection_name: string) => {
  * @param collection_name
  * @return {key,..} => {_id:2333}
  * */
-const getKeysDB = async (obj: object, keys: string[], collection_name: string) => {
+export const getKeysDB = async (obj: object, keys: string[], collection_name: string) => {
     let selectedObj: any = {};
     keys.map(item => selectedObj[item] = 1);
     return JSON.parse(JSON.stringify(await TheModel(collection_name).findOne(obj, selectedObj) || {}))
 };
-export {
-    TheSchema,
-    getBroadcastChannelList,
-    updateOne,
-    insertOne,
-    isHasOne,
-    getKeysDB,
-    getAllList
-}

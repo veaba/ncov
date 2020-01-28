@@ -14,7 +14,10 @@
 				<PostModule :reportButton="reportButton" :reportData="reportData"></PostModule>
 				
 				<!--				v-if="auditButton.isOpen"-->
-				<ConsoleModule v-if="auditButtonStatus"  @onClickMapHideAudit="onClickMapHideAudit" :auditButtonStatus="auditButtonStatus"></ConsoleModule>
+				<ConsoleModule v-if="auditButtonStatus" @onClickMapHideAudit="onClickMapHideAudit"
+				               :auditButtonStatus="auditButtonStatus"
+				               :auditList="auditList"
+				></ConsoleModule>
 		</div>
 </template>
 
@@ -43,16 +46,18 @@
 			PostModule,
 			TimelineModule,
 		},
-		mounted() {
+		async mounted() {
 			onSocket.call(this, 'broadcast');   // 获取广播出来的新闻
-			onSocket.call(this, 'console');    // todo 待审核推送过来
+			// todo 待审核推送过来，管理员才需要这个审核
+			onSocket.call(this, 'console');
+			onSocket.call(this, 'auditStatus');//审核状态
 			drawMap();
 			window.onresize = function () {
 				drawMap();
 			};
 			setInterval(() => {
-				emitSocket('report', '报告~');
-			}, 5000)
+				emitSocket('report', this.reportData);
+			}, 10 * 1000)
 		},
 		data() {
 			return {
@@ -65,8 +70,9 @@
 				reportButton: {
 					isOpen: false
 				},
+				// 发送报告
 				reportData: {
-					count: 0,
+					count: 5,
 					suspected: 0,
 					dead: 0,
 					cure: 0,
@@ -74,20 +80,17 @@
 					age: 0,
 					sex: '1',
 					profession: '1',
-					country: "",
-					province: "",
-					city: "",
+					country: "中国",
+					province: "湖北",
+					city: "武汉",
 					area: "",
-					newsUrl: "",
-					reportDate: ""
-				}
+					newsUrl: "https://weibo.com/1699432410/IrAAZkfjf?ref=home&rid=1_0_8_3382943987267608154_0_0_0",
+					reportDate: "2020-01-28"
+				},
+				// 推送过来审核的数据
+				auditList: []
 			}
 		},
-		// setup() {
-		// 	return {
-		//
-		// 	};
-		// },
 		methods: {
 			onSetAuditButton(val) {
 				this.auditButtonStatus = !this.auditButtonStatus
@@ -111,9 +114,17 @@
 				padding-inline-start: 0;
 		}
 		
+		li {
+				list-style: none;
+		}
+		
 		#app {
 				width: 100%;
 				height: 100%;
+		}
+		
+		.align-center {
+				text-align: center;
 		}
 		
 		.left-layout {
@@ -139,7 +150,7 @@
 				
 		}
 		
-		.clear {
+		.clear:after {
 				display: block;
 				content: "";
 				clear: both;

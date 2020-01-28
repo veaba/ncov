@@ -24,6 +24,7 @@ const usersSchema = new Schema({
     reportTimes: Number,        // 所贡献的报告数目
     passCount: Number,          // 所通过审核的数目
     auditCount: Number,         // 所审核的的数目
+    refuseCount: Number,        // 所审拒绝的的数目
     githubOAuthObj: Object      // Github OAuth
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
@@ -172,7 +173,61 @@ const socketSchema = new Schema({
     }
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
+/**
+ * @desc 用户提交上来的数据保存起来
+ * */
 
+const auditSchema = new Schema({
+    sid: String,                // * socket sid，与插入库的单位形成闭环，实现数据溯源
+    pass: Boolean,              // 专业人员，管理管理员手动审核通过才算完成
+    reporter: String,           // 发起报告的人
+    reporterEmail: String,      // 发起报告的人的邮箱
+    weiboName: String,          // 如果开发给微博用户，则需要这一项
+    githubName: String,         // *Github 用户ID，也就是users 表的name
+    name: String,               // 患者名字，可能为空
+    sex: Number,                // 性别,1男 -1女 0 未知
+    profession: Number,         // 职业 1：一般人、2：医生
+    age: Number,                // 年龄
+    country: String,            // *国家
+    province: String,           // *省级市
+    city: String,               // 城市
+    area: String,               // 区/县等第三级单位
+    // 信息来源
+    newsUrl: String,            // *新闻地址
+    report: String,             // 报告机构
+    desc: String,               // 描述
+    // 用于迁徙分析
+    from: String,               // 从哪来
+    to: String,                 // 到哪去
+
+    // 感染特性
+    type: {
+        type: String,
+        match: /^(input|be_input|other)/   // input 输入类型，一般分析为从疫区来，即来自武汉，be_input=>被输入，other其他
+    },
+    hospital: String,           // 就诊医院
+    org: String,                // 报告的卫生机构
+    hideHour: Number,           // 潜伏期，单位：小时
+
+    // 症状，四个必填一个
+    isConfirm: String,          // 是否确认
+    isDead: Boolean,            // 是否陨落
+    isCure: Boolean,            // 是否治愈
+    isSuspected: Boolean,       // 是否是疑似
+    ids: Array,                 // 被拆分出来的id
+    status: {                   // 表示危急
+        type: String,
+        match: /^(mid|high)/    // mid=>中危/重，high=>危重
+    },
+    count: Number,              // 一捆确诊
+    cure: Number,               // 一捆治愈
+    dead: Number,               // 一捆死亡
+    suspected: Number,          // 一捆疑似
+    reportDate: Number          // 报告日期，年月日，时分秒自动补0
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
+
+
+const AuditSchema = mongoose.model('audits', auditSchema);
 const BroadcastSchema = mongoose.model('broadcasts', broadcastSchema);
 const BroadcastTestSchema = mongoose.model('broadcasts_tests', broadcastSchema);
 const HelpsSchema = mongoose.model('helps', helpsSchema);
@@ -188,6 +243,7 @@ const WeibosSchema = mongoose.model('weibos', weibosSchema);
 
 
 export {
+    AuditSchema,
     BroadcastSchema,
     BroadcastTestSchema,
     HelpsSchema,

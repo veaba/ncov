@@ -20,7 +20,8 @@ const connectMongo = async () => {
     mongoose.connect(config.base + ':' + config.port + '/' + config.database, configOption, (err: any) => {
         if (err) {
             logger.warn('mongodb 数据库链接失败，请检查');
-            logger.warn(err.message)
+            logger.warn(err.message);
+            return
         } else console.log('\x1B[32m%s\x1B[49m', ' >     Mongodb连接成功~~ √     ')
     });
     await mongoose.connection;

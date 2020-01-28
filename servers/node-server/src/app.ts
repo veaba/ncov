@@ -4,6 +4,7 @@
  * @author veaba
  * */
 
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -12,27 +13,19 @@ const bodyParser = require('body-parser');
 // 请求体解析
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-import {broadcastTask} from "./utils/task";
+import {auditTask, broadcastTask} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
-import {connectSocket, logSocket, onSocket, successSocket} from "./utils/socket";
+import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
-import {getAllList, getKeysDB} from "./mongo/curd";
 
 import {format} from 'date-fns'
 // 2020-01-27T12:38:42.043Z => 2020年1月27日20:39:01
-const x = format(new Date('2020-01-27T12:38:42.043Z'), 'yyyy-MM-dd HH:mm:ss')
+const x = format(new Date('2020-01-27T12:38:42.043Z'), 'yyyy-MM-dd HH:mm:ss');
 console.info('时间==>', x);
 app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
 });
-
-
-// io.on('connection', (socket: any) => {
-//     console.info('is Connected');
-//
-// });
-
 
 // 广播
 const broadcastChannel: any = io.of('/broadcast')
@@ -40,6 +33,8 @@ const broadcastChannel: any = io.of('/broadcast')
         await connectSocket(socket);
         // await _pushSuccess('/broadcast', 'auth', '未授权访问', 2403)
         await onSocket(socket, 'report'); // report 检查权限+检查消息+记录日志，成功或者失败
+        await onSocket(socket, 'apply'); // 审核通过 report
+        await onSocket(socket, 'auditDelete'); // 删除audit+report
     });
 
 // 新发现,探索
@@ -111,13 +106,14 @@ const asyncChannel = io.of('/broadcast')
 
     });
 
-setInterval(async () => {
-    // await _pushSuccess('/asyncChannel', 'worldMap', '世界地图数据');
-}, 10 * 1000);
+// setInterval(async () => {
+//     // await _pushSuccess('/asyncChannel', 'worldMap', '世界地图数据');
+// }, 10 * 1000);
 
 // 两分钟推送一段广播新闻
 setInterval(async () => {
     await _pushSuccess('broadcast', 'broadcast', await broadcastTask());
+    // await _pushSuccess('broadcast', 'console', await auditTask(), '推送审核');
 }, 2 * 60 * 1000);
 
 /**
@@ -138,7 +134,7 @@ const _pushError = async (channel: string, eventName: string, data: any, msg?: s
 };
 http.listen(9999, async () => {
     await connectMongo();
-    console.info('biubiu，走您~~', 9999);
+    console.info(' >     Biubiu 走您~ 9999 √');
 });
 
 export {
