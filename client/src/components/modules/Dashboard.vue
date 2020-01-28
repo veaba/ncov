@@ -2,23 +2,21 @@
 @desc 仪表盘，控制页面显示
 -->
 <template>
-		<div class="dashboard-module" v-show="!reportButton.isOpen">
-				
+		<div class="dashboard-module">
 				<div class="dashboard-button">
-						
 						<span class="button-span" @click.native="onClickShowMenu">仪表盘
 							<span v-show="isShowMenu">x</span>
 						</span>
 						
 						<ul v-show="isShowMenu">
-								<li v-if="authObj.isAuth" @click="onClickReportButton()">录入</li>
+								<li v-if="authObj.isAuth" @click="onClickWhatButton('report')">录入</li>
 								<li v-if="authObj.isAuth">爱心</li>
 								<li v-if="authObj.isAuth">紧急</li>
 								<!--<li @click="onClickHelp">帮助</li>-->
-								<!--todo-->
-								<li @click="onClickAudit" class="is-audit-button">审核</li>
-								<li @click="onClickTimeline">时间轴</li>
-								<li v-if="!authObj.isAuth">
+<!--								v-if="authObj.isAuth"-->
+								<li  @click="onClickWhatButton('audit')" class="is-audit-button">审核</li>
+								<li @click="onClickWhatButton('timeline')">时间轴</li>
+								<li v-if="showAuthButton">
 										<a :href="authObj.oAuthUrl" target="_blank">
 												<img src="../../assets/images/github-logo.png"
 												     style="width: 24px;
@@ -56,33 +54,37 @@
 		mounted() {
 		
 		},
+		computed: {
+			showAuthButton() {
+				return !!(!this.authObj.isAuth && this.authObj.oAuthUrl)
+			}
+		},
 		methods: {
 			onClickShowMenu() {
 				this.isShowMenu = !this.isShowMenu;
 				console.info(this.isShowMenu);
 			},
-			onClickReportButton() {
-				console.info(this.reportButton);
-				this.reportButton.isOpen = !this.reportButton.isOpen;
-			},
-			// todo
-			onClickHelp() {
-				alert('todo~')
-			},
-			// 时间轴
-			onClickTimeline() {
-				alert('todo~')
-			},
-			// 审核
-			onClickAudit() {
-				this.$emit('onSetAuditButton', true)
+			onClickWhatButton(button) {
+				switch (button) {
+					case 'report':
+						this.reportButton.isOpen = !this.reportButton.isOpen;
+						break;
+					case 'timeline':
+						this.$emit('onShowModule', 'timeline');
+						break;
+					case 'audit':
+						this.$emit('onShowModule', 'audit');
+						break;
+					case 'help':
+						alert('todo');
+						break
+				}
 			},
 		}
 	};
 </script>
 
 <style scoped lang="scss">
-		
 		.dashboard-module {
 				position: absolute;
 				right: 0;

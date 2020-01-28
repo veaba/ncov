@@ -10,13 +10,15 @@ export const onSocket = function (eventName) {
 	socket.on('connect', () => {
 		const {id} = socket;
 		const {channel, sid} = sid_obj(id);
-		if (sid) {
-			this.authObj.oAuthUrl = 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=http://localhost:9999/redirect/github/' + sid;
+		if (this.authObj) {
+			if (sid) {
+				this.authObj.oAuthUrl = 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=http://localhost:9999/redirect/github/' + sid;
+			} else this.authObj.isAuth = false;
 		}
+		
 	});
 	// 系统首次广播判断授权
 	socket.on('auth', res => {
-		console.info(res);
 		if (res && res.code === 2403) {
 			this.authObj.isAuth = false;
 			console.info(this.authObj, '未授权');
@@ -36,7 +38,6 @@ export const onSocket = function (eventName) {
 			// 审核通过或者已被审核，前端得到标记位
 			case 'auditStatus':
 				this.auditList.map((item, index) => {
-					console.info(item._id);
 					if (item._id === res.data._id) {
 						this.auditList.splice(index, 1);//关闭
 					}
@@ -45,13 +46,12 @@ export const onSocket = function (eventName) {
 			case 'broadcast':
 				break;
 			default:
-				console.log('无效时间接收');
+				console.log('无效事件接收');
 		}
 	});
 };
 
 
 export const emitSocket = (eventName, data) => {
-	console.info(11, eventName, data);
 	socket.emit(eventName, data);
 };

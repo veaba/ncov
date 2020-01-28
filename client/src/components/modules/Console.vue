@@ -1,13 +1,13 @@
 <!--
-@desc 用于标注post 模块、news 模块的真实性录入到Timeline中
+@desc todo 用于标注post 模块、news 模块的真实性录入到Timeline中
 @info 同时，支持Python 产生的数据推送过来
 @audit 审核模块
 -->
 <template>
-		<div class="console-module" id="console">
+		<div :class="'console-module '+(auditButtonStatus?'active':'')">
 				
 				<div class="align-center">
-						<button class="close-btn" @click="addClick">关闭</button>
+						<b class="close-btn" @click="onClickHide">X</b>
 				</div>
 				
 				<div class="audit-list clear align-center">
@@ -66,32 +66,21 @@
 		},
 		mounted() {
 		},
-		destroyed() {
-		
-		},
 		methods: {
 			format(time) {
 				return formatTime(time)
 			},
-			auditConfirm(item) {
-			
-			},
 			// 直接删除
 			onClickCancel(_id, ids) {
 				emitSocket('auditDelete', {_id, ids});
-				// axios.post('/api/apply/delete', {
-				// 	_id, ids
-				// })
-				// 	.then(res => {
-				// 		console.info(res);
-				// 	})
 			},
 			// 应用、通过、生效
 			onClickApply(_id, ids) {
 				emitSocket('apply', {_id, ids});
 			},
-			addClick() {
-				this.$emit('onClickMapHideAudit', false)
+			onClickHide() {
+				this.$emit('onShowModule', 'audit');
+				// this.$emit('onClickMapHideAudit', false)
 			}
 		}
 	};
@@ -101,16 +90,34 @@
 		.console-module {
 				position: absolute;
 				left: 5px;
-				bottom: 0;
+				bottom: -290px;
 				width: calc(100% - 10px);
 				height: 280px;
 				border: 1px solid #03a9f4;
 				background: rgba(0, 0, 0, .9);
 				z-index: 1;
+				transition: all 0.3s ease-in;
+				opacity: 0.66;
+		}
+		
+		.console-module.active {
+				bottom: 0;
+				transition: all 0.3s ease-in;
+				opacity: 0.66;
 		}
 		
 		.close-btn {
-				margin-top: 20px;
+				cursor: pointer;
+				position: absolute;
+				top: 10px;
+				left: 50%;
+				transform: translateY(50%);
+				color: #03a9f4;
+				width: 24px;
+				height: 24px;
+				border: 1px solid #03a9f4;
+				text-align: center;
+				border-radius: 50%;
 		}
 		
 		.audit-list {

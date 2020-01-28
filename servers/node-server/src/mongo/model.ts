@@ -64,7 +64,34 @@ const helpsSchema = new Schema({});
  * @desc loves 爱心表
  * */
 
-const lovesSchema = new Schema({});
+const lovesSchema = new Schema({
+    happenTime: Number,         // 必填，timeline 报告时间
+    fromObj: {                  // 来自哪里
+        type: Object,
+        default() {
+            return {
+                country: "",    // 必填，国家
+                province: "",
+                city: "",
+                area: "",
+            }
+        }
+    },
+    toObj: {                    // 来自哪里
+        type: Object,
+        default() {
+            return {
+                country: "",    // 必填，国家
+                province: "",   // 必填，省份
+                city: "",
+                area: "",
+            }
+        }
+    },
+    desc: String,               // 必填，描述
+    newsUrl: String,            // 必填，新闻报道地址
+    img: String,                // 必填，图片地址
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
 /**
@@ -121,8 +148,8 @@ const reportSchema = new Schema({
     area: String,               // 区/县等第三级单位
     // 信息来源
     newsUrl: String,            // *新闻地址
-    report: String,             // 报告机构
-    desc: String,               // 描述
+    reportOrg: String,             // 报告机构
+    desc: String,               // *描述
     // 用于迁徙分析
     from: String,               // 从哪来
     to: String,                 // 到哪去
@@ -153,8 +180,15 @@ const reportSchema = new Schema({
  * @todo isoDate
  * */
 const timelinesSchema = new Schema({
-    reportDate: Number          // timeline 报告时间
-
+    reportDate: Number,         // 报告日期，年月日，时分秒自动补0,时间戳
+    reporter: String,           // 发起报告的人
+    githubName: String,         // *Github 用户ID，也就是users 表的name
+    country: String,            // *国家
+    province: String,           // *省级市
+    city: String,               // 城市
+    area: String,               // 区/县等第三级单位
+    desc: String,               // * 描述，可能是个title
+    newsUrl: String,            // * 新闻地址
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 /**

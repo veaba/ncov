@@ -1,22 +1,22 @@
 <template>
 		<div class="home">
-				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻
-						{{auditButtonStatus}}
-				</a></h1>
+				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻</a></h1>
 				<div id="map"></div>
 				<!--发布模块-->
 				<PostModule></PostModule>
 				
+				<TimelineModule :timelineButtonStatus="timelineButtonStatus" @onShowModule="onShowModule"></TimelineModule>
+				
 				<DashboardModule :authObj="authObj" :reportButton="reportButton"
-				                 @onSetAuditButton="onSetAuditButton"
+				                 @onShowModule="onShowModule"
 				></DashboardModule>
 				
 				<PostModule :reportButton="reportButton" :reportData="reportData"></PostModule>
 				
-				<!--				v-if="auditButton.isOpen"-->
-				<ConsoleModule v-if="auditButtonStatus" @onClickMapHideAudit="onClickMapHideAudit"
-				               :auditButtonStatus="auditButtonStatus"
-				               :auditList="auditList"
+				<ConsoleModule
+								@onShowModule="onShowModule"
+								:auditButtonStatus="auditButtonStatus"
+								:auditList="auditList"
 				></ConsoleModule>
 		</div>
 </template>
@@ -48,23 +48,25 @@
 		},
 		async mounted() {
 			onSocket.call(this, 'broadcast');   // 获取广播出来的新闻
-			// todo 待审核推送过来，管理员才需要这个审核
-			onSocket.call(this, 'console');
+			onSocket.call(this, 'console');// todo 待审核推送过来，管理员才需要这个审核
 			onSocket.call(this, 'auditStatus');//审核状态
+			// todo 定时拉取需要审核的数据
 			drawMap();
 			window.onresize = function () {
 				drawMap();
 			};
 			setInterval(() => {
-				emitSocket('report', this.reportData);
+				// emitSocket('report', this.reportData);
 			}, 10 * 1000)
 		},
 		data() {
 			return {
-				auditButtonStatus: false,//控制台
+				auditButtonStatus: false,   //控制台
 				authObj: {
 					isAuth: false,
+					oAuthUrl: "",
 				},
+				timelineButtonStatus: false, // timeline
 				updateDataTime: "截止1月24日 9时",
 				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao",
 				reportButton: {
@@ -92,17 +94,33 @@
 			}
 		},
 		methods: {
-			onSetAuditButton(val) {
-				this.auditButtonStatus = !this.auditButtonStatus
-			},
 			onClickMapHideAudit(val) {
-				console.info(val);
 				this.auditButtonStatus = val
+			},
+			onShowModule(module) {
+				switch (module) {
+					case 'timeline':
+						this.timelineButtonStatus = !this.timelineButtonStatus;
+						this.auditButtonStatus = false;
+						break;
+					case 'audit':
+						this.auditButtonStatus = !this.auditButtonStatus;
+						this.timelineButtonStatus = false;
+						break
+				}
 			}
 		}
 	};
 </script>
 <style lang="scss">
+		* {
+				box-sizing: border-box;
+		}
+		
+		a {
+				color: #0366d6;
+		}
+		
 		body, html {
 				padding: 0;
 				margin: 0;
@@ -121,6 +139,7 @@
 		#app {
 				width: 100%;
 				height: 100%;
+				overflow: hidden;
 		}
 		
 		.align-center {
