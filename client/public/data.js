@@ -35,115 +35,118 @@ export const origin_city = {
  * }
  * */
 export const infectedCountData = {
-  "2020-01-26": [
+  "2020-01-28": [
     {
       name: "湖北",
-      count: 1423,
-      dead: 52,
-      cure: 32,
+      count: 2714,
+      dead: 100,
+      cure: 45,
       suspected: 0
     },
     {
       name: "广东",
-      count: 146,
-      cure: 2,
+      count: 188,
+      cure: 4,
       suspected: 1
     },
     {
       name: "北京",
-      count: 68,
-      cure: 2
+      count: 80,
+      cure: 2,
+      dead:1
     },
     {
       name: "上海",
-      count: 53,
+      count: 66,
       dead: 1,
-      cure: 1,
+      cure: 3,
       suspected: 22
     },
 
     {
       name: "浙江",
-      count: 128,
+      count: 173,
       cure: 1
     },
     {
       name: "重庆",
-      count: 110,
+      count: 132,
       suspected: 13
     },
     {
       name: "天津",
-      count: 14
+      count: 23
     },
     {
       name: "山东",
-      count: 63
+      count: 87,
+      cure:1
       // suspected: 2
     },
     {
       name: "河南",
-      count: 128,
+      count: 168,
       dead: 1
     },
     {
       name: "四川",
-      count: 69,
+      count: 90,
       suspected: 2
     },
     {
       name: "湖南",
-      count: 120
+      count: 143
     },
     {
       name: "宁夏",
-      count: 4
+      count: 11
     },
     {
       name: "吉林",
-      count: 1
+      count: 8
     },
     {
       name: "贵州",
-      count: 7
+      count: 9
     },
     {
       name: "广西",
-      count: 46
+      count: 51
     },
     {
       name: "云南",
-      count: 19
+      count: 26
     },
     {
       name: "江西",
-      count: 48
+      count: 72,
+      cure:3,
     },
     {
       name: "安徽",
-      count: 70,
+      count: 106,
       suspected: 4
     },
     {
       name: "辽宁",
-      count: 23
+      count: 27
     },
     {
       name: "陕西",
-      count: 22
+      count: 35
     },
     {
       name: "山西",
-      count: 13
+      count: 20
     },
     {
       name: "河北",
-      count: 18,
+      count: 33,
       dead: 1
     },
     {
       name: "江苏",
-      count: 47,
+      count: 70,
       cure: 1
     },
     {
@@ -152,43 +155,44 @@ export const infectedCountData = {
     },
     {
       name: "甘肃",
-      count: 14
+      count: 19
     },
     {
       name: "青海",
-      count: 4
+      count: 6
     },
     {
       name: "新疆",
-      count: 5
+      count: 10
     },
     {
       name: "内蒙古",
-      count: 11
+      count: 13
     },
     {
       name: "黑龙江",
-      count: 21,
+      count: 30,
       suspected: 2,
       dead: 1
     },
     {
       name: "福建",
-      count: 35,
+      count: 59,
       suspected: 2
     },
     {
       name: "海南",
-      count: 22,
+      count: 40,
+      dead:1,
       suspected: 32
     },
     {
       name: "台湾",
-      count: 4
+      count: 5
     },
     {
       name: "澳门",
-      count: 6
+      count: 7
     },
     {
       name: "香港",
@@ -216,7 +220,7 @@ export const infectedCountData = {
     },
     {
       name: "新加坡",
-      count: 4,
+      count: 5,
       suspected: 7
     },
     {
@@ -233,7 +237,7 @@ export const infectedCountData = {
     },
     {
       name: "澳大利亚",
-      count: 4,
+      count: 5,
       suspected: 1
     },
     {
@@ -268,6 +272,7 @@ export const infectedCountData = {
     },
     {
       name: "德国",
+      count:1,
       suspected: 4
     },
     {
@@ -278,7 +283,11 @@ export const infectedCountData = {
     {
       name: "加拿大",
       count: 1,
-    }
+    },
+    {
+      name: "斯里兰卡",
+      count: 1,
+    },
   ]
 };
 
