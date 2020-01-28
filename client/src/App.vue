@@ -35,7 +35,7 @@
 			
 			return {
 				updateDataTime:"截止1月27日 11时",
-				sourceUrl:"https://news.qq.com//zt2020/page/feiyan.htm#news"
+				sourceUrl:"https://news.qq.com/zt2020/page/feiyan.htm#news"
 			};
 		},
 	};
