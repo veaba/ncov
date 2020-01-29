@@ -4,7 +4,7 @@
 @todo 是更新至，还是新增的病例
 -->
 <template>
-		<div v-show="reportButton.isOpen" class="right-layout post-modules">
+		<div :class="'right-layout post-modules' +(reportButtonStatus?'active':'')">
 				<h2>向 <a href="https://github.com/veaba/ncov" target="_blank">nCov仓库</a> 报告新增病例，收录到库中 </h2>
 				<blockquote>
 						<strong>注意：</strong>
@@ -130,13 +130,8 @@
 <script>
 	export default {
 		props: {
-			reportButton: {
-				type: Object,
-				default() {
-					return {
-						isOpen: false
-					};
-				}
+			reportButtonStatus: {
+				type: Boolean,
 			},
 			reportData: {
 				type: Object,
@@ -176,7 +171,7 @@
 			},
 			// todo 增加关闭动画
 			onCloseReportModal() {
-				this.reportButton.isOpen = !this.reportButton.isOpen;
+				this.$emit('onShowModule', 'report');
 				this.reportData.count = 0;
 				this.reportData.suspected = 0;
 				this.reportData.dead = 0;
@@ -232,9 +227,18 @@
 <style lang="scss" scoped>
 		.post-modules {
 				top: 1px;
+				right: -500px;
 				padding: 20px;
 				background: #fff;
 				z-index: 2;
+				transition: all 0.3s ease-in;
+				opacity: 0.66;
+		}
+		
+		.post-modules.active {
+				right: 0;
+				transition: all 0.3s ease-in;
+				opacity: 0.66;
 		}
 		
 		.row {

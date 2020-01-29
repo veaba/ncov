@@ -13,8 +13,7 @@
 								<li v-if="authObj.isAuth">爱心</li>
 								<li v-if="authObj.isAuth">紧急</li>
 								<!--<li @click="onClickHelp">帮助</li>-->
-<!--								v-if="authObj.isAuth"-->
-								<li  @click="onClickWhatButton('audit')" class="is-audit-button">审核</li>
+								<li v-if="authObj.isAuth" @click="onClickWhatButton('audit')" class="is-audit-button">审核</li>
 								<li @click="onClickWhatButton('timeline')">时间轴</li>
 								<li v-if="showAuthButton">
 										<a :href="authObj.oAuthUrl" target="_blank">
@@ -38,10 +37,7 @@
 		props: {
 			authObj: {
 				type: Object,
-			},
-			reportButton: {
-				type: Object
-			},
+			}
 		},
 		data() {
 			return {
@@ -67,7 +63,7 @@
 			onClickWhatButton(button) {
 				switch (button) {
 					case 'report':
-						this.reportButton.isOpen = !this.reportButton.isOpen;
+						this.$emit('onShowModule', 'report');
 						break;
 					case 'timeline':
 						this.$emit('onShowModule', 'timeline');

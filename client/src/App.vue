@@ -1,17 +1,17 @@
 <template>
 		<div class="home">
-				<h1>【最新更新时间】：{{updateDataTime}}, 来源 <a :href="sourceUrl" target="_blank">新浪新闻</a></h1>
-				<div id="map"></div>
+				<MapModule></MapModule>
+				<ChartModule :chartButtonStatus="chartButtonStatus"></ChartModule>
 				<!--发布模块-->
-				<PostModule></PostModule>
+				<PostModule> </PostModule>
 				
 				<TimelineModule :timelineButtonStatus="timelineButtonStatus" @onShowModule="onShowModule"></TimelineModule>
 				
-				<DashboardModule :authObj="authObj" :reportButton="reportButton"
+				<DashboardModule :authObj="authObj" :reportButtonStatus="reportButtonStatus"
 				                 @onShowModule="onShowModule"
 				></DashboardModule>
 				
-				<PostModule :reportButton="reportButton" :reportData="reportData"></PostModule>
+				<PostModule :reportButtonStatus="reportButtonStatus" :reportData="reportData"></PostModule>
 				
 				<ConsoleModule
 								@onShowModule="onShowModule"
@@ -24,7 +24,7 @@
 <script>
 	
 	import {onMounted} from 'vue';
-	import {drawMap, realtimeDrawMap} from './utils/draw';
+	
 	import {onSocket, emitSocket} from './utils/socketIo';
 	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
 	import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
@@ -33,15 +33,17 @@
 	import NewsModule from "./components/modules/News.vue";                   // todo 滚动播报新闻，来源权威机构，后续需要确认机构名单
 	import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
 	import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
-	import MapModule from "./components/modules/Map.vue";                     // todo 地图
+	import ChartModule from "./components/modules/Chart.vue";                     // todo 地图
+	import MapModule from './components/modules/MapModule.vue'
 	
 	export default {
 		components: {
 			BarrageModule,
 			ConsoleModule,
 			DashboardModule,
-			MessageModule,
 			MapModule,
+			MessageModule,
+			ChartModule,
 			NewsModule,
 			PostModule,
 			TimelineModule,
@@ -50,27 +52,20 @@
 			onSocket.call(this, 'broadcast');   // 获取广播出来的新闻
 			onSocket.call(this, 'console');// todo 待审核推送过来，管理员才需要这个审核
 			onSocket.call(this, 'auditStatus');//审核状态
-			// todo 定时拉取需要审核的数据
-			drawMap();
-			window.onresize = function () {
-				drawMap();
-			};
+			
 			setInterval(() => {
 				// emitSocket('report', this.reportData);
 			}, 10 * 1000)
 		},
 		data() {
 			return {
-				auditButtonStatus: false,   //控制台
+				auditButtonStatus: false,       // 控制台
+				reportButtonStatus: false,      // 录入
+				timelineButtonStatus: false,    // timeline
+				chartButtonStatus: false,         // 图表
 				authObj: {
 					isAuth: false,
 					oAuthUrl: "",
-				},
-				timelineButtonStatus: false, // timeline
-				updateDataTime: "截止1月24日 9时",
-				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao",
-				reportButton: {
-					isOpen: false
 				},
 				// 发送报告
 				reportData: {
@@ -97,16 +92,29 @@
 			onClickMapHideAudit(val) {
 				this.auditButtonStatus = val
 			},
+			// todo 以下代码是再简写的
 			onShowModule(module) {
 				switch (module) {
+					case 'report':
+						this.reportButtonStatus = !this.reportButtonStatus;
+						this.auditButtonStatus = false;
+						this.timelineButtonStatus = false;
+						this.chartButtonStatus = false;
+						break;
 					case 'timeline':
 						this.timelineButtonStatus = !this.timelineButtonStatus;
 						this.auditButtonStatus = false;
+						this.reportButtonStatus = false;
+						this.chartButtonStatus = false;
 						break;
 					case 'audit':
 						this.auditButtonStatus = !this.auditButtonStatus;
 						this.timelineButtonStatus = false;
-						break
+						this.reportButtonStatus = false;
+						this.chartButtonStatus = false;
+						break;
+					case 'chart':
+						this.chartButtonStatus = !this.chartButtonStatus
 				}
 			}
 		}
@@ -200,26 +208,8 @@
 		.home {
 				position: relative;
 				
-				h1 {
-						position: absolute;
-						width: 100%;
-						top: 0;
-						font-family: Arial, Helvetica, sans-serif;
-						color: #ffc107;
-						text-align: center;
-						z-index: 1;
-						
-						a {
-								color: red
-						}
-						
-				}
-		}
-		
-		#map {
-				width: 100%;
-				height: 100%;
 				
 		}
+
 
 </style>

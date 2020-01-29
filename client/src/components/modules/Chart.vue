@@ -1,16 +1,21 @@
-<!--
-@desc 更多的图表分析
--->
 <template>
-		<div class="chart-modules"></div>
+		<div class="left-layout chart-module">
+			
+				<!---->
+		</div>
 </template>
 
 <script>
 	export default {
-		name: "Chart"
+		name: "Chart",
+		props: {
+			chartButtonStatus: {
+				typ: Boolean
+			}
+		}
 	};
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
