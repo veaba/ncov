@@ -11,8 +11,8 @@ import {taskChannelList, updateOne} from "../mongo/curd";
  * @desc 广播定时任务
  * */
 export const broadcastTask = async () => {
-    // 查询数据，取broadcasts 表最新20条
-    const broadcastList = await taskChannelList('broadcasts');
+    // 查询数据，取broadcasts 表最新2条
+    const broadcastList = await taskChannelList('broadcasts', 2);
     let sendData = [];
     for (let item of broadcastList) {
         // 说明是新的

@@ -13,6 +13,8 @@ import {_pushSuccess, _pushError} from "../app";
 import {delKey, getHash} from "../redis/redis";
 import {applyAudit, deleteAudit} from "./audit";
 import {report} from "./report";
+import {getTimeline} from "./timeline";
+import {getNews} from "./news";
 
 /**
  * @desc 记录socket连接数，新连接插入，断开更新
@@ -54,6 +56,12 @@ export const onSocket = async (socket: any, eventName: string) => {
                 break;
             case 'auditDelete':
                 await deleteAudit(socket, sid, data, channel, eventName);
+                break;
+            case 'getTimeline':
+                await getTimeline(socket, sid, data, channel, eventName);
+                break;
+            case 'getNews':
+                await getNews(socket, sid, data, channel, eventName);
                 break;
             default:
                 throw new Error('未能识别Channel类型');

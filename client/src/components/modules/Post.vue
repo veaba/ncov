@@ -4,7 +4,7 @@
 @todo 是更新至，还是新增的病例
 -->
 <template>
-		<div :class="'right-layout post-modules' +(reportButtonStatus?'active':'')">
+		<div :class="'right-layout post-modules ' +(reportButtonStatus?'active':'')">
 				<h2>向 <a href="https://github.com/veaba/ncov" target="_blank">nCov仓库</a> 报告新增病例，收录到库中 </h2>
 				<blockquote>
 						<strong>注意：</strong>
@@ -115,9 +115,18 @@
 				
 				</div>
 				<div class="row">
+						<span class="must-be">描述内容：</span>
+						
+						<textarea class="textarea-input" rows="3" v-model="reportData.desc"
+						          placeholder="必填，描述"
+						          name="date_input"
+						          maxlength="100"></textarea>
+				
+				</div>
+				<div class="row">
 						<span class="must-be">对此负责：</span>
 						<label>
-								<input v-model="isConfirm" type="checkbox" @change="onChangeConfirmBox"/>我已确认，将承担可能带来的法律后果
+								<input v-model="isConfirm" type="checkbox"/>我已确认，将承担可能带来的法律后果
 						</label>
 				</div>
 				<div class="row align-right">
@@ -128,6 +137,8 @@
 </template>
 
 <script>
+	import {emitSocket,onSocket} from "../../utils/socketIo";
+	
 	export default {
 		props: {
 			reportButtonStatus: {
@@ -148,6 +159,7 @@
 						area: "",
 						city: "",
 						newsUrl: "",
+						desc: "",
 						reportDate: ""
 					};
 				}
@@ -165,13 +177,12 @@
 				isConfirm: false,
 			};
 		},
+		mounted(){
+			onSocket.call(this, 'report');//接受报告结果
+		},
 		methods: {
-			onChangeConfirmBox() {
-				console.info(this.isConfirm);
-			},
 			// todo 增加关闭动画
 			onCloseReportModal() {
-				this.$emit('onShowModule', 'report');
 				this.reportData.count = 0;
 				this.reportData.suspected = 0;
 				this.reportData.dead = 0;
@@ -182,14 +193,13 @@
 				this.reportData.age = 0;
 				this.reportData.country = '';
 				this.reportData.province = '';
-				this.reportData.city = 0;
-				this.reportData.area = 0;
-				this.reportData.newsUrl = 0;
-				this.reportData.reportDate = 0;
+				this.reportData.city = '';
+				this.reportData.area = '';
+				this.reportData.newsUrl = "0";
+				this.reportData.desc = "0";
+				this.reportData.reportDate = '';
 				this.isConfirm = false;
-			},
-			onChangeReportDate(v) {
-				console.info(v);
+				this.$emit('onShowModule', 'report');
 			},
 			// 提交报告
 			onSubmitReport() {
@@ -216,9 +226,19 @@
 					alert('请输入2019新型肺炎案例发生的时间');
 					return false;
 				}
+				// 检查描述
+				if (!this.reportData.desc) {
+					alert('请输入描述内容');
+					return false;
+				}
+				// 检查box
+				if(!this.isConfirm){
+					alert('请勾选确认选项');
+					return false;
+				}
 				
-				// reporter、nCoV 网站的用户
-				console.info(99, this.reportData);
+				emitSocket('report', this.reportData);
+			
 			}
 		}
 	};
@@ -230,27 +250,45 @@
 				right: -500px;
 				padding: 20px;
 				background: #fff;
-				z-index: 2;
+				z-index: 5;
 				transition: all 0.3s ease-in;
-				opacity: 0.66;
 		}
 		
 		.post-modules.active {
 				right: 0;
 				transition: all 0.3s ease-in;
-				opacity: 0.66;
 		}
 		
 		.row {
 				color: #666;
 				margin-top: 10px;
 				
+				span {
+						position: relative;
+						
+						&:before {
+								display: inline-block;
+								content: "*";
+								color: #fff;
+						}
+				}
+				
+				span.must-be {
+						position: relative;
+						
+						&:before {
+								display: inline-block;
+								content: "*";
+								color: red;
+						}
+				}
+				
 				button {
 						font-size: 16px;
 						margin-right: 24px;
 				}
 				
-				.news-input, .date-input {
+				.news-input, .date-input, .textarea-input {
 						width: calc(100% - 109px);
 				}
 				

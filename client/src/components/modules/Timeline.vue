@@ -4,39 +4,68 @@
 	新闻
 	新增案例-通过审核的
 	
-	
-
 -->
 <template>
-		<div :class="'timeline-module ' +(timelineButtonStatus?'active':'')">
-				<h2>2029新型肺炎(nCoV)时间轴</h2>
+		<div :class="'timeline-module ' +(timelineButtonStatus?'isTimeline':'')+ (newsButtonStatus?' isNews':'')">
+				<h2>2019新型肺炎 - {{timelineButtonStatus?"时间轴":""}} {{newsButtonStatus?"新闻消息":""}}</h2>
 				<b class="close-timeline" @click="onCloseTimeline">X</b>
-				<ul class="ul-timeline">
-						<li class="li-timeline" v-for="item in timelineData">
-								<div class="date">{{item.reportDate}}</div>
-								<div class="desc">
-										<div class="desc-title">
-												<a target="_blank" :href="item.newsUrl" :title="item.desc">{{item.desc}}</a>
-										</div>
-										<div class="author clear">
-												<div class="badge-list">
-														<strong class="badge" v-show="item.country">{{item.country}}</strong>
-														<strong class="badge" v-show="item.province">{{item.province}}</strong>
-														<strong class="badge" v-show="item.city">{{item.city}}</strong>
-														<strong class="badge" v-show="item.area">{{item.area}}</strong>
+				<div class="timeline-content">
+						<!--时间轴-->
+						<ul class="ul-timeline" v-show="timelineButtonStatus">
+								<li class="li-timeline" v-for="item in timelineData">
+										<div class="date" v-show="item.reportDate">{{format(item.reportDate)}}</div>
+										<div class="date" v-show="item.create_time">{{item.create_time}}</div>
+										<div class="desc">
+												<div class="desc-title">
+														<a target="_blank" :href="item.newsUrl" :title="item.desc">{{item.desc}}</a>
 												</div>
-												
-												<a target="_blank" :href="'https://github.com/'+(item.reporter||'/')">@{{item.reporter}}</a>
+												<div class="author clear">
+														<div class="badge-list" v-show="item.country||item.province||item.city||item.area">
+																<strong class="badge" v-show="item.country">{{item.country}}</strong>
+																<strong class="badge" v-show="item.province">{{item.province}}</strong>
+																<strong class="badge" v-show="item.city">{{item.city}}</strong>
+																<strong class="badge" v-show="item.area">{{item.area}}</strong>
+														</div>
+														<a v-if="item.channel" :href="item.newsUrl">@{{item.channel}}</a>
+														<a v-else target="_blank"
+														   :href="'https://github.com/'+(item.reporter||item.githubName||'/')">@{{item.reporter||item.githubName}}</a>
+												</div>
 										</div>
-								</div>
-						
-						</li>
-				</ul>
+								
+								</li>
+						</ul>
+						<!--新闻消息-->
+						<ul class="ul-timeline" v-show="newsButtonStatus">
+								<li class="li-timeline" v-for="item in newsData">
+										<div class="date" v-show="item.reportDate">{{format(item.reportDate)}}</div>
+										<div class="date" v-show="item.create_time">{{item.create_time}}</div>
+										<div class="desc">
+												<div class="desc-title">
+														<a target="_blank" :href="item.newsUrl" :title="item.desc">{{item.desc}}</a>
+												</div>
+												<div class="author clear">
+														<div class="badge-list" v-show="item.country||item.province||item.city||item.area">
+																<strong class="badge" v-show="item.country">{{item.country}}</strong>
+																<strong class="badge" v-show="item.province">{{item.province}}</strong>
+																<strong class="badge" v-show="item.city">{{item.city}}</strong>
+																<strong class="badge" v-show="item.area">{{item.area}}</strong>
+														</div>
+														<a v-if="item.channel" :href="item.newsUrl">@{{item.channel}}</a>
+														<a v-else target="_blank"
+														   :href="'https://github.com/'+(item.reporter||item.githubName||'/')">@{{item.reporter||item.githubName}}</a>
+												</div>
+										</div>
+								
+								</li>
+						</ul>
+				</div>
+		
 		
 		</div>
 </template>
 
 <script>
+	import {formatTime} from '../../utils/utils'
 	import {emitSocket, onSocket} from "../../utils/socketIo";
 	
 	export default {
@@ -44,63 +73,57 @@
 		props: {
 			timelineButtonStatus: {
 				type: Boolean
+			},
+			newsButtonStatus: {
+				type: Boolean
 			}
 		},
 		data() {
 			return {
-				// todo 新消息排在前面
-				timelineData: [
-					{
-						reportDate: "2020年1月29日05:39:11",         // 报告日期，年月日，时分秒自动补0,时间戳
-						reporter: "veaba",           // 发起报告的人
-						githubName: "veaba",         // *Github 用户ID，也就是users 表的name
-						country: "中国",            // *国家
-						province: "湖北省",           // *省级市
-						city: "武汉",               // 城市
-						area: "汉口区",               // 区/县等第三级单位
-						desc: "武汉新增1例新型冠状病毒肺炎确诊病例",               // * 描述，可能是个title
-						newsUrl: "https://news.sina.cn/gn/2020-01-28/detail-iihnzhha5154337.d.html?wm=3049_0016",            // * 新闻地址
-					},
-					{
-						reportDate: "2020年1月29日05:39:11",         // 报告日期，年月日，时分秒自动补0,时间戳
-						reporter: "veaba",           // 发起报告的人
-						githubName: "veaba",         // *Github 用户ID，也就是users 表的name
-						country: "中国",            // *国家
-						province: "湖北省",           // *省级市
-						city: "武汉",               // 城市
-						area: "汉口区",               // 区/县等第三级单位
-						desc: "武汉新增1例新型冠状病毒肺炎确诊病例",               // * 描述，可能是个title
-						newsUrl: "https://news.sina.cn/gn/2020-01-28/detail-iihnzhha5154337.d.html?wm=3049_0016",            // * 新闻地址
-					},
-					{
-						reportDate: "2020年1月29日05:39:11",         // 报告日期，年月日，时分秒自动补0,时间戳
-						reporter: "veaba",           // 发起报告的人
-						githubName: "veaba",         // *Github 用户ID，也就是users 表的name
-						country: "中国",            // *国家
-						province: "湖北省",           // *省级市
-						city: "武汉",               // 城市
-						area: "汉口区汉口区汉口区汉口区汉口区汉口区汉口区汉口区",               // 区/县等第三级单位
-						desc: "武汉新增1例新型冠状病毒肺炎确诊病例",               // * 描述，可能是个title
-						newsUrl: "https://news.sina.cn/gn/2020-01-28/detail-iihnzhha5154337.d.html?wm=3049_0016",            // * 新闻地址
-					}
-				]
+				timelineData: [],
+				newsData: []
 			}
 		},
 		watch: {
 			timelineButtonStatus(val) {
 				if (val) {
-					emitSocket('timeline', this.reportData);
-					onSocket.call(this, 'timeline', this.timelineData)
+					this.getTimeline()
 				}
-			}
+			},
+			newsButtonStatus(val) {
+				if (val) {
+					this.getNews()
+				}
+			},
 		},
-		// todo  检查必填项
 		mounted() {
-		
+			onSocket.call(this, 'timeline', this.timelineData);
+			onSocket.call(this, 'getTimeline', this.timelineData);
+			onSocket.call(this, 'news', this.newsData);
+			onSocket.call(this, 'getNews', this.newsData);
+			this.getTimeline();
+			this.getNews()
 		},
 		methods: {
+			format(time) {
+				return formatTime(time)
+			},
 			onCloseTimeline() {
-				this.$emit('onShowModule', 'timeline');
+				if (this.timelineButtonStatus) {
+					this.$emit('onShowModule', 'timeline');
+				}
+				if (this.newsButtonStatus) {
+					this.$emit('onShowModule', 'news');
+				}
+				
+			},
+			// 获取timeline
+			getTimeline() {
+				emitSocket('getTimeline', {msg: 'getTimeline'});
+			},
+			// 获取timeline
+			getNews() {
+				emitSocket('getNews', {msg: 'getNews'});
 			},
 		}
 	};
@@ -116,7 +139,7 @@
 				background: rgba(0, 0, 0, .6);
 				transition: all 0.3s ease-in;
 				opacity: 0.66;
-				padding: 0 40px;
+				padding: 0 40px 0 20px;
 				
 				
 				h2 {
@@ -125,7 +148,7 @@
 				}
 		}
 		
-		.timeline-module.active {
+		.timeline-module.isTimeline, .timeline-module.isNews {
 				left: 0;
 				transition: all 0.3s ease-in;
 				opacity: 0.66;
@@ -145,13 +168,21 @@
 				border-radius: 50%;
 		}
 		
+		.timeline-content {
+				position: relative;
+				width: 100%;
+				height: calc(100% - 10px);
+				padding-bottom: 100px;
+				overflow-y: auto;
+		}
+		
 		.ul-timeline {
 				color: #fff;
 				padding-right: 10px;
 				position: relative;
 				width: 100%;
-				height: calc(100% - 10px);
-				overflow-y: auto;
+				padding-left: 40px;
+				padding-bottom: 40px;
 				
 				&::-webkit-scrollbar {
 						height: 10px;
@@ -171,6 +202,7 @@
 				.date {
 						position: relative;
 						color: #d7d7d7;
+						
 						&:before {
 								display: block;
 								position: absolute;
@@ -199,7 +231,7 @@
 				
 				.desc {
 						position: relative;
-						font-size: 18px;
+						font-size: 14px;
 						padding-bottom: 20px;
 						
 						.desc-title {
@@ -241,7 +273,7 @@
 						
 						.badge {
 								display: inline-block;
-								font-size: 13px;
+								font-size: 12px;
 								border: 1px solid #009688;
 								color: #009688;
 								border-radius: 4px;

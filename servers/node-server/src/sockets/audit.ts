@@ -3,13 +3,14 @@ import {ReportInterface} from "../interface/interface";
 import {_pushError, _pushSuccess} from "../app";
 import {deleteOneById, getKeysDB, isHasOne, updateOne} from "../mongo/curd";
 import {getHash} from "../redis/redis";
+import {_saveTimeline} from "./timeline";
 
 /**
  * @desc 审核部分
  * */
 
 export const applyAudit = async (socket: any, sid: any, data: any, channel: string, eventName: string) => {
-    await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
+    await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非授权用户
     const applyReq: ReportInterface.apply = data;
     const ids = applyReq.ids || [];
     // 校验参数
@@ -32,6 +33,10 @@ export const applyAudit = async (socket: any, sid: any, data: any, channel: stri
             await updateOne({_id: ids[i]}, {pass: true}, 'reports');// 更新报告
         }
         await updateOne({_id: redisObj._id}, {$inc: {auditCount: 1}}, 'users'); // 管理员审核通过的值+1
+
+        // 存入时间轴
+        const reportData: any = await getKeysDB({_id: applyReq._id, pass: true}, [], 'audits');
+        await _saveTimeline(socket, sid, reportData, channel, eventName);
         // todo 地图获取相应的模块更新数据
         return await _pushSuccess(channel, 'auditStatus', {_id: applyReq._id}, '审核成功')
     } else {
@@ -44,7 +49,6 @@ export const deleteAudit = async (socket: any, sid: any, data: any, channel: str
     await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
     const applyReq: ReportInterface.apply = data;
     const ids = applyReq.ids || [];
-    let logType = '';
     // 校验参数
     if (!applyReq.ids || !ids.length || !applyReq._id) {
         return await _pushError(channel, eventName, applyReq, '参数错误', 1);

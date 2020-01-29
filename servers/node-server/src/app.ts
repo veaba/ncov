@@ -32,9 +32,12 @@ const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {
         await connectSocket(socket);
         // await _pushSuccess('/broadcast', 'auth', '未授权访问', 2403)
-        await onSocket(socket, 'report'); // report 检查权限+检查消息+记录日志，成功或者失败
-        await onSocket(socket, 'apply'); // 审核通过 report
-        await onSocket(socket, 'auditDelete'); // 删除audit+report
+        await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
+        await onSocket(socket, 'apply');        // 审核通过 report
+        await onSocket(socket, 'auditDelete');  // 删除audit+report
+        await onSocket(socket, 'getTimeline');   // 获取时间轴
+        await onSocket(socket, 'getNews')   // 获取时间轴
+
     });
 
 // 新发现,探索
@@ -112,9 +115,10 @@ const asyncChannel = io.of('/broadcast')
 
 // 两分钟推送一段广播新闻
 setInterval(async () => {
-    await _pushSuccess('broadcast', 'broadcast', await broadcastTask());
+    await _pushSuccess('broadcast', 'news', await broadcastTask());
     // await _pushSuccess('broadcast', 'console', await auditTask(), '推送审核');
-}, 2 * 60 * 1000);
+}, 10 * 1000);
+// }, 2 * 60 * 1000);
 
 /**
  * @desc 向订阅的频道推送消息，成功的提示

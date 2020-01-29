@@ -70,7 +70,6 @@ export const deleteOneById = async (_id: string, collection_name: string) => {
  * @desc 创建等model
  * */
 export const TheSchema = (obj: object, collection_name: string) => {
-    console.info("TheSchema-collection_name", collection_name);
     let models: any = {};
     switch (collection_name) {
         case 'audits':
@@ -125,7 +124,6 @@ export const TheSchema = (obj: object, collection_name: string) => {
  * @desc model
  * */
 export const TheModel = (collection_name: string) => {
-    console.info("Model-collection_name", collection_name);
     let models: any = {};
     switch (collection_name) {
         case 'audits':

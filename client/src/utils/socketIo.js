@@ -18,17 +18,34 @@ export const onSocket = function (eventName) {
 		
 	});
 	// 系统首次广播判断授权
-	socket.on('auth', res => {
-		if (res && res.code === 2403) {
-			this.authObj.isAuth = false;
-			console.info(this.authObj, '未授权');
-		} else if (res.code === 0) {
-			this.authObj.isAuth = true;
-			console.info(this.authObj, '授权');
-		}
-	});
+	// socket.on('auth', res => {
+	// 	if (res && res.code === 2403) {
+	// 		this.authObj.isAuth = false;
+	// 		console.info(this.authObj, '未授权');
+	// 	} else if (res.code === 0) {
+	// 		this.authObj.isAuth = true;
+	// 		console.info(this.authObj, '授权');
+	// 	}
+	// });
 	socket.on(eventName, (res) => {
+		console.info('xxxx', eventName, res);
 		switch (eventName) {
+			case 'auth':
+				if (res && res.code === 2403) {
+					this.authObj.isAuth = false;
+					console.info(this.authObj, '未授权');
+				} else if (res.code === 0) {
+					this.authObj.isAuth = true;
+					console.info(this.authObj, '授权');
+				}
+				break;
+			case 'report':
+				if (res.code === 0) {
+					alert(res.msg);
+					console.info(this);
+					this.onCloseReportModal();
+				}
+				break;
 			case 'console':
 				// 小于5条才操作
 				if (this.auditList.length < 5) {
@@ -44,6 +61,19 @@ export const onSocket = function (eventName) {
 				});
 				break;
 			case 'broadcast':
+				break;
+			case 'timeline':
+				this.timelineData.splice(0, 0, ...res.data);
+				break;
+			case 'getTimeline':
+				this.timelineData = res.data || [];
+				break;
+			case 'news':
+				this.newsData.splice(0, 0, ...res.data);
+				break;
+			case 'getNews':
+				console.info('getNew',res);
+				this.newsData = res.data || [];
 				break;
 			default:
 				console.log('无效事件接收');

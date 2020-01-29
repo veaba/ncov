@@ -14,6 +14,7 @@
 								<li v-if="authObj.isAuth">紧急</li>
 								<!--<li @click="onClickHelp">帮助</li>-->
 								<li v-if="authObj.isAuth" @click="onClickWhatButton('audit')" class="is-audit-button">审核</li>
+								<li @click="onClickWhatButton('news')">新闻</li>
 								<li @click="onClickWhatButton('timeline')">时间轴</li>
 								<li v-if="showAuthButton">
 										<a :href="authObj.oAuthUrl" target="_blank">
@@ -58,7 +59,6 @@
 		methods: {
 			onClickShowMenu() {
 				this.isShowMenu = !this.isShowMenu;
-				console.info(this.isShowMenu);
 			},
 			onClickWhatButton(button) {
 				switch (button) {
@@ -69,10 +69,13 @@
 						this.$emit('onShowModule', 'timeline');
 						break;
 					case 'audit':
-						this.$emit('onShowModule', 'audit');
+						this.$emit('onShowModule', 'audit','news');
 						break;
 					case 'help':
 						alert('todo');
+						break;
+					case 'news':
+						this.$emit('onShowModule', 'news','audit');
 						break
 				}
 			},
@@ -92,7 +95,7 @@
 				font-size: 24px;
 				padding: 30px;
 				background: #03A9F4;
-				z-index: 100;
+				z-index: 3;
 				box-shadow: 2px 9px 12px #03a9f49c;
 				
 				li {
