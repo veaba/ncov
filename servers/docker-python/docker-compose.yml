@@ -1,8 +1,7 @@
-# 跑不起来
 version: "3"
 services:
   python:
-    image: python
+    image: registry.cn-beijing.aliyuncs.com/yexiao/python-selenium
     restart: always
     #ports:
     #  - 8081:8081

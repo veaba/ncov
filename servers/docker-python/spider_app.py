@@ -78,7 +78,7 @@ def spider_cctv_web_single(page):
                 "news_url": news_url,  # 新闻地址
                 "desc": news.find_element_by_css_selector('.bre').text,  # 描述
             }
-            print('爬取的数据，准备写kafka', ob)
+            # print('爬取的数据，准备写kafka', ob)
             msg_json = ob
             # 广播新闻,热门
             if re.match(r'增加|新增|确诊|首例|死亡|首|', ob['title']):
@@ -96,7 +96,7 @@ def spider_app():
     spider_cctv_web(CCTV_WEB_URL)  # 先执行全部，再执行定时器部分
     while True:
         spider_cctv_web(CCTV_WEB_URL, pre_page=2)
-        time.sleep(2 * 60)  # 2*60
+        time.sleep(10 * 60)  # 2*60
 
 
 if __name__ == '__main__':
