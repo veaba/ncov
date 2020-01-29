@@ -29,8 +29,6 @@ def save_news():
 # query json字符串
 # 表格名称
 def update_news(query, collection_name):
-    print(type(query))
-    print(22, query)
     db = mongo_connect()
     result = db[collection_name].update_one(query, {'$set': query}, upsert=True)
 

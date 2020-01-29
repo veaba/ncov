@@ -11,27 +11,13 @@ from producer import kafka_producer
 import platform
 
 
-# from topic_kafka import delete_kafka
-#
-# chrome_driver='/opt/python/chromedriver'
-# 爬取央视网全部页面
-# 如果入参是setInterval=2，则每x 分钟爬取前两页
-def spider_cctv_web(web_url, pre_page=None):
-    options = webdriver.ChromeOptions()
-    if platform.system().lower() == 'windows':
-        options = webdriver.ChromeOptions()
-        options.add_argument("headless")  # 静默
-        driver=webdriver.Chrome(options=options)
-    else:
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(options=options, executable_path='chromedriver')
+# from topic_kafka import delete_kafka= webdriver.Chrome(options=options, executable_path='chromedriver')
     #    driver = webdriver.Chrome()
     driver.get(web_url)
     js = 'location.reload()'
     driver.execute_script(js)
 
+    print(111, time.time())
     # 首次确立count
     if not pre_page:
         page_node = driver.find_element_by_css_selector('.lmdhd')
@@ -41,11 +27,14 @@ def spider_cctv_web(web_url, pre_page=None):
         # 央妈不支持超过30page的查询
         if page_count > 30:
             page_count = 30
-            driver.quit()
+        driver.quit()
+
     else:
         page_count = pre_page
+    print('===>', page_count)
     for page in range(page_count, -1, -1):
         spider_cctv_web_single(page)
+    print(222, time.time())
 
 
 def spider_cctv_web_single(page):
@@ -83,10 +72,10 @@ def spider_cctv_web_single(page):
             # 广播新闻,热门
             if re.match(r'增加|新增|确诊|首例|死亡|首|', ob['title']):
                 kafka_producer(ob, KAFKA_HOT_TOPIC)
-                update_news(msg_json, 'broadcasts')
+                update_news(msg_json, 'test_broadcasts')
             # 一般新闻
             kafka_producer(ob, KAFKA_NEWS_TOPIC)
-            update_news(msg_json, 'news')
+            update_news(msg_json, 'test_news')
 
     driver.quit()
 
@@ -96,7 +85,7 @@ def spider_app():
     spider_cctv_web(CCTV_WEB_URL)  # 先执行全部，再执行定时器部分
     while True:
         spider_cctv_web(CCTV_WEB_URL, pre_page=2)
-        time.sleep(10 * 60)  # 2*60
+        time.sleep(3 * 60)  # 2*60
 
 
 if __name__ == '__main__':
