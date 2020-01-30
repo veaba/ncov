@@ -43,8 +43,12 @@ def delete_news():
     pass
 
 
-def get_param():
-    pass
+# 查询单条数据
+def fond_one(query, collection_name):
+    db = mongo_connect()
+    collection = db[collection_name]
+    result = collection.find_one(query)
+    return result
 
 
 def query_collection_list():
@@ -62,10 +66,14 @@ def query_list(name):
 
 
 if __name__ == '__main__':
-    x = query_list('hellos')
-    print(x)
+    pass
+    # x = query_list('hellos')
+    # print(x)
     # update_news({'name': '哈哈'}, 'hellos')
     # for item in x:
     #     # print(son.SON(item))
     #     update_news(item, 'hellos')
-    update_news({"_id": {"$oid": "5e2c249972e0bd5acd1218b0"}, "name": "\u54c8\u54c8"},'hellos')
+    # update_news({"_id": {"$oid": "5e2c249972e0bd5acd1218b0"}, "name": "\u54c8\u54c8"}, 'hellos')
+    # x=fond_one({'title': '【重庆新增17例累计确诊182例】', 'pass': True}, 'weibos')
+    # print(x)
+#
