@@ -90,7 +90,7 @@ def spider_weibo_web(page_url):
                     "newsUrl": news_url,  # 新闻地址
                     "desc": all_text
                 }
-                if not fond_one({'title': weibo_json['title'], 'newsUrl': weibo_json['newsUrl'], 'pass': True},
+                if not fond_one({'title': weibo_json['title'], 'newsUrl': weibo_json['newsUrl']},
                                 'weibos'):
                     # print('微博数据', weibo_json)
                     update_news(weibo_json, 'weibos')
