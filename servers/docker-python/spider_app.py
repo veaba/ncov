@@ -2,54 +2,13 @@
 # todo 权威媒体：央视微博、人民日报、环球网、澎湃新闻
 # todo 省市级 建委:
 import re
-import math
 import time
 from selenium import webdriver
-from config import CCTV_WEB_URL, CCTV_M_WEIBO_URL, WEIBO_USERNAME, WEIBO_PASSWORD, WEIBO_CCTV_WEB, WEIBO_SINGLE_URL
+from config import CCTV_WEB_URL, CCTV_M_WEIBO_URL
 from mongo import update_news, fond_one
 from utils import parser_weibo_time
 import threading
 import platform
-
-
-# from topic_kafka import delete_kafka
-#
-# chrome_driver='/opt/python/chromedriver'
-# 爬取央视网全部页面
-# 如果入参是setInterval=2，则每x 分钟爬取前两页
-# 先获取page而后爬取
-# def spider_cctv_web(web_url, pre_page=None):
-#     print(web_url)
-#     options = webdriver.ChromeOptions()
-#     if platform.system().lower() == 'windows':
-#         options = webdriver.ChromeOptions()
-#         options.add_argument("headless")  # 静默
-#         driver = webdriver.Chrome(options=options)
-#     else:
-#         options.add_argument('--headless')
-#         options.add_argument('--no-sandbox')
-#         options.add_argument('--disable-dev-shm-usage')
-#         driver = webdriver.Chrome(options=options, executable_path='chromedriver')
-#     driver.get(web_url)
-#     js = 'location.reload()'
-#     driver.execute_script(js)
-#     time.sleep(2)
-#     # 首次确立count
-#     if not pre_page:
-#         page_count = 0
-#         if driver.find_element_by_css_selector('.lmdhd'):
-#             page_node = driver.find_element_by_css_selector('.lmdhd')
-#             page_text = page_node.text
-#             page_count_all = re.sub(r'[^\d]', '', page_text)
-#             page_count = math.ceil(int(page_count_all) / 10)
-#             # 央妈不支持超过30page的查询
-#             if page_count > 30:
-#                 page_count = 30
-#     else:
-#         page_count = pre_page
-#     driver.quit()
-#     for page in range(page_count, -1, -1):
-#         spider_cctv_web_single(page)
 
 
 def spider_cctv_web_single(page):
@@ -84,7 +43,7 @@ def spider_cctv_web_single(page):
                 "newsUrl": news_url,  # 新闻地址
                 "desc": news.find_element_by_css_selector('.bre').text,  # 描述
             }
-            print('爬取的数据，准备写入数据库', ob)
+            # print('爬取的数据，准备写入数据库', ob)
             msg_json = ob
             # 广播新闻,热门
             if re.match(r'增加|新增|确诊|首例|死亡|首|', ob['title']):
@@ -133,7 +92,7 @@ def spider_weibo_web(page_url):
                 }
                 if not fond_one({'title': weibo_json['title'], 'newsUrl': weibo_json['newsUrl'], 'pass': True},
                                 'weibos'):
-                    print('微博数据', weibo_json)
+                    # print('微博数据', weibo_json)
                     update_news(weibo_json, 'weibos')
     driver.quit()
 
