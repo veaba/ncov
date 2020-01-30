@@ -48,7 +48,6 @@ declare namespace ReportInterface {
 
     interface apply {
         _id: string,                 // 报告id
-        ids: string[],                 // 自报告id
     }
 }
 

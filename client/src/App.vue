@@ -3,27 +3,17 @@
 				<MapModule></MapModule>
 				<ChartModule :chartButtonStatus="chartButtonStatus"></ChartModule>
 				
-<!--				<h1 style="position: absolute;-->
-<!--				color: red;-->
-<!--left: 20%;top: 200px;">{{-->
-<!--						'newsButtonStatus=>'+newsButtonStatus-->
-<!--						}}-->
-<!--						||-->
-<!--						{{'timelineButtonStatus=>'+timelineButtonStatus}}</h1>-->
-				<!--发布模块-->
-				<PostModule :reportButtonStatus="reportButtonStatus" @onShowModule="onShowModule"></PostModule>
+				<PostModule
+								:reportButtonStatus="reportButtonStatus"
+								@onShowModule="onShowModule"></PostModule>
 				
 				<TimelineModule :timelineButtonStatus="timelineButtonStatus"
 				                :newsButtonStatus="newsButtonStatus"
 				                @onShowModule="onShowModule"></TimelineModule>
-				<!--				<NewsModule :newsButtonStatus="newsButtonStatus" @onShowModule="onShowModule"></NewsModule>-->
 				
 				<DashboardModule :reportButtonStatus="reportButtonStatus" :authObj="authObj"
-				                 @onShowModule="onShowModule"
-				></DashboardModule>
-				
-				<PostModule :reportButtonStatus="reportButtonStatus" :reportData="reportData"></PostModule>
-				
+				                 @onShowModule="onShowModule"></DashboardModule>
+				<RankModule :rankButtonStatus="rankButtonStatus"></RankModule>
 				<ConsoleModule
 								@onShowModule="onShowModule"
 								:auditButtonStatus="auditButtonStatus"
@@ -40,23 +30,23 @@
 	import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
 	import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
 	import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
-	import NewsModule from "./components/modules/News.vue";                   // todo 滚动播报新闻，来源权威机构，后续需要确认机构名单
 	import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
 	import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
-	import ChartModule from "./components/modules/Chart.vue";                 // todo 地图
-	import MapModule from './components/modules/MapModule.vue'
+	import ChartModule from "./components/modules/Chart.vue";                 // todo 图表
+	import MapModule from './components/modules/MapModule.vue'                // 世界地图
+	import RankModule from './components/modules/Rank.vue'                    // 国内省份排行
 	import {formatTime} from "./utils/utils";
 	
 	export default {
 		components: {
 			BarrageModule,
+			ChartModule,
 			ConsoleModule,
 			DashboardModule,
 			MapModule,
 			MessageModule,
-			ChartModule,
-			NewsModule,
 			PostModule,
+			RankModule,
 			TimelineModule,
 		},
 		mounted() {
@@ -64,8 +54,7 @@
 			onSocket.call(this, 'broadcast');   // 获取广播出来的新闻
 			onSocket.call(this, 'console');// todo 待审核推送过来，管理员才需要这个审核
 			onSocket.call(this, 'auditStatus');//审核状态
-			// onSocket.call(this, 'report');//接受报告结果
-			// onSocket.call(this, 'report');//接受报告结果
+			onSocket.call(this, 'getAudit');//审核状态
 		},
 		data() {
 			return {
@@ -73,28 +62,11 @@
 				reportButtonStatus: false,      // 录入
 				timelineButtonStatus: false,    // timeline
 				chartButtonStatus: false,       // 图表
-				newsButtonStatus: false,
+				newsButtonStatus: false,        // 消息窗口
+				rankButtonStatus: true,         // rank
 				authObj: {
 					isAuth: false,
 					oAuthUrl: "",
-				},
-				// 发送报告
-				reportData: {
-					count: 1,
-					suspected: 0,
-					dead: 0,
-					cure: 0,
-					name: "",
-					age: 0,
-					sex: '1',
-					profession: '1',
-					country: "中国",
-					province: "",
-					city: "",
-					area: "",
-					newsUrl: "",
-					desc: "",
-					reportDate: formatTime(new Date),
 				},
 				// 推送过来审核的数据
 				auditList: []
@@ -102,7 +74,8 @@
 		},
 		methods: {
 			// 以下代码是可以再简写的
-			onShowModule(module, other) {
+			onShowModule(moduleParams = {}) {
+				const {module, other} = moduleParams;
 				switch (module) {
 					case 'report':
 						this.reportButtonStatus = !this.reportButtonStatus;
@@ -131,7 +104,15 @@
 						this.chartButtonStatus = false;
 						break;
 					case 'chart':
-						this.chartButtonStatus = !this.chartButtonStatus
+						this.chartButtonStatus = !this.chartButtonStatus;
+						break;
+					case 'dashboard':
+						this.reportButtonStatus = false;
+						this.rankButtonStatus = !other;
+						this.auditButtonStatus = !other;
+						this.timelineButtonStatus = !other;
+						this.newsButtonStatus = !other;
+						break
 				}
 			}
 		}
@@ -176,8 +157,6 @@
 				top: 0;
 				left: 0;
 				width: 400px;
-				/*height: 100%;*/
-				border: 1px solid red;
 				z-index: 1;
 		}
 		
@@ -220,7 +199,79 @@
 				border-color: #dcdee2;
 				cursor: not-allowed;
 		}
-
+		
+		/*loading*/
+		.ncov-loading {
+				height: 100%;
+				width: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9999;
+				background: rgba(0, 0, 0, 0.7);
+				transition: all 3s;
+		}
+		
+		.ncov-loading:before {
+				position: absolute;
+				content: '';
+				width: 20px;
+				height: 20px;
+				border-top: 4px solid rgba(235, 115, 80, 1);
+				border-left: 4px solid rgba(235, 115, 80, .8);
+				border-right: 4px solid rgba(235, 115, 80, .6);
+				border-bottom: 4px solid rgba(235, 115, 80, .4);
+				border-radius: 100%;
+				margin-left: -30px;
+				-webkit-animation: ncov-loading 1s linear infinite;
+				-o-animation: ncov-loading 1s linear infinite;
+				animation: ncov-loading 1s linear infinite;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+				
+		}
+		
+		.ncov-loading:after {
+				position: absolute;
+				content: 'Loading...';
+				color: rgb(235, 115, 80);
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+				margin-top: 15px;
+				padding-left: 91px;
+				font-size: 16px;
+		}
+		
+		/*旋转*/
+		@keyframes ncov-loading {
+				0% {
+						-webkit-transform: rotate(0deg);
+						-moz-transform: rotate(0deg);
+						transform: rotate(0deg);
+				}
+				100% {
+						-webkit-transform: rotate(360deg);
+						-moz-transform: rotate(360deg);
+						transform: rotate(360deg);
+				}
+		}
+		
+		@-webkit-keyframes ncov-loading {
+				0% {
+						-webkit-transform: rotate(0deg);
+						-moz-transform: rotate(0deg);
+						transform: rotate(0deg);
+				}
+				100% {
+						-webkit-transform: rotate(360deg);
+						-moz-transform: rotate(360deg);
+						transform: rotate(360deg);
+				}
+		}
 </style>
 <style lang="scss" scoped>
 		.home {

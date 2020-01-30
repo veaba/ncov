@@ -196,7 +196,8 @@
 				width: 600px;
 				height: 100px;
 				margin: 0 auto;
-				
+				background: rgba(0, 0, 0, 0.72);
+				border-radius: 10px;
 				.count {
 						color: #f44336;
 				}
@@ -232,77 +233,5 @@
 				}
 		}
 		
-		.ncov-loading {
-				height: 100%;
-				width: 100%;
-				position: fixed;
-				top: 0;
-				left: 0;
-				z-index: 9999;
-				background: rgba(0, 0, 0, 0.7);
-				transition: all 3s;
-		}
-		
-		.ncov-loading:before {
-				position: absolute;
-				content: '';
-				width: 20px;
-				height: 20px;
-				border-top: 4px solid rgba(235, 115, 80, 1);
-				border-left: 4px solid rgba(235, 115, 80, .8);
-				border-right: 4px solid rgba(235, 115, 80, .6);
-				border-bottom: 4px solid rgba(235, 115, 80, .4);
-				border-radius: 100%;
-				margin-left: -30px;
-				-webkit-animation: ncov-loading 1s linear infinite;
-				-o-animation: ncov-loading 1s linear infinite;
-				animation: ncov-loading 1s linear infinite;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				-webkit-transform: translate(-50%, -50%);
-				
-		}
-		
-		.ncov-loading:after {
-				position: absolute;
-				content: 'Loading...';
-				color: rgb(235, 115, 80);
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				-webkit-transform: translate(-50%, -50%);
-				margin-top: 15px;
-				padding-left: 91px;
-				font-size: 16px;
-		}
-		
-		/*旋转*/
-		@keyframes ncov-loading {
-				0% {
-						-webkit-transform: rotate(0deg);
-						-moz-transform: rotate(0deg);
-						transform: rotate(0deg);
-				}
-				100% {
-						-webkit-transform: rotate(360deg);
-						-moz-transform: rotate(360deg);
-						transform: rotate(360deg);
-				}
-		}
-		
-		@-webkit-keyframes ncov-loading {
-				0% {
-						-webkit-transform: rotate(0deg);
-						-moz-transform: rotate(0deg);
-						transform: rotate(0deg);
-				}
-				100% {
-						-webkit-transform: rotate(360deg);
-						-moz-transform: rotate(360deg);
-						transform: rotate(360deg);
-				}
-		}
-
 
 </style>

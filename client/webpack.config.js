@@ -7,14 +7,17 @@ const path = require('path');
 const {VueLoaderPlugin} = require('vue-loader');                // vue-loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');// css
 const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.html 到dist 目录
+const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
 module.exports = (env = {}) => ({
 	mode: env.prod ? 'production' : 'development',
 	devtool: env.prod ? false : 'source-map',
 	// devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
 	entry: path.resolve(__dirname, './src/main.js'),
+	output: {
+		publicPath: ""
+	},
 	resolve: {
 		alias: {
-			// 这在技术上是不需要的，因为bundler的默认'vue'条目
 			// is a simple `export * from '@vue/runtime-dom`. However having this
 			// extra re-export somehow causes webpack to always invalidate the module
 			// on the first HMR update and causes the page to reload.
@@ -68,6 +71,16 @@ module.exports = (env = {}) => ({
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
+		new CopyWebpackPlugin([
+			{
+				from: __dirname + '/public/echarts.js',
+				to: __dirname + '/dist/echarts.js',
+			},
+			{
+				from: __dirname + '/public/echarts.js.map',
+				to: __dirname + '/dist/echarts.js.map',
+			}
+		])
 	],
 	devServer: {
 		inline: true,

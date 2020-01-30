@@ -9,7 +9,8 @@
 						</span>
 						
 						<ul v-show="isShowMenu">
-								<li v-if="authObj.isAuth" @click="onClickWhatButton('report')">录入</li>
+								<!--todo v-if="authObj.isAuth"-->
+								<li @click="onClickWhatButton('report')">录入</li>
 								<li v-if="authObj.isAuth">爱心</li>
 								<li v-if="authObj.isAuth">紧急</li>
 								<!--<li @click="onClickHelp">帮助</li>-->
@@ -59,23 +60,28 @@
 		methods: {
 			onClickShowMenu() {
 				this.isShowMenu = !this.isShowMenu;
+				this.$emit('onShowModule', {module: 'dashboard', "other": this.isShowMenu})
 			},
 			onClickWhatButton(button) {
 				switch (button) {
 					case 'report':
-						this.$emit('onShowModule', 'report');
+						this.isShowMenu = false;
+						this.$emit('onShowModule', {module: 'report'});
 						break;
 					case 'timeline':
-						this.$emit('onShowModule', 'timeline');
+						this.isShowMenu = false;
+						this.$emit('onShowModule', {module: 'timeline'});
 						break;
 					case 'audit':
-						this.$emit('onShowModule', 'audit','news');
+						this.isShowMenu = false;
+						this.$emit('onShowModule', {module: 'audit'});
 						break;
 					case 'help':
 						alert('todo');
 						break;
 					case 'news':
-						this.$emit('onShowModule', 'news','audit');
+						this.isShowMenu = false;
+						this.$emit('onShowModule', {module: 'news'});
 						break
 				}
 			},
@@ -86,17 +92,19 @@
 <style scoped lang="scss">
 		.dashboard-module {
 				position: absolute;
-				right: 0;
-				top: 0;
+				bottom: 0;
+				left: 50%;
+				transform: translateX(-50%);
 				color: #f44336;
-				border-left: 10px solid #f44336;
-				border-bottom: 10px solid #f44336;
-				border-bottom-left-radius: 150px;
-				font-size: 24px;
+				border-top-left-radius: 150px;
+				border-top-right-radius: 150px;
+				font-size: 16px;
 				padding: 30px;
 				background: #03A9F4;
 				z-index: 3;
 				box-shadow: 2px 9px 12px #03a9f49c;
+				transition: all 0.3s ease-in;
+				opacity: 0.66;
 				
 				li {
 						width: 100%;

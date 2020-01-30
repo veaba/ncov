@@ -32,9 +32,9 @@
 								<div class="audit-btn">
 										
 										<button style="border: 1px solid #666;color:#333;margin-right: 20px;"
-										        @click="onClickCancel(item._id,item.ids)">驳回
+										        @click="onClickCancel(item._id)">驳回
 										</button>
-										<button @click="onClickApply(item._id,item.ids)">审核通过</button>
+										<button @click="onClickApply(item._id)">审核通过</button>
 								</div>
 						</ul>
 				</div>
@@ -61,12 +61,23 @@
 				}
 			}
 		},
+		watch: {
+			auditButtonStatus(val) {
+				if (val) {
+					this.getAudit()
+				}
+			}
+		},
 		data() {
 			return {}
 		},
 		mounted() {
+		
 		},
 		methods: {
+			getAudit() {
+				emitSocket('getAudit');
+			},
 			format(time) {
 				return formatTime(time)
 			},
@@ -75,11 +86,11 @@
 				emitSocket('auditDelete', {_id, ids});
 			},
 			// 应用、通过、生效
-			onClickApply(_id, ids) {
-				emitSocket('apply', {_id, ids});
+			onClickApply(_id) {
+				emitSocket('apply', {_id});
 			},
 			onClickHide() {
-				this.$emit('onShowModule', 'audit');
+				this.$emit('onShowModule', {module: "audit"});
 				// this.$emit('onClickMapHideAudit', false)
 			}
 		}

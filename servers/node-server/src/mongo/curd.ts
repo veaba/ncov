@@ -14,14 +14,17 @@ import {
     UsersSchema, WeibosSchema, AuditSchema
 } from "./model";
 import {_dbSuccess} from "../utils/exception";
+import {isEmptyObject} from "../utils/check";
 
 /**
- * @desc 拉取广播数据
+ * @desc 拉取广播数据，或者拉取限条数
+ * @param collection
+ * @param limit
+ * @param match 匹配的查询字段
  * */
-export const taskChannelList = async (collection: string, limit?: number) => {
-    const $match: any = {};//匹配的查询字段
+export const taskChannelList = async (collection: string, limit?: number, match?: object) => {
     const list = await TheModel(collection).aggregate([
-        {$match: $match},
+        {$match: match || {}},
         {$sort: {_id: -1}},
         {$limit: limit || 20},
     ]);
@@ -40,12 +43,35 @@ export const updateOne = async (obj: object, newObj: object, collection_name: st
 };
 
 /**
+ * @desc 更新多条数据
+ * @param obj
+ * @param newObj
+ * @param collection_name
+ * */
+export const updateMany = async (obj: object, newObj: object, collection_name: string) => {
+    return await TheModel(collection_name).updateMany(obj, {
+        $set: {
+            ...newObj
+        }
+    }) || {}
+};
+
+/**
  * @desc 插入单个数据
  * @param obj
  * @param collection_name 表名称
  * */
 export const insertOne = async (obj: object, collection_name: string) => {
     return await TheSchema(obj, collection_name).save() || {}
+};
+
+/**
+ * @desc 同时插入多条数据
+ * @param arr
+ * @param collection_name
+ * */
+export const insertMany = async (arr: any[], collection_name: string) => {
+    return await TheModel(collection_name).insertMany(arr) || {}
 };
 
 export const findCount = async (obj: object, collection_name: string) => {
@@ -68,6 +94,16 @@ export const deleteOneById = async (_id: string, collection_name: string) => {
     }
     throw new Error('非法_id==>:' + _id)
 };
+/**
+ * @desc 删除多个
+ * */
+export const deleteMany = async (query: object, collection_name: string) => {
+    if (!isEmptyObject(query)) {
+        return await TheModel(collection_name).findOneAndRemove(query)
+    }
+    throw new Error('非法参数==>:' + query)
+};
+
 
 /**
  * @desc 创建等model

@@ -7,11 +7,9 @@
 import {getKeysDB, insertOne, isHasOne, updateOne} from "../mongo/curd";
 import {_authUser, _sid_obj} from "../utils/utils";
 import {getTime} from 'date-fns'
-import {ReportInterface} from "../interface/interface";
-import {isNumber, isObject, isString} from "../utils/check";
-import {_pushSuccess, _pushError} from "../app";
-import {delKey, getHash} from "../redis/redis";
-import {applyAudit, deleteAudit} from "./audit";
+import {isObject} from "../utils/check";
+import {delKey} from "../redis/redis";
+import {applyAudit, deleteAudit, getAudit} from "./audit";
 import {report} from "./report";
 import {getTimeline} from "./timeline";
 import {getNews} from "./news";
@@ -44,7 +42,6 @@ export const onSocket = async (socket: any, eventName: string) => {
     const {name} = nsp || {};   // 频道
     const {sid} = _sid_obj(id);
     const channel = (name || '').replace('/', '', '');
-    let logType = '';
     socket.on(eventName, async (data: any) => {
         switch (eventName) {
             // channel->report，发起报告审核,管理直接通过
@@ -58,6 +55,9 @@ export const onSocket = async (socket: any, eventName: string) => {
             case 'auditDelete':
                 await deleteAudit(socket, sid, data, channel, eventName);
                 break;
+            case 'getAudit':
+                await getAudit(socket, sid, data, channel, eventName);
+                break;
             case 'getTimeline':
                 await getTimeline(socket, sid, data, channel, eventName);
                 break;
@@ -65,10 +65,10 @@ export const onSocket = async (socket: any, eventName: string) => {
                 await getNews(socket, sid, data, channel, eventName);
                 break;
             case 'getTotal':
-                await getTotal(socket,data,channel,eventName);
+                await getTotal(socket, data, channel, eventName);
                 break;
             case 'getWorldMap':
-                await getWorldMap(socket,data,channel,eventName);
+                await getWorldMap(socket, data, channel, eventName);
                 break;
             default:
                 throw new Error('未能识别Channel类型');

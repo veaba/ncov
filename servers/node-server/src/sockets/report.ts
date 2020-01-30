@@ -5,7 +5,7 @@ import {getHash} from "../redis/redis";
 import {_pushError, _pushSuccess} from "../app";
 import {logSocket} from "./socket";
 import {getTime} from 'date-fns'
-import {insertOne, updateOne} from "../mongo/curd";
+import {insertMany, insertOne, updateOne} from "../mongo/curd";
 
 /**
  * @desc report socket
@@ -22,55 +22,61 @@ export const report = async (socket: any, sid: string, data: any, channel: strin
     await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
     const reqData: ReportInterface.insert = data;
     let logType = '';
-    if (!isObject(reqData)) {
-        logType = 'paramsError';
-    } else {
+    if (isObject(reqData)) {
         // 先确认必填项,校验时间类型
         if (reqData.country && reqData.province && reqData.reportDate && isString(reqData.reportDate) && reqData.newsUrl && (reqData.count || reqData.cure || reqData.dead || reqData.suspected)) {
             logType = 'success';
             let redisObj: any = await getHash(sid);
             const passObj: any = {};
+            redisObj = {};
             if (!redisObj) {
                 return
             } else {
                 // 补充信息
                 reqData.githubName = redisObj.name;
-                // 普通用户
-                if (redisObj.isAdmin === false) {
-                    console.info('==>普通用户');
-                    passObj.pass = false;
-                }
-                if (redisObj.isAdmin === true) {
-                    //管理员，默认是通过审核的
-                    passObj.pass = true;
-                    console.info('===>管理员');
-                }
 
                 // 尝试转换时间格式
                 if (isString(reqData.reportDate)) {
                     reqData.reportDate = getTime(new Date(reqData.reportDate))
                 }
-                // 拆开count、dead、cure 治愈，循环插入，并未用户增加贡献值
+
+                // 插入audits 数据库
+                let auditData: any = await insertOne({
+                    ...data,
+                    sid,
+                    count: reqData.count || 0,
+                    cure: reqData.dead || 0,
+                    suspected: reqData.cure || 0,
+                    dead: reqData.suspected || 0
+                }, 'audits');
+
+
+                // 拆开count、dead、cure 治愈
                 await insertForReport(reqData.count, {
                     ...reqData,
                     sid,
+                    auditId: auditData._id,
                     isConfirm: true, ...passObj
                 }, sid, 'reports', redisObj.name);
                 await insertForReport(reqData.dead, {
                     ...reqData,
                     sid,
+                    auditId: auditData._id,
                     isDead: true, ...passObj
                 }, sid, 'reports', redisObj.name);
                 await insertForReport(reqData.cure, {
                     ...reqData,
                     sid,
+                    auditId: auditData._id,
                     isCure: true, ...passObj
                 }, sid, 'reports', redisObj.name);
                 await insertForReport(reqData.suspected, {
                     ...reqData,
                     sid,
+                    auditId: auditData._id,
                     isSuspected: true, ...passObj
                 }, sid, 'reports', redisObj.name);
+                await _pushSuccess('broadcast', 'console', data, '下发审核数据'); // 推送到前端console
                 await logSocket(socket, data, channel, eventName, logType);
                 return await _pushSuccess(channel, eventName, [], '已收录，谢谢你的贡献，管理员审核通过后将采用', 0,)
             }
@@ -89,27 +95,14 @@ const insertForReport = async (num: number = 0, data: any, sid: string, collecti
     if (!num) {
         return
     }
-
-    const ids: any[] = [];
-    for (let i = 0; i <= num; i++) {
-        await updateOne({name: username}, {$inc: {reportTimes: 1}}, 'users');//贡献值+1
-        const {_id} = await insertOne({...data, sid}, collection_name);
-        ids.push(_id)
-    }
     // 将这份报告连同拆开的子ids 存储到另外一份表中，一边捆绑起来推送
-    let auditData = [];
-    if (data.isConfirm) {
-        auditData = await insertOne({...data, sid, ids, count: num}, 'audits');
+    let insertArray = [];
+    for (let i = 0; i <= num; i++) {
+        insertArray.push({
+            ...data,
+            sid,
+        })
     }
-    if (data.isCure) {
-        auditData = await insertOne({...data, sid, ids, cure: num}, 'audits');
-    }
-    if (data.isDead) {
-        auditData = await insertOne({...data, sid, ids, dead: num}, 'audits');
-    }
-    if (data.isSuspected) {
-        auditData = await insertOne({...data, sid, ids, suspected: num}, 'audits');
-    }
-    // 这里的问题是潜在的问题，多管理员的时候会同时推送过去，手慢无
-    await _pushSuccess('broadcast', 'console', auditData, '推送审核'); // 推送到前端console
+    await insertMany(insertArray, 'reports');
+
 };

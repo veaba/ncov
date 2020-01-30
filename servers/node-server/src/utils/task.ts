@@ -80,6 +80,7 @@ export const worldMapTask = async (dateStr?: string) => {
     } else {
         queryDate = getTime(new Date(format(new Date(), 'yyyy-MM-dd')))
     }
+    // todo bug
     let passList = await getKeysAll({pass: true, reportDate: queryDate}, [
         'isConfirm', 'isCure', 'isSuspected', 'isDead',
         'country', 'province', 'city', 'area', 'reportDate'], 'reports');
@@ -114,16 +115,11 @@ export const worldMapTask = async (dateStr?: string) => {
             country: allObj[city].country,
             province: allObj[city].province,
             city: city,
-            // area: allObj[city].area,
-            // count: allObj[city].count || 0,
-            // cure: allObj[city].cure || 0,
-            // dead: allObj[city].dead || 0,
-            // suspected: allObj[city].suspected || 0,
-
-            count: (allObj[city].count || 0)+Math.floor(Math.random()*10000),
-            cure: (allObj[city].cure || 0)+Math.floor(Math.random()*10000),
-            dead: (allObj[city].dead || 0)+Math.floor(Math.random()*10000),
-            suspected: (allObj[city].suspected || 0)+Math.floor(Math.random()*10000),
+            area: allObj[city].area,
+            count: allObj[city].count || 0,
+            cure: allObj[city].cure || 0,
+            dead: allObj[city].dead || 0,
+            suspected: allObj[city].suspected || 0,
         })
     }
     return resList

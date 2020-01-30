@@ -3,8 +3,7 @@
  * @time 2020年1月25日20:38:36
  * @author veaba
  * */
-
-
+import {updateMany} from "./mongo/curd";
 
 const express = require('express');
 const app = express();
@@ -23,8 +22,8 @@ import {router} from './routers/router'
 
 import {format} from 'date-fns'
 // 2020-01-27T12:38:42.043Z => 2020年1月27日20:39:01
-const x = format(new Date('2020-01-27T12:38:42.043Z'), 'yyyy-MM-dd HH:mm:ss');
-console.info('时间==>', x);
+// const x = format(new Date('2020-01-27T12:38:42.043Z'), 'yyyy-MM-dd HH:mm:ss');
+// console.info('时间==>', x);
 app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
@@ -34,9 +33,9 @@ app.get('/', (req: any, res: any) => {
 const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {
         await connectSocket(socket);
-        // await _pushSuccess('/broadcast', 'auth', '未授权访问', 2403)
         await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
         await onSocket(socket, 'apply');        // 审核通过 report
+        await onSocket(socket, 'getAudit');        // 审核通过 report
         await onSocket(socket, 'auditDelete');  // 删除audit+report
         await onSocket(socket, 'getTimeline');  // 获取时间轴
         await onSocket(socket, 'getNews');      // 获取新闻
@@ -45,55 +44,33 @@ const broadcastChannel: any = io.of('/broadcast')
 
     });
 
-// 新发现,探索
-const exploreChannel: any = io.of('/explore')
-    .on('connection', async (socket: any) => {
-        console.info('探索频道用户上线');
-        socket.emit('explore', '也许是个好消息');
-        await connectSocket(socket)
-    });
 
-// 新闻
-const newsChannel: any = io.of('/news')
-    .on('connection', async (socket: any) => {
-        console.info('新闻频道用户上线');
-        socket.emit('news', 'news message');
-        await connectSocket(socket)
-    });
-
-// 紧急
-const criticalChannel: any = io.of('/critical')
-    .on('connection', async (socket: any) => {
-        console.info('紧急频道用户上线');
-        socket.emit('critical', 'critical  紧急消息频道');
-        await connectSocket(socket)
-    });
-
-// 陨落，太阳陨落，送别花船，希望不会有这个出现
-const fallChannel: any = io.of('/fall')
-    .on('connection', async (socket: any) => {
-        console.info('陨落频道用户上线');
-        socket.emit('fall', '巨星陨落 频道');
-        await connectSocket(socket)
-    });
-
-// 治愈、绽放、Blooming，一朵鲜花重新绽放
-const cureChannel: any = io.of('/cure')
-    .on('connection', async (socket: any) => {
-        console.info('治愈频道用户上线');
-        await connectSocket(socket)
-        // todo
-    });
+// // 紧急
+// const criticalChannel: any = io.of('/critical')
+//     .on('connection', async (socket: any) => {
+//         console.info('紧急频道用户上线');
+//         socket.emit('critical', 'critical  紧急消息频道');
+//         await connectSocket(socket)
+//     });
+//
+// // 陨落，太阳陨落，送别花船，希望不会有这个出现
+// const fallChannel: any = io.of('/fall')
+//     .on('connection', async (socket: any) => {
+//         console.info('陨落频道用户上线');
+//         socket.emit('fall', '巨星陨落 频道');
+//         await connectSocket(socket)
+//     });
+//
+// // 治愈、绽放、Blooming，一朵鲜花重新绽放
+// const cureChannel: any = io.of('/cure')
+//     .on('connection', async (socket: any) => {
+//         console.info('治愈频道用户上线');
+//         await connectSocket(socket)
+//         // todo
+//     });
 
 // 报告频道，确保数据可信,会写入到数据库，
 // todo 一有报告就实时推送到前端
-const reportChannel: any = io.of('/report')
-    .on('connection', async (socket: any) => {
-        console.info('nCoV报告频道，乐观讲，不一定是坏消息');
-        await connectSocket(socket); // 记录连接
-        await onSocket(socket, 'report'); // report 检查权限+检查消息+记录日志，成功或者失败
-    });
-
 
 /**
  *  eventName={
@@ -109,14 +86,9 @@ const reportChannel: any = io.of('/report')
  * @desc 异步地图涂推送图标数据
 
  }*/
-const asyncChannel = io.of('/broadcast')
-    .on('connection', async (socket: any) => {
-
-    });
 
 // 每30s推送一次人数统计数据
 setInterval(async () => {
-    // await _pushSuccess('/asyncChannel', 'worldMap', '世界地图数据');
     await _pushSuccess('broadcast', 'total', await totalTask(), '推送统计数据');
 }, 30 * 1000);
 
@@ -131,6 +103,12 @@ setInterval(async () => {
 setInterval(async () => {
     await _pushSuccess('broadcast', 'worldMap', await worldMapTask(), getTime(new Date()));
 }, 60 * 1000);
+
+// setInterval(async () => {
+//     console.info('批量更新！');
+//     await updateMany({'city': "三亚"}, {pass: true}, "reports")
+// }, 10000);
+
 /**
  * @desc 向订阅的频道推送消息，成功的提示
  * */

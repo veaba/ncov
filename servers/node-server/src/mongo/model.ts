@@ -169,6 +169,7 @@ const reportSchema = new Schema({
     isCure: Boolean,            // 是否治愈
     isSuspected: Boolean,       // 是否是疑似
 
+    auditId: String,             // 绑定的审核id
     status: {                   // 表示危急
         type: String,
         match: /^(mid|high)/    // mid=>中危/重，high=>危重
@@ -248,7 +249,6 @@ const auditSchema = new Schema({
     isDead: Boolean,            // 是否陨落
     isCure: Boolean,            // 是否治愈
     isSuspected: Boolean,       // 是否是疑似
-    ids: Array,                 // 被拆分出来的id
     status: {                   // 表示危急
         type: String,
         match: /^(mid|high)/    // mid=>中危/重，high=>危重

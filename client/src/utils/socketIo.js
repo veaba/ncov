@@ -41,9 +41,9 @@ export const onSocket = function (eventName) {
 			case 'report':
 				if (res.code === 0) {
 					alert(res.msg);
-					console.info(this);
 					this.onCloseReportModal();
 				}
+				this.isCommitting = false;
 				break;
 			case 'console':
 				// 小于5条才操作
@@ -53,11 +53,16 @@ export const onSocket = function (eventName) {
 				break;
 			// 审核通过或者已被审核，前端得到标记位
 			case 'auditStatus':
+				console.info('被审核过的@@@',res);
 				this.auditList.map((item, index) => {
 					if (item._id === res.data._id) {
 						this.auditList.splice(index, 1);//关闭
 					}
 				});
+				break;
+			case 'getAudit':
+				console.info('主动获取审核数据');
+				this.auditList = res.data || [];
 				break;
 			case 'broadcast':
 				break;
@@ -71,7 +76,6 @@ export const onSocket = function (eventName) {
 				this.newsData.splice(0, 0, ...res.data);
 				break;
 			case 'getNews':
-				console.info('getNew', res);
 				this.newsData = res.data || [];
 				break;
 			case 'total':

@@ -30,14 +30,14 @@
 				
 				<div class="row left-right">
 						<div>
-								<!--本意上这个词应该改为陨落~-->
-								<span class="must-be">死亡：</span>
-								<input class="number-input" v-model="reportData.dead" type="number" placeholder="死亡数" min="0"
+								<span class="must-be">治愈：</span>
+								<input class="number-input" v-model="reportData.cure" type="number" placeholder="治愈数" min="0"
 								       max="9999">
 						</div>
 						<div>
-								<span class="must-be">治愈：</span>
-								<input class="number-input" v-model="reportData.cure" type="number" placeholder="治愈数" min="0"
+								<!--本意上这个词应该改为陨落~-->
+								<span class="must-be">死亡：</span>
+								<input class="number-input" v-model="reportData.dead" type="number" placeholder="死亡数" min="0"
 								       max="9999">
 						</div>
 				</div>
@@ -131,38 +131,22 @@
 				</div>
 				<div class="row align-right">
 						<button @click="onCloseReportModal">关闭</button>
-						<button @click="onSubmitReport" class="primary" :disabled="!isConfirm">提交报告</button>
+						<button @click="onSubmitReport" class="primary" :disabled="!isConfirm||isCommitting">提交报告</button>
 				</div>
+				
+				<div v-show="isCommitting" class="ncov-loading post-loading"></div>
 		</div>
 </template>
 
 <script>
-	import {emitSocket,onSocket} from "../../utils/socketIo";
+	import {emitSocket, onSocket} from "../../utils/socketIo";
+	import {formatTime} from '../../utils/utils'
+	import {getTime} from 'date-fns'
 	
 	export default {
 		props: {
 			reportButtonStatus: {
 				type: Boolean,
-			},
-			reportData: {
-				type: Object,
-				default() {
-					return {
-						count: 0,
-						suspected: 0,
-						dead: 0,
-						cure: 0,
-						name: "",
-						age: 0,
-						country: "",
-						province: "",
-						area: "",
-						city: "",
-						newsUrl: "",
-						desc: "",
-						reportDate: ""
-					};
-				}
 			}
 		},
 		computed: {
@@ -172,47 +156,64 @@
 				return dataCount > 1;
 			}
 		},
-		setup() {
+		data() {
 			return {
 				isConfirm: false,
+				isCommitting: false,
+				// todo
+				reportData:{
+					count: Math.floor(Math.random() * 100),
+					suspected: Math.floor(Math.random() * 100),
+					dead: Math.floor(Math.random() * 100),
+					cure: Math.floor(Math.random() * 100),
+					name: "",
+					age: 1,
+					sex: '1',
+					profession: '1',
+					country: "中国",
+					province: "海南",
+					city: "三亚",
+					area: "",
+					newsUrl: "https://www.echartsjs.com/examples/zh/index.html",
+					desc: "一则案例报告测试@DSADD",
+					reportDate: formatTime(new Date),
+				}
 			};
 		},
-		mounted(){
+		mounted() {
 			onSocket.call(this, 'report');//接受报告结果
 		},
 		methods: {
 			// todo 增加关闭动画
 			onCloseReportModal() {
-				this.reportData.count = 0;
+				this.reportData.count = 1;
 				this.reportData.suspected = 0;
 				this.reportData.dead = 0;
 				this.reportData.cure = 0;
 				this.reportData.name = '';
 				this.reportData.sex = '1';
 				this.reportData.profession = '1';
-				this.reportData.age = 0;
-				this.reportData.country = '';
+				this.reportData.age = 1;
+				this.reportData.country = '中国';
 				this.reportData.province = '';
 				this.reportData.city = '';
 				this.reportData.area = '';
-				this.reportData.newsUrl = "0";
-				this.reportData.desc = "0";
-				this.reportData.reportDate = '';
+				this.reportData.newsUrl = "";
+				this.reportData.desc = "";
+				this.reportData.reportDate = formatTime(new Date);
 				this.isConfirm = false;
-				this.$emit('onShowModule', 'report');
+				this.$emit('onShowModule', {module: 'report'});
 			},
 			// 提交报告
 			onSubmitReport() {
 				// 检查参数
-				
-				console.info(666, this.reportData);
 				if (!this.reportData.count && !this.reportData.suspected && !this.reportData.dead && !this.reportData.cure) {
 					alert('数据栏，至少填写一项');
 					return false;
 				}
 				
 				// 检查追踪-地址
-				if (!this.reportData.country && this.reportData.province&&this.reportData.city) {
+				if (!this.reportData.country && this.reportData.province && this.reportData.city) {
 					alert('国家、省、市必填');
 					return false;
 				}
@@ -225,26 +226,35 @@
 				if (!this.reportData.reportDate) {
 					alert('请输入2019新型肺炎案例发生的时间');
 					return false;
+				} else {
+					if (getTime(this.reportData.reportDate) > (new Date().getTime())) {
+						alert('案例发生的时间不能超过当前时间');
+						return false;
+					}
 				}
+				
 				// 检查描述
 				if (!this.reportData.desc) {
 					alert('请输入描述内容');
 					return false;
 				}
 				// 检查box
-				if(!this.isConfirm){
+				if (!this.isConfirm) {
 					alert('请勾选确认选项');
 					return false;
 				}
-				
+				this.isCommitting = true;
 				emitSocket('report', this.reportData);
-			
 			}
 		}
 	};
 </script>
 
 <style lang="scss" scoped>
+		.post-loading {
+				position: absolute;
+		}
+		
 		.post-modules {
 				top: 1px;
 				right: -500px;

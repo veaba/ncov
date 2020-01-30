@@ -110,10 +110,10 @@
 			},
 			onCloseTimeline() {
 				if (this.timelineButtonStatus) {
-					this.$emit('onShowModule', 'timeline');
+					this.$emit('onShowModule', {module: "timeline"});
 				}
 				if (this.newsButtonStatus) {
-					this.$emit('onShowModule', 'news');
+					this.$emit('onShowModule', {module: "news"});
 				}
 				
 			},
@@ -140,7 +140,7 @@
 				transition: all 0.3s ease-in;
 				opacity: 0.66;
 				padding: 0 40px 0 20px;
-				
+				z-index: 2;
 				
 				h2 {
 						text-align: center;
