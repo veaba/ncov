@@ -5,15 +5,18 @@
  * */
 
 
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
+import {getTime} from 'date-fns'
+
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 // 请求体解析
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-import {auditTask, broadcastTask} from "./utils/task";
+import {auditTask, broadcastTask, totalTask, worldMapTask} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
 import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
@@ -35,8 +38,10 @@ const broadcastChannel: any = io.of('/broadcast')
         await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
         await onSocket(socket, 'apply');        // 审核通过 report
         await onSocket(socket, 'auditDelete');  // 删除audit+report
-        await onSocket(socket, 'getTimeline');   // 获取时间轴
-        await onSocket(socket, 'getNews')   // 获取时间轴
+        await onSocket(socket, 'getTimeline');  // 获取时间轴
+        await onSocket(socket, 'getNews');      // 获取新闻
+        await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
+        await onSocket(socket, 'getTotal')      // 获取世界地图统计数据
 
     });
 
@@ -109,21 +114,27 @@ const asyncChannel = io.of('/broadcast')
 
     });
 
-// setInterval(async () => {
-//     // await _pushSuccess('/asyncChannel', 'worldMap', '世界地图数据');
-// }, 10 * 1000);
+// 每30s推送一次人数统计数据
+setInterval(async () => {
+    // await _pushSuccess('/asyncChannel', 'worldMap', '世界地图数据');
+    await _pushSuccess('broadcast', 'total', await totalTask(), '推送统计数据');
+}, 30 * 1000);
 
 // 两分钟推送一段广播新闻
 setInterval(async () => {
     await _pushSuccess('broadcast', 'news', await broadcastTask());
     // await _pushSuccess('broadcast', 'console', await auditTask(), '推送审核');
-}, 10 * 1000);
-// }, 2 * 60 * 1000);
+// }, 10 * 1000);
+}, 2 * 60 * 1000);
 
+// 推送世界地图
+setInterval(async () => {
+    await _pushSuccess('broadcast', 'worldMap', await worldMapTask(), getTime(new Date()));
+}, 60 * 1000);
 /**
  * @desc 向订阅的频道推送消息，成功的提示
  * */
-const _pushSuccess = async (channel: string, eventName: string, data: any, msg?: string, code?: number,) => {
+const _pushSuccess = async (channel: string, eventName: string, data: any, msg?: string | number, code?: number,) => {
     if (!channel.includes('/')) {
         channel = '/' + channel
     }
@@ -132,7 +143,7 @@ const _pushSuccess = async (channel: string, eventName: string, data: any, msg?:
 /**
  * @desc 向订阅的频道报告错误的消息
  * */
-const _pushError = async (channel: string, eventName: string, data: any, msg?: string, code?: number) => {
+const _pushError = async (channel: string, eventName: string, data: any, msg?: string | number, code?: number) => {
     //todo记录错误日志
     return io.of(channel).emit(eventName, {code: 1, data, msg: msg || 'error'})
 };

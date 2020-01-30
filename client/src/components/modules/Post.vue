@@ -90,7 +90,7 @@
 				</div>
 				<div class="row left-right clear">
 						<div>
-								<span>城市：</span>
+								<span class="must-be">城市：</span>
 								<input name="city" type="text" v-model="reportData.city" placeholder="城市" maxlength="100">
 						</div>
 						<div style="float: right;">
@@ -212,8 +212,8 @@
 				}
 				
 				// 检查追踪-地址
-				if (!this.reportData.country && this.reportData.province) {
-					alert('国家和省市必填');
+				if (!this.reportData.country && this.reportData.province&&this.reportData.city) {
+					alert('国家、省、市必填');
 					return false;
 				}
 				// 检查追踪-新闻地址

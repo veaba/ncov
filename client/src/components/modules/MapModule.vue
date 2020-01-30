@@ -4,7 +4,7 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>2019新型肺炎疫情地图(2019-nCoV)情况</h3>
+						<h3>2019新型肺炎疫情地图(2019-nCoV)情况{{asyncTime?' , 实时地图同步时间【'+formatTime(asyncTime)+'】':""}}</h3>
 						<!---数据滚动-->
 						<div class="scroll-total">
 								<div class="total count">
@@ -30,11 +30,15 @@
 						</div>
 				</div>
 				<div id="map"></div>
+				
+				<div v-show="goLoading" class="ncov-loading"></div>
 		</div>
 </template>
 
 <script>
 	import {drawMap, realtimeDrawMap} from '../../utils/draw';
+	import {emitSocket, onSocket} from "../../utils/socketIo";
+	import {formatTime} from "../../utils/utils";
 	
 	export default {
 		name: "MapModule",
@@ -53,7 +57,10 @@
 					cure: 0,
 					dead: 0,
 					suspected: 0
-				}
+				},
+				worldMapData: [],
+				asyncTime: 0,
+				goLoading: false
 			}
 		},
 		watch: {
@@ -113,27 +120,53 @@
 					}
 				},
 				deep: true
-			}
+			},
+			worldMapData: {
+				handler(val) {
+					drawMap(val, 2);
+				},
+				deep: true
+			},
 		},
 		mounted() {
-			// todo 定时拉取需要审核的数据
-			drawMap();
+			drawMap(this.worldMapData);
 			window.onresize = function () {
-				drawMap();
+				drawMap(this.worldMapData);
 			};
-			// 模拟
-			// setInterval(() => {
-			// 	this.totalObj.count += Math.fround(Math.random() * 100) || 1;
-			// 	this.totalObj.cure += Math.fround(Math.random() * 100) || 1;
-			// 	this.totalObj.dead += Math.fround(Math.random() * 100) || 1;
-			// 	this.totalObj.suspected += Math.fround(Math.random() * 100) || 1;
-			// 	console.info(this.totalObj);
-			// }, 5000)
+			onSocket.call(this, 'total', this.totalObj); // 手动滚动的数据
+			onSocket.call(this, 'worldMap', this.worldMapData); // 手动滚动的数据
+			this.getWorldMap();
+			this.getTotal()
+		},
+		methods: {
+			// 向socket发起取世界地图数据请求
+			getWorldMap() {
+				emitSocket('getWorldMap', {date: '2020-01-30'});
+			},
+			// 向socket发起取地图统计请求
+			getTotal() {
+				emitSocket('getTotal',);
+			},
+			formatTime(timeStamp) {
+				return formatTime(timeStamp, 'yyyy-MM-dd HH:mm:ss')
+			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+		.map-loading {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, 50%);
+				width: 30px;
+				height: 30px;
+				border: 1px solid red;
+				background: rgba(2, 16, 25, 0.3);
+				z-index: 99;
+		}
+		
 		.map-header {
 				position: absolute;
 				width: 100%;
@@ -191,9 +224,6 @@
 								line-height: 60px;
 						}
 						
-						/*&+.total{*/
-						/*		border-left: 1px solid #999999;*/
-						/*}*/
 						span {
 								display: block;
 								font-size: 14px;
@@ -201,5 +231,78 @@
 						}
 				}
 		}
+		
+		.ncov-loading {
+				height: 100%;
+				width: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9999;
+				background: rgba(0, 0, 0, 0.7);
+				transition: all 3s;
+		}
+		
+		.ncov-loading:before {
+				position: absolute;
+				content: '';
+				width: 20px;
+				height: 20px;
+				border-top: 4px solid rgba(235, 115, 80, 1);
+				border-left: 4px solid rgba(235, 115, 80, .8);
+				border-right: 4px solid rgba(235, 115, 80, .6);
+				border-bottom: 4px solid rgba(235, 115, 80, .4);
+				border-radius: 100%;
+				margin-left: -30px;
+				-webkit-animation: ncov-loading 1s linear infinite;
+				-o-animation: ncov-loading 1s linear infinite;
+				animation: ncov-loading 1s linear infinite;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+				
+		}
+		
+		.ncov-loading:after {
+				position: absolute;
+				content: 'Loading...';
+				color: rgb(235, 115, 80);
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+				margin-top: 15px;
+				padding-left: 91px;
+				font-size: 16px;
+		}
+		
+		/*旋转*/
+		@keyframes ncov-loading {
+				0% {
+						-webkit-transform: rotate(0deg);
+						-moz-transform: rotate(0deg);
+						transform: rotate(0deg);
+				}
+				100% {
+						-webkit-transform: rotate(360deg);
+						-moz-transform: rotate(360deg);
+						transform: rotate(360deg);
+				}
+		}
+		
+		@-webkit-keyframes ncov-loading {
+				0% {
+						-webkit-transform: rotate(0deg);
+						-moz-transform: rotate(0deg);
+						transform: rotate(0deg);
+				}
+				100% {
+						-webkit-transform: rotate(360deg);
+						-moz-transform: rotate(360deg);
+						transform: rotate(360deg);
+				}
+		}
+
 
 </style>

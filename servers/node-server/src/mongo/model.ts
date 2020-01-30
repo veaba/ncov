@@ -224,7 +224,7 @@ const auditSchema = new Schema({
     age: Number,                // 年龄
     country: String,            // *国家
     province: String,           // *省级市
-    city: String,               // 城市
+    city: String,               // *城市
     area: String,               // 区/县等第三级单位
     // 信息来源
     newsUrl: String,            // *新闻地址

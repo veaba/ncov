@@ -15,6 +15,7 @@ import {applyAudit, deleteAudit} from "./audit";
 import {report} from "./report";
 import {getTimeline} from "./timeline";
 import {getNews} from "./news";
+import {getTotal, getWorldMap} from "./worldMap";
 
 /**
  * @desc 记录socket连接数，新连接插入，断开更新
@@ -62,6 +63,12 @@ export const onSocket = async (socket: any, eventName: string) => {
                 break;
             case 'getNews':
                 await getNews(socket, sid, data, channel, eventName);
+                break;
+            case 'getTotal':
+                await getTotal(socket,data,channel,eventName);
+                break;
+            case 'getWorldMap':
+                await getWorldMap(socket,data,channel,eventName);
                 break;
             default:
                 throw new Error('未能识别Channel类型');

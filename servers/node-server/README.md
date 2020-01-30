@@ -27,12 +27,12 @@ const ReportSchema ={
     name: String,             // 名字，可能为空
     sex:Number,               // 性别,1男 -1女
     age:Number,               // 年龄
-    country: String,          // 国家
-    province: String,         // 省级市
-    city: String,             // 城市
+    country: String,          // *国家
+    province: String,         // *省级市
+    city: String,             // *城市
     
     // 信息来源
-    news_url:String,          // 新闻地址
+    news_url:String,          // *新闻地址
     report:String,            // 报告机构
     desc:String,              // 描述
 

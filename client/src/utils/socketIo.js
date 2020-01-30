@@ -28,7 +28,6 @@ export const onSocket = function (eventName) {
 	// 	}
 	// });
 	socket.on(eventName, (res) => {
-		console.info('xxxx', eventName, res);
 		switch (eventName) {
 			case 'auth':
 				if (res && res.code === 2403) {
@@ -72,8 +71,21 @@ export const onSocket = function (eventName) {
 				this.newsData.splice(0, 0, ...res.data);
 				break;
 			case 'getNews':
-				console.info('getNew',res);
+				console.info('getNew', res);
 				this.newsData = res.data || [];
+				break;
+			case 'total':
+				// 统计地图中间滚动
+				this.totalObj = res.data || {};
+				break;
+			// 后端主动推送
+			case 'worldMap':
+				this.goLoading = true;
+				this.worldMapData = res.data || {};
+				this.asyncTime = res.msg || 0;
+				setTimeout(() => {
+					this.goLoading = false;
+				}, 300);
 				break;
 			default:
 				console.log('无效事件接收');

@@ -48,6 +48,9 @@ export const insertOne = async (obj: object, collection_name: string) => {
     return await TheSchema(obj, collection_name).save() || {}
 };
 
+export const findCount = async (obj: object, collection_name: string) => {
+    return await TheModel(collection_name).where(obj).countDocuments()
+};
 /**
  * @desc 判断是否是mongoDB的id格式
  * @param _id
@@ -199,4 +202,17 @@ export const getKeysDB = async (obj: object, keys: string[], collection_name: st
     let selectedObj: any = {};
     keys.map(item => selectedObj[item] = 1);
     return JSON.parse(JSON.stringify(await TheModel(collection_name).findOne(obj, selectedObj) || {}))
+};
+
+/**
+ * @desc 查询多条，根据入参对象，获取多个key值的返回结果，默认keys为空也全部，有keys 一定会有_id
+ * @param obj
+ * @param keys ['a','b']
+ * @param collection_name
+ * @return {key,..} => {_id:2333}
+ * */
+export const getKeysAll = async (obj: object, keys: string[], collection_name: string) => {
+    let selectedObj: any = {};
+    keys.map(item => selectedObj[item] = 1);
+    return await TheModel(collection_name).find(obj, selectedObj) || {}
 };
