@@ -1,5 +1,5 @@
 <template>
-		<div :class="'right-layout rank-module ' +(rankButtonStatus?'active':'')">
+		<div :class="'right-layout rank-module ' +(chinaRankButtonStatus?'active':'')">
 				<div id="rank" style="width: 100%;height: 100%;"></div>
 		</div>
 </template>
@@ -9,49 +9,49 @@
 	import {gradientColor} from '../../utils/utils'
 	
 	export default {
-		name: "Rank",
+		name: "ChinaRank",
 		props: {
-			rankButtonStatus: {
+			chinaRankButtonStatus: {
 				type: Boolean
 			}
 		},
 		data() {
 			return {
-				rankData: [],
-				// rankColors:
+				chinaRankData: [],
 			}
 		},
 		watch: {
-			rankData() {
-				this.goRank();
+			chinaRankData() {
+				this.getChinaRank();
 			}
 		},
 		computed: {
 			rankColors() {
-				return gradientColor('#ffa730', '#f44336', (this.rankData || []).length || 0) || []
+				return gradientColor('#f44336', '#ffa730', (this.chinaRankData || []).length || 0) || []
 			},
-			rankDataSet() {
+			chinaRankDataSet() {
 				let dateSet = [];
-				for (let item of this.rankData) {
-					dateSet.push([item.country, item.count, item.province])
+				for (let item of this.chinaRankData) {
+					dateSet.push([item.country, item.confirm, item.province])
 				}
 				return dateSet
 			},
 			rankOptions() {
 				const w = this;
 				return {
-					title: [{
-						text: '国内确诊人数Rank',
-						left: 'center',
-						textStyle: {
-							color: '#fff'
-						}
-					},
+					title: [
+						{
+							text: '国内确诊人数RANK',
+							left: 'center',
+							textStyle: {
+								color: '#fff'
+							}
+						},
 					],
 					dataset: {
 						source: [
-							['score', 'count', 'province'],
-							...this.rankDataSet
+							['score', 'confirm', 'province'],
+							...this.chinaRankDataSet
 						],
 					},
 					grid: {containLabel: true},
@@ -66,23 +66,26 @@
 							}
 						}
 					},
-					yAxis: [{
-						type: 'category',
-						axisLabel: {
-							inside: false,
-							textStyle: {
-								color: '#fff',
-								fontWeight: 'normal',
-								fontSize: '12',
+					yAxis: [
+						{
+							type: 'category',
+							inverse: true,
+							axisLabel: {
+								textStyle: {
+									color: '#fff',
+									fontWeight: 'normal',
+									fontSize: '12',
+								},
+							},
+							axisLine: {
+								show: false
 							},
 						},
-						axisLine: {
-							show: false
-						},
-					},
 						{
+							type: 'category',
+							inverse: true,
 							show: true,
-							data: this.rankDataSet.map(item => {
+							data: this.chinaRankDataSet.map(item => {
 								return item[1]
 							}),
 							axisLabel: {
@@ -108,10 +111,10 @@
 						{
 							type: 'bar',
 							encode: {
-								x: 'count',
+								x: 'confirm',
 								y: 'province'
 							},
-							barWidth: 30,
+							barGap: '10px',// 柱子间距
 							itemStyle: {
 								normal: {
 									color: function (params) {
@@ -127,16 +130,16 @@
 		},
 		mounted() {
 			this.getRank();
-			this.goRank();
-			onSocket.call(this, 'rank'); // 手动滚动的数据
+			this.getChinaRank();
+			onSocket.call(this, 'getChinaRank'); // 手动滚动的数据
 		},
 		methods: {
-			goRank() {
+			getChinaRank() {
 				const rankChart = echarts.init(document.querySelector("#rank"));
 				rankChart.setOption(this.rankOptions)
 			},
 			getRank() {
-				emitSocket('getRank');
+				emitSocket('getChinaRank');
 			}
 		}
 	}

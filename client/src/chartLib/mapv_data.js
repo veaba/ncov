@@ -2,6 +2,7 @@
  * @name mapV 使用的数据集
  * @author veaba
  * @date 2020/1/20 0020
+ * @todo 这样式太丑了，下个迭代优化下
  ***********************/
 import {geo} from "./map_geo";
 
@@ -25,7 +26,7 @@ function getCoorDinates(cityName, mapv) {
 export const textData = (mapv, worldData = []) => {
 	return worldData.map(item => {
 		const cityName = item.city;
-		const count = item.count || 0;
+		const count = item.confirm || 0;
 		// 先手动库找到，如果找不到，再去内置库找，真的没有，丢空数组
 		// 这里会产生一个默认的坐标，地图上会看一个错误的坐标点
 		let coordinates = getCoorDinates(cityName, mapv);
@@ -34,7 +35,7 @@ export const textData = (mapv, worldData = []) => {
 				type: 'Point',
 				coordinates
 			},
-			text: `${cityName}【${count}例】`
+			text: `${cityName}`
 		};
 	});
 };
@@ -46,7 +47,7 @@ export const textData = (mapv, worldData = []) => {
 export const heatMapData = (worldData = []) => {
 	return worldData.map(item => {
 		const cityName = item.city;
-		const count = item.count;
+		const count = item.confirm;
 		let coordinates = getCoorDinates(cityName, mapv);
 		return {
 			geometry: {
@@ -66,7 +67,7 @@ export const movePointData = function (mapv, worldData = []) {
 	let data = [];
 	worldData.map(item => {
 		const cityName = item.city;
-		const count = item.count || 0;
+		const count = item.confirm || 0;
 		const fromCenter = {lng: geo['湖北'][0], lat: geo['湖北'][1]};
 		const [lng, lat] = getCoorDinates(cityName, mapv);
 		let toCenter = {lng, lat};
@@ -92,7 +93,7 @@ export const movePointData = function (mapv, worldData = []) {
 export const moveLineData = function (mapv, worldData = []) {
 	return worldData.map(item => {
 		const cityName = item.city;
-		const count = item.count;
+		const count = item.confirm;
 		const fromCenter = {lng: geo['武汉'][0], lat: geo['武汉'][1]};
 		const [lng, lat] = getCoorDinates(cityName, mapv);
 		const toCenter = {lng, lat};

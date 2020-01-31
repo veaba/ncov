@@ -1,6 +1,7 @@
 <template>
 		<div class="left-layout chart-module">
-				<div class="total-pie" id="totalPie"></div>
+				<div class="total-pie" id="totalPie">
+				</div>
 		</div>
 </template>
 
@@ -30,30 +31,30 @@
 			totalObj(val) {
 				let theData = [];
 				for (let key in val) {
-					if (key === 'treat') {
+					if (key === 'chinaConfirm') {
 						theData.push({
 							value: val[key] || 0,
-							name: "治疗/" + val[key]
+							name: "确诊/" + val[key]
 						})
 					}
-					if (key === 'cure') {
+					if (key === 'chinaHeal') {
 						theData.push({
 							value: val[key] || 0,
 							name: "治愈/" + val[key]
 						})
 					}
-					if (key === 'dead') {
+					if (key === 'chinaDead') {
 						theData.push({
 							value: val[key] || 0,
 							name: "死亡/" + val[key]
 						})
 					}
-					if (key === 'suspected') {
-						theData.push({
-							value: val[key] || 0,
-							name: "疑似/" + val[key]
-						})
-					}
+					// if (key === 'chinaSuspect') {
+					// 	theData.push({
+					// 		value: val[key] || 0,
+					// 		name: "疑似/" + val[key]
+					// 	})
+					// }
 				}
 				this.pieTotalData = theData;
 				this.goTotalPie()
@@ -64,8 +65,8 @@
 				return {
 					color: nCovColorsMap,
 					title: {
-						text: '疫情占比情况 / 官方收集数据',
-						subtext: '治疗=(确诊-死亡-治愈)',
+						text: '国内疫情占比情况 / 官方收集数据',
+						// subtext: '治疗=(确诊-死亡-治愈)',
 						left: 'center',
 						top: "10px",
 						textStyle: {

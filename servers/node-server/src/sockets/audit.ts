@@ -4,7 +4,6 @@ import {_pushError, _pushSuccess} from "../app";
 import {
     deleteMany,
     deleteOneById,
-    getKeysAll,
     getKeysDB,
     isHasOne,
     taskChannelList,
@@ -13,7 +12,6 @@ import {
 } from "../mongo/curd";
 import {getHash} from "../redis/redis";
 import {_saveTimeline} from "./timeline";
-import {getTotal, getWorldMap} from "./worldMap";
 
 /**
  * @desc 审核部分
@@ -41,10 +39,6 @@ export const applyAudit = async (socket: any, sid: any, data: any, channel: stri
         const reportData: any = await getKeysDB({_id: applyReq._id, pass: true}, [], 'audits');
         await _saveTimeline(socket, sid, reportData, channel, eventName);// 存入timeline
         // todo 地图获取相应的模块更新数据
-        // 更新total
-        await getTotal(socket, data, channel, eventName);
-        // 更新worldMap
-        await getWorldMap(socket, data, channel, eventName);
         return await _pushSuccess(channel, 'auditStatus', {_id: applyReq._id}, '审核成功')
     } else {
         // 已被审核过了，

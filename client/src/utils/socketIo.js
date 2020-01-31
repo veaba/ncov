@@ -1,11 +1,7 @@
-// export const socket = require('socket.io-client')('', {
-// 	reconnectionAttempts: 10 //自动重连
-// });
 import {ioServer} from "../config";
 import {sid_obj} from "./utils";
 
 const socket = require('socket.io-client')(ioServer + '/broadcast', {reconnectionAttempts: 10});
-
 export const onSocket = function (eventName) {
 	socket.on('connect', () => {
 		const {id} = socket;
@@ -17,16 +13,6 @@ export const onSocket = function (eventName) {
 		}
 		
 	});
-	// 系统首次广播判断授权
-	// socket.on('auth', res => {
-	// 	if (res && res.code === 2403) {
-	// 		this.authObj.isAuth = false;
-	// 		console.info(this.authObj, '未授权');
-	// 	} else if (res.code === 0) {
-	// 		this.authObj.isAuth = true;
-	// 		console.info(this.authObj, '授权');
-	// 	}
-	// });
 	socket.on(eventName, (res) => {
 		switch (eventName) {
 			case 'auth':
@@ -38,52 +24,11 @@ export const onSocket = function (eventName) {
 					console.info(this.authObj, '授权');
 				}
 				break;
-			case 'report':
-				if (res.code === 0) {
-					alert(res.msg);
-					this.onCloseReportModal();
-				}
-				this.isCommitting = false;
-				break;
-			case 'console':
-				// 小于5条才操作
-				if (this.auditList.length < 5) {
-					this.auditList.splice(0, 0, res.data);
-				}
-				break;
-			// 审核通过或者已被审核，前端得到标记位
-			case 'auditStatus':
-				console.info('被审核过的@@@', res);
-				this.auditList.map((item, index) => {
-					if (item._id === res.data._id) {
-						this.auditList.splice(index, 1);//关闭
-					}
-				});
-				break;
-			case 'getAudit':
-				console.info('主动获取审核数据');
-				this.auditList = res.data || [];
-				break;
-			case 'broadcast':
-				break;
-			case 'timeline':
-				this.timelineData.splice(0, 0, ...res.data);
-				break;
-			case 'getTimeline':
-				this.timelineData = res.data || [];
-				break;
-			case 'news':
-				this.newsData.splice(0, 0, ...res.data);
-				break;
-			case 'getNews':
-				this.newsData = res.data || [];
-				break;
-			case 'total':
-				// 统计地图中间滚动
+			case 'getTotal':
+				console.info("getTotal==>", res.data);
 				this.totalObj = res.data || {};
 				break;
-			// 后端主动推送
-			case 'worldMap':
+			case 'getWorldMap':
 				this.goLoading = true;
 				this.worldMapData = res.data || [];
 				this.asyncTime = res.msg || 0;
@@ -91,9 +36,15 @@ export const onSocket = function (eventName) {
 					this.goLoading = false;
 				}, 100);
 				break;
-			case 'rank':
-				console.info('rank==>', res.data);
-				this.rankData = res.data || [];
+			case 'getChinaRank':
+				this.chinaRankData = res.data || [];
+				break;
+			case 'getWorldRank':
+				this.worldRankData = res.data || [];
+				break;
+			case 'getChinaDay':
+				// todo
+				console.info('getChinaDay==>', res.data);
 				break;
 			default:
 				console.log('无效事件接收');

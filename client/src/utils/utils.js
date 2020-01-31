@@ -12,12 +12,21 @@ export const sid_obj = (str_sid) => {
 	};
 };
 
+/**
+ * @desc 判断字符串类型
+ * @param str
+ * @return {boolean}
+ * */
+const isString = (str) => {
+	return Object.prototype.toString.call(str) === '[object String]';
+};
 
 /**
  * @desc 时间转换格式
  * */
 export const formatTime = (time, str) => {
 	if (!time) return '';
+	if (isString(time)) return time;
 	return format(time, str || 'yyyy-MM-dd');
 };
 

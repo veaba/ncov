@@ -1,5 +1,5 @@
 ## todo 
-
+## 数据来源。腾讯新闻
 ## 爬虫
 - [x] 央视新闻官网
 - 央视新闻微博 todo 
@@ -73,3 +73,66 @@ const ReportSchema ={
 
 ## todo  redis 续命
 
+## 腾讯新闻数据来源格式
+
+### 中国数据结构
+```json
+{
+  "name": "中国",
+  "children": [
+    {
+      "name": "湖北",
+      "children": [
+        {
+          "name": "武汉"
+        }
+    
+      ],
+      "total": {
+        "confirm": 1,
+        "suspect": 0,
+        "dead": 0,
+        "heal": 0
+      },
+        "today": {
+        "confirm": 0,
+        "suspect": 0,
+        "dead": 0,
+        "heal": 0
+      }
+    }
+
+  ],
+  "total": {
+    "confirm": 1,
+    "suspect": 0,
+    "dead": 0,
+    "heal": 0
+  },
+    "today": {
+    "confirm": 0,
+    "suspect": 0,
+    "dead": 0,
+    "heal": 0
+  }
+}
+```
+### 外国数据结构
+
+```json
+{
+  "name": "瑞典",
+  "total": {
+    "confirm": 1,
+    "suspect": 0,
+    "dead": 0,
+    "heal": 0,
+  },
+    "today": {
+    "confirm": 0,
+    "suspect": 0,
+    "dead": 0,
+    "heal": 0,
+  }
+}
+```

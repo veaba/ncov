@@ -4,28 +4,30 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+formatTime(asyncTime)+'】':""}}</h3>
+						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}</h3>
 						<!---数据滚动-->
 						<div class="scroll-total">
-								<div class="total count">
+								<div class="total confirm">
 										<strong>
-												{{scrollObj.count}}
+												{{scrollObj.chinaConfirm}}/<span>(世界：{{scrollObj.worldConfirm}})</span>
 										</strong>
-										<span>确诊</span>
+										<span class="block">确诊</span>
 								</div>
-								<div class="total cure">
+								<div class="total heal">
 										<strong>
-												{{scrollObj.cure}}
+												{{scrollObj.chinaHeal}}/<span>(世界：{{scrollObj.worldHeal}})</span>
 										</strong>
-										<span>治愈</span>
+										<span class="block">治愈</span>
 								</div>
 								<div class="total dead">
-										<strong>{{scrollObj.dead}}</strong>
-										<span>死亡</span>
+										<strong>{{scrollObj.chinaDead}}/<span>(世界：{{scrollObj.worldDead}})</span>
+										</strong>
+										<span class="block">死亡</span>
 								</div>
-								<div class="total suspected">
-										<strong>{{scrollObj.suspected}}</strong>
-										<span>疑似</span>
+								<div class="total suspect">
+										<strong>{{scrollObj.chinaSuspect}}/<span>(世界：{{scrollObj.worldSuspect}})</span>
+										</strong>
+										<span class="block">疑似</span>
 								</div>
 						</div>
 				</div>
@@ -47,10 +49,15 @@
 				type: Object,
 				default() {
 					return {
-						count: 0,
-						cure: 0,
-						dead: 0,
-						suspected: 0
+						chinaConfirm: 0,
+						chinaHeal: 0,
+						chinaDead: 0,
+						chinaSuspect: 0,
+						lastUpdateTime: "",
+						worldConfirm: 0,
+						worldHeal: 0,
+						worldDead: 0,
+						worldSuspect: 0,
 					}
 				}
 			},
@@ -59,11 +66,16 @@
 			return {
 				updateDataTime: "截止1月24日 9时",
 				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao",
+				
 				scrollObj: {
-					count: 0,
-					cure: 0,
-					dead: 0,
-					suspected: 0
+					chinaConfirm: 0,
+					chinaHeal: 0,
+					chinaDead: 0,
+					chinaSuspect: 0,
+					worldConfirm: 0,
+					worldHeal: 0,
+					worldDead: 0,
+					worldSuspect: 0,
 				},
 				
 				worldMapData: [],
@@ -75,69 +87,75 @@
 			// 实现数字滚动消息
 			totalObj: {
 				handler(val) {
-					let intervalCount = null;
+					let intervalConfirm = null;
 					let intervalCure = null;
 					let intervalDead = null;
 					let intervalSuspected = null;
-					clearInterval(intervalCount);
-					if (this.scrollObj.count && val.count && (this.scrollObj.count < this.totalObj.count)) {
-						clearInterval(intervalCount);
-						intervalCount = setInterval(() => {
-							this.scrollObj.count++;
-							if (this.scrollObj.count >= this.totalObj.count) {
-								clearInterval(intervalCount)
+					clearInterval(intervalConfirm);
+					if (this.scrollObj.chinaConfirm && val.chinaConfirm && (this.scrollObj.chinaConfirm < this.totalObj.chinaConfirm)) {
+						clearInterval(intervalConfirm);
+						intervalConfirm = setInterval(() => {
+							this.scrollObj.chinaConfirm++;
+							if (this.scrollObj.chinaConfirm >= this.totalObj.chinaConfirm) {
+								clearInterval(intervalConfirm)
 							}
 						}, 16)
 					} else {
-						if (!this.scrollObj.count) {
-							this.scrollObj.count = val.count
+						if (!this.scrollObj.chinaConfirm) {
+							this.scrollObj.chinaConfirm = val.chinaConfirm
 						}
-						clearInterval(intervalCount)
+						clearInterval(intervalConfirm)
 					}
-					if (this.scrollObj.cure && val.cure && (this.scrollObj.cure < this.totalObj.cure)) {
+					if (this.scrollObj.chinaHeal && val.chinaHeal && (this.scrollObj.chinaHeal < this.totalObj.chinaHeal)) {
 						clearInterval(intervalCure);
 						intervalCure = setInterval(() => {
-							this.scrollObj.cure++;
-							if (this.scrollObj.cure >= this.totalObj.cure) {
+							this.scrollObj.chinaHeal++;
+							if (this.scrollObj.chinaHeal >= this.totalObj.chinaHeal) {
 								clearInterval(intervalCure)
 							}
 						}, 16)
 					} else {
-						if (!this.scrollObj.cure) {
-							this.scrollObj.cure = val.cure
+						if (!this.scrollObj.chinaHeal) {
+							this.scrollObj.chinaHeal = val.chinaHeal
 						}
 						clearInterval(intervalCure)
 					}
 					
-					if (this.scrollObj.dead && val.dead && (this.scrollObj.dead < this.totalObj.dead)) {
+					if (this.scrollObj.chinaDead && val.chinaDead && (this.scrollObj.chinaDead < this.totalObj.chinaDead)) {
 						clearInterval(intervalDead);
 						intervalDead = setInterval(() => {
-							this.scrollObj.dead++;
-							if (this.scrollObj.dead >= this.totalObj.dead) {
+							this.scrollObj.chinaDead++;
+							if (this.scrollObj.chinaDead >= this.totalObj.chinaDead) {
 								clearInterval(intervalDead)
 							}
 						}, 16)
 					} else {
-						if (!this.scrollObj.dead) {
-							this.scrollObj.dead = val.dead
+						if (!this.scrollObj.chinaDead) {
+							this.scrollObj.chinaDead = val.chinaDead
 						}
 						clearInterval(intervalDead)
 					}
 					
-					if (this.scrollObj.suspected && val.suspected && (this.scrollObj.suspected < this.totalObj.suspected)) {
+					if (this.scrollObj.chinaSuspect && val.chinaSuspect && (this.scrollObj.chinaSuspect < this.totalObj.chinaSuspect)) {
 						clearInterval(intervalSuspected);
 						intervalSuspected = setInterval(() => {
-							this.scrollObj.suspected++;
-							if (this.scrollObj.suspected >= this.totalObj.suspected) {
+							this.scrollObj.chinaSuspect++;
+							if (this.scrollObj.chinaSuspect >= this.totalObj.chinaSuspect) {
 								clearInterval(intervalSuspected)
 							}
 						}, 16)
 					} else {
-						if (!this.scrollObj.suspected) {
-							this.scrollObj.suspected = val.suspected
+						if (!this.scrollObj.chinaSuspect) {
+							this.scrollObj.chinaSuspect = val.chinaSuspect
 						}
 						clearInterval(intervalSuspected)
 					}
+					
+					this.scrollObj.worldConfirm = this.totalObj.worldConfirm;
+					this.scrollObj.worldHeal = this.totalObj.worldHeal;
+					this.scrollObj.worldDead = this.totalObj.worldDead;
+					this.scrollObj.worldSuspect = this.totalObj.worldSuspect;
+					this.scrollObj.lastUpdateTime = this.totalObj.lastUpdateTime
 				},
 				deep: true
 			},
@@ -153,7 +171,7 @@
 			window.onresize = function () {
 				drawMap(this.worldMapData);
 			};
-			onSocket.call(this, 'worldMap'); // 手动滚动的数据
+			onSocket.call(this, 'getWorldMap'); // 手动滚动的数据
 			this.getWorldMap();
 			this.getTotal()
 		},
@@ -213,17 +231,16 @@
 		}
 		
 		.scroll-total {
-				width: 600px;
-				height: 100px;
+				display: flex;
+				justify-content: center;
 				margin: 0 auto;
-				background: rgba(0, 0, 0, 0.72);
 				border-radius: 10px;
 				
-				.count {
+				.confirm {
 						color: #f44336;
 				}
 				
-				.cure {
+				.heal {
 						color: #4caf50;
 				}
 				
@@ -237,17 +254,27 @@
 				
 				.total {
 						float: left;
-						width: 150px;
+						margin-right: 10px;
 						height: 100%;
 						text-align: center;
 						font-size: 36px;
+						background: rgba(2, 16, 25, 0.7);
+						padding: 10px;
+						border-radius: 10px;
 						
 						strong {
 								line-height: 70px;
+								
+								span {
+										font-size: 14px;
+								}
 						}
 						
-						span {
+						.block {
 								display: block;
+						}
+						
+						> span {
 								font-size: 14px;
 								color: #f7f7f7;
 						}

@@ -24,10 +24,10 @@ export const zoomMap = ["中国"];
  * @desc 疫情颜色
  * */
 export const nCovColorsMap = [
+	"#f44336",  // 确诊
 	"#4caf50",  // 治愈
 	"#9c27b0",  // 死亡
 	"#ffa730",  // 疑似
-	"#f44336",  // 确诊
 ];
 
 /**

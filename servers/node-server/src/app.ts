@@ -3,19 +3,15 @@
  * @time 2020年1月25日20:38:36
  * @author veaba
  * */
-import {updateMany} from "./mongo/curd";
-
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
-import {getTime} from 'date-fns'
-
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 // 请求体解析
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-import {auditTask, broadcastTask, rankTask, totalTask, worldMapTask} from "./utils/task";
+import {auditTask, broadcastTask, rankTask, tencent, totalTask, worldMapTask} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
 import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
@@ -33,15 +29,17 @@ app.get('/', (req: any, res: any) => {
 const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {
         await connectSocket(socket);
-        await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
-        await onSocket(socket, 'apply');        // 审核通过 report
-        await onSocket(socket, 'getAudit');     // 审核通过 report
-        await onSocket(socket, 'auditDelete');  // 删除audit+report
-        await onSocket(socket, 'getTimeline');  // 获取时间轴
-        await onSocket(socket, 'getNews');      // 获取新闻
-        await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
+        // await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
+        // await onSocket(socket, 'apply');        // 审核通过 report
+        // await onSocket(socket, 'getAudit');     // 审核通过 report
+        // await onSocket(socket, 'auditDelete');  // 删除audit+report
+        // await onSocket(socket, 'getTimeline');  // 获取时间轴
+        // await onSocket(socket, 'getNews');      // 获取新闻
         await onSocket(socket, 'getTotal');     // 获取世界地图统计数据
-        await onSocket(socket, 'getRank');      // 获取rank排行数据
+        await onSocket(socket, 'getChinaDay');  // 获取中国折线图
+        await onSocket(socket, 'getChinaRank'); // 获取中国Rank排行数据
+        await onSocket(socket, 'getWorldRank'); // 获取世界Rank排行数据
+        await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
     });
 
 
@@ -66,11 +64,7 @@ const broadcastChannel: any = io.of('/broadcast')
 //     .on('connection', async (socket: any) => {
 //         console.info('治愈频道用户上线');
 //         await connectSocket(socket)
-//         // todo
 //     });
-
-// 报告频道，确保数据可信,会写入到数据库，
-// todo 一有报告就实时推送到前端
 
 /**
  *  eventName={
@@ -87,28 +81,10 @@ const broadcastChannel: any = io.of('/broadcast')
 
  }*/
 
-// 每30s推送一次人数统计数据
+// 推送感染数据
 setInterval(async () => {
-    await _pushSuccess('broadcast', 'total', await totalTask(), '推送统计数据');
-}, 30 * 1000);
-
-// 两分钟推送一段广播新闻
-setInterval(async () => {
-    await _pushSuccess('broadcast', 'news', await broadcastTask());
-    // await _pushSuccess('broadcast', 'console', await auditTask(), '推送审核');
-// }, 10 * 1000);
-}, 2 * 60 * 1000);
-
-// 推送世界地图
-setInterval(async () => {
-    await _pushSuccess('broadcast', 'worldMap', await worldMapTask(), getTime(new Date()));
-    await _pushSuccess('broadcast', 'rank', await rankTask(), getTime(new Date()));
+    await tencent()
 }, 60 * 1000);
-
-// setInterval(async () => {
-//     console.info('批量更新！');
-//     await updateMany({'city': "三亚"}, {pass: true}, "reports")
-// }, 10000);
 
 /**
  * @desc 向订阅的频道推送消息，成功的提示

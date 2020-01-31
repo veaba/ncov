@@ -5,22 +5,23 @@
 				<!--				<BarrageModule></BarrageModule>-->
 				<ChartModule :totalObj="totalObj" :chartButtonStatus="chartButtonStatus"></ChartModule>
 				
-				<PostModule
-								:reportButtonStatus="reportButtonStatus"
-								@onShowModule="onShowModule"></PostModule>
+				<!--				<PostModule-->
+				<!--								:reportButtonStatus="reportButtonStatus"-->
+				<!--								@onShowModule="onShowModule"></PostModule>-->
 				
-				<TimelineModule :timelineButtonStatus="timelineButtonStatus"
-				                :newsButtonStatus="newsButtonStatus"
-				                @onShowModule="onShowModule"></TimelineModule>
+				<!--				<TimelineModule :timelineButtonStatus="timelineButtonStatus"-->
+				<!--				                :newsButtonStatus="newsButtonStatus"-->
+				<!--				                @onShowModule="onShowModule"></TimelineModule>-->
 				
-				<DashboardModule :reportButtonStatus="reportButtonStatus" :authObj="authObj"
-				                 @onShowModule="onShowModule"></DashboardModule>
-				<RankModule :rankButtonStatus="rankButtonStatus"></RankModule>
-				<ConsoleModule
-								@onShowModule="onShowModule"
-								:auditButtonStatus="auditButtonStatus"
-								:auditList="auditList"
-				></ConsoleModule>
+				<!--				<DashboardModule :reportButtonStatus="reportButtonStatus" :authObj="authObj"-->
+				<!--				                 @onShowModule="onShowModule"></DashboardModule>-->
+				<WorldRankModule :worldRankButtonStatus="worldRankButtonStatus"></WorldRankModule>
+				<ChinaRankModule :chinaRankButtonStatus="chinaRankButtonStatus"></ChinaRankModule>
+				<!--				<ConsoleModule-->
+				<!--								@onShowModule="onShowModule"-->
+				<!--								:auditButtonStatus="auditButtonStatus"-->
+				<!--								:auditList="auditList"-->
+				<!--				></ConsoleModule>-->
 		</div>
 </template>
 
@@ -28,36 +29,40 @@
 	
 	import {onMounted} from 'vue';
 	import {onSocket, emitSocket} from './utils/socketIo';
-	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
-	import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
-	import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
-	import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
-	import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
-	import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
+	// import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
+	// import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
+	// import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
+	// import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
+	// import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
+	// import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
 	import ChartModule from "./components/modules/Chart.vue";                 // todo 图表
 	import MapModule from './components/modules/MapModule.vue'                // 世界地图
-	import RankModule from './components/modules/Rank.vue'                    // 国内省份排行
+	import ChinaRankModule from './components/modules/ChinaRank.vue'          // 国内省份排行
+	import WorldRankModule from './components/modules/WorldRank.vue'          // 世界排行
 	import {formatTime} from "./utils/utils";
+	
+	7;
 	
 	export default {
 		components: {
-			BarrageModule,
+			// BarrageModule,
 			ChartModule,
-			ConsoleModule,
-			DashboardModule,
+			// ConsoleModule,
+			// DashboardModule,
 			MapModule,
-			MessageModule,
-			PostModule,
-			RankModule,
-			TimelineModule,
+			// PostModule,
+			ChinaRankModule,
+			WorldRankModule,
+			// TimelineModule,
 		},
 		mounted() {
 			onSocket.call(this, 'auth');   // 获取广播出来的新闻
-			onSocket.call(this, 'broadcast');   // 获取广播出来的新闻
-			onSocket.call(this, 'console');// todo 待审核推送过来，管理员才需要这个审核
-			onSocket.call(this, 'auditStatus');//审核状态
-			onSocket.call(this, 'getAudit');//审核状态
-			onSocket.call(this, 'total'); // 手动滚动的数据
+			onSocket.call(this, 'getTotal'); // 手动滚动的数据
+			
+			setTimeout(() => {
+				this.chinaRankButtonStatus = true;
+				this.worldRankButtonStatus = true
+			}, 2000)
 		},
 		data() {
 			return {
@@ -66,14 +71,25 @@
 				timelineButtonStatus: false,    // timeline
 				chartButtonStatus: false,       // 图表
 				newsButtonStatus: false,        // 消息窗口
-				rankButtonStatus: true,         // rank
+				chinaRankButtonStatus: false,   // rank
+				worldRankButtonStatus: false,   //
 				authObj: {
 					isAuth: false,
 					oAuthUrl: "",
 				},
 				// 推送过来审核的数据
 				auditList: [],
-				totalObj: {},
+				totalObj: {
+					chinaConfirm: 0,
+					chinaHeal: 0,
+					chinaDead: 0,
+					chinaSuspect: 0,
+					lastUpdateTime: "",
+					worldConfirm: 0,
+					worldHeal: 0,
+					worldDead: 0,
+					worldSuspect: 0,
+				},
 			}
 		},
 		methods: {
@@ -109,6 +125,9 @@
 						break;
 					case 'chart':
 						this.chartButtonStatus = !this.chartButtonStatus;
+						break;
+					case 'worldRank':
+						this.worldRankButtonStatus = !this.worldRankButtonStatus;
 						break;
 					case 'dashboard':
 						this.reportButtonStatus = false;

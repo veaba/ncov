@@ -7,15 +7,14 @@
 						<span class="button-span" @click.native="onClickShowMenu">仪表盘
 							<span v-show="isShowMenu">x</span>
 						</span>
-						
 						<ul v-show="isShowMenu">
 								<!--todo v-if="authObj.isAuth"-->
 								<li @click="onClickWhatButton('report')">录入</li>
 								<li v-if="authObj.isAuth">爱心</li>
-								<li v-if="authObj.isAuth">紧急</li>
+								<!--								<li v-if="authObj.isAuth">紧急</li>-->
 								<!--<li @click="onClickHelp">帮助</li>-->
-								<li v-if="authObj.isAuth" @click="onClickWhatButton('audit')" class="is-audit-button">审核</li>
-								<li @click="onClickWhatButton('news')">新闻</li>
+								<!--								<li v-if="authObj.isAuth" @click="onClickWhatButton('audit')" class="is-audit-button">审核</li>-->
+								<!--								<li @click="onClickWhatButton('news')">新闻</li>-->
 								<li @click="onClickWhatButton('timeline')">时间轴</li>
 								<li v-if="showAuthButton">
 										<a :href="authObj.oAuthUrl" target="_blank">
