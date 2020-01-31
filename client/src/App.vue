@@ -1,7 +1,9 @@
 <template>
 		<div class="home">
-				<MapModule></MapModule>
-				<ChartModule :chartButtonStatus="chartButtonStatus"></ChartModule>
+				<MapModule :totalObj="totalObj"></MapModule>
+				<!--todo 弹幕-->
+				<!--				<BarrageModule></BarrageModule>-->
+				<ChartModule :totalObj="totalObj" :chartButtonStatus="chartButtonStatus"></ChartModule>
 				
 				<PostModule
 								:reportButtonStatus="reportButtonStatus"
@@ -55,6 +57,7 @@
 			onSocket.call(this, 'console');// todo 待审核推送过来，管理员才需要这个审核
 			onSocket.call(this, 'auditStatus');//审核状态
 			onSocket.call(this, 'getAudit');//审核状态
+			onSocket.call(this, 'total'); // 手动滚动的数据
 		},
 		data() {
 			return {
@@ -69,7 +72,8 @@
 					oAuthUrl: "",
 				},
 				// 推送过来审核的数据
-				auditList: []
+				auditList: [],
+				totalObj: {},
 			}
 		},
 		methods: {
@@ -108,10 +112,6 @@
 						break;
 					case 'dashboard':
 						this.reportButtonStatus = false;
-						this.rankButtonStatus = !other;
-						this.auditButtonStatus = !other;
-						this.timelineButtonStatus = !other;
-						this.newsButtonStatus = !other;
 						break
 				}
 			}
@@ -177,6 +177,10 @@
 				display: block;
 				content: "";
 				clear: both;
+		}
+		
+		input[type="button"], input[type="submit"], input[type="reset"] {
+				-webkit-appearance: none;
 		}
 		
 		button {

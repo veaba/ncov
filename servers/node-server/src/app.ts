@@ -15,7 +15,7 @@ const bodyParser = require('body-parser');
 // 请求体解析
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-import {auditTask, broadcastTask, totalTask, worldMapTask} from "./utils/task";
+import {auditTask, broadcastTask, rankTask, totalTask, worldMapTask} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
 import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
@@ -35,13 +35,13 @@ const broadcastChannel: any = io.of('/broadcast')
         await connectSocket(socket);
         await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
         await onSocket(socket, 'apply');        // 审核通过 report
-        await onSocket(socket, 'getAudit');        // 审核通过 report
+        await onSocket(socket, 'getAudit');     // 审核通过 report
         await onSocket(socket, 'auditDelete');  // 删除audit+report
         await onSocket(socket, 'getTimeline');  // 获取时间轴
         await onSocket(socket, 'getNews');      // 获取新闻
         await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
-        await onSocket(socket, 'getTotal')      // 获取世界地图统计数据
-
+        await onSocket(socket, 'getTotal');     // 获取世界地图统计数据
+        await onSocket(socket, 'getRank');      // 获取rank排行数据
     });
 
 
@@ -102,6 +102,7 @@ setInterval(async () => {
 // 推送世界地图
 setInterval(async () => {
     await _pushSuccess('broadcast', 'worldMap', await worldMapTask(), getTime(new Date()));
+    await _pushSuccess('broadcast', 'rank', await rankTask(), getTime(new Date()));
 }, 60 * 1000);
 
 // setInterval(async () => {

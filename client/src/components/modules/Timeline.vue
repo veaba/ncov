@@ -136,22 +136,20 @@
 				top: 1px;
 				width: 400px;
 				height: calc(100% - 10px);
-				background: rgba(0, 0, 0, .6);
+				background: #08304b;
 				transition: all 0.3s ease-in;
-				opacity: 0.66;
 				padding: 0 40px 0 20px;
 				z-index: 2;
 				
 				h2 {
 						text-align: center;
-						color: #4d79f3;
+						color: #f7f7f7;
 				}
 		}
 		
 		.timeline-module.isTimeline, .timeline-module.isNews {
 				left: 0;
 				transition: all 0.3s ease-in;
-				opacity: 0.66;
 		}
 		
 		.close-timeline {

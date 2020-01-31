@@ -4,7 +4,7 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>2019新型肺炎疫情地图(2019-nCoV)情况{{asyncTime?' , 实时地图同步时间【'+formatTime(asyncTime)+'】':""}}</h3>
+						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+formatTime(asyncTime)+'】':""}}</h3>
 						<!---数据滚动-->
 						<div class="scroll-total">
 								<div class="total count">
@@ -42,6 +42,19 @@
 	
 	export default {
 		name: "MapModule",
+		props: {
+			totalObj: {
+				type: Object,
+				default() {
+					return {
+						count: 0,
+						cure: 0,
+						dead: 0,
+						suspected: 0
+					}
+				}
+			},
+		},
 		data() {
 			return {
 				updateDataTime: "截止1月24日 9时",
@@ -52,12 +65,7 @@
 					dead: 0,
 					suspected: 0
 				},
-				totalObj: {
-					count: 0,
-					cure: 0,
-					dead: 0,
-					suspected: 0
-				},
+				
 				worldMapData: [],
 				asyncTime: 0,
 				goLoading: false
@@ -72,7 +80,7 @@
 					let intervalDead = null;
 					let intervalSuspected = null;
 					clearInterval(intervalCount);
-					if (this.totalObj.count && (this.scrollObj.count < this.totalObj.count)) {
+					if (this.scrollObj.count && val.count && (this.scrollObj.count < this.totalObj.count)) {
 						clearInterval(intervalCount);
 						intervalCount = setInterval(() => {
 							this.scrollObj.count++;
@@ -81,9 +89,12 @@
 							}
 						}, 16)
 					} else {
+						if (!this.scrollObj.count) {
+							this.scrollObj.count = val.count
+						}
 						clearInterval(intervalCount)
 					}
-					if (this.totalObj.cure && (this.scrollObj.cure < this.totalObj.cure)) {
+					if (this.scrollObj.cure && val.cure && (this.scrollObj.cure < this.totalObj.cure)) {
 						clearInterval(intervalCure);
 						intervalCure = setInterval(() => {
 							this.scrollObj.cure++;
@@ -92,10 +103,13 @@
 							}
 						}, 16)
 					} else {
+						if (!this.scrollObj.cure) {
+							this.scrollObj.cure = val.cure
+						}
 						clearInterval(intervalCure)
 					}
 					
-					if (this.totalObj.dead && (this.scrollObj.dead < this.totalObj.dead)) {
+					if (this.scrollObj.dead && val.dead && (this.scrollObj.dead < this.totalObj.dead)) {
 						clearInterval(intervalDead);
 						intervalDead = setInterval(() => {
 							this.scrollObj.dead++;
@@ -104,10 +118,13 @@
 							}
 						}, 16)
 					} else {
+						if (!this.scrollObj.dead) {
+							this.scrollObj.dead = val.dead
+						}
 						clearInterval(intervalDead)
 					}
 					
-					if (this.totalObj.suspected && (this.scrollObj.suspected < this.totalObj.suspected)) {
+					if (this.scrollObj.suspected && val.suspected && (this.scrollObj.suspected < this.totalObj.suspected)) {
 						clearInterval(intervalSuspected);
 						intervalSuspected = setInterval(() => {
 							this.scrollObj.suspected++;
@@ -116,6 +133,9 @@
 							}
 						}, 16)
 					} else {
+						if (!this.scrollObj.suspected) {
+							this.scrollObj.suspected = val.suspected
+						}
 						clearInterval(intervalSuspected)
 					}
 				},
@@ -133,15 +153,15 @@
 			window.onresize = function () {
 				drawMap(this.worldMapData);
 			};
-			onSocket.call(this, 'total', this.totalObj); // 手动滚动的数据
-			onSocket.call(this, 'worldMap', this.worldMapData); // 手动滚动的数据
+			onSocket.call(this, 'worldMap'); // 手动滚动的数据
 			this.getWorldMap();
 			this.getTotal()
 		},
 		methods: {
 			// 向socket发起取世界地图数据请求
 			getWorldMap() {
-				emitSocket('getWorldMap', {date: '2020-01-30'});
+				this.goLoading = true;
+				emitSocket('getWorldMap');
 			},
 			// 向socket发起取地图统计请求
 			getTotal() {
@@ -198,20 +218,21 @@
 				margin: 0 auto;
 				background: rgba(0, 0, 0, 0.72);
 				border-radius: 10px;
+				
 				.count {
 						color: #f44336;
 				}
 				
 				.cure {
-						color: green;
+						color: #4caf50;
 				}
 				
 				.suspected {
-						color: #ff5722;
+						color: #ffa730;
 				}
 				
 				.dead {
-						color: #6666;
+						color: #9c27b0
 				}
 				
 				.total {
@@ -222,7 +243,7 @@
 						font-size: 36px;
 						
 						strong {
-								line-height: 60px;
+								line-height: 70px;
 						}
 						
 						span {
@@ -232,6 +253,6 @@
 						}
 				}
 		}
-		
+
 
 </style>

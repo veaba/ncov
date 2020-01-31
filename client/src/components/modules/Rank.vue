@@ -5,6 +5,9 @@
 </template>
 
 <script>
+	import {emitSocket, onSocket} from "../../utils/socketIo";
+	import {gradientColor} from '../../utils/utils'
+	
 	export default {
 		name: "Rank",
 		props: {
@@ -12,8 +15,30 @@
 				type: Boolean
 			}
 		},
+		data() {
+			return {
+				rankData: [],
+				// rankColors:
+			}
+		},
+		watch: {
+			rankData() {
+				this.goRank();
+			}
+		},
 		computed: {
+			rankColors() {
+				return gradientColor('#ffa730', '#f44336', (this.rankData || []).length || 0) || []
+			},
+			rankDataSet() {
+				let dateSet = [];
+				for (let item of this.rankData) {
+					dateSet.push([item.country, item.count, item.province])
+				}
+				return dateSet
+			},
 			rankOptions() {
+				const w = this;
 				return {
 					title: [{
 						text: '国内确诊人数Rank',
@@ -25,50 +50,75 @@
 					],
 					dataset: {
 						source: [
-							['score', 'amount', 'product'],
-							[89.3, 58212, 'Matcha Latte'],
-							[57.1, 78254, 'Milk Tea'],
-							[74.4, 41032, 'Cheese Cocoa'],
-							[50.1, 12755, 'Cheese Brownie'],
-							[89.7, 20145, 'Matcha Cocoa'],
-							[68.1, 79146, 'Tea'],
-							[19.6, 91852, 'Orange Juice'],
-							[10.6, 101852, 'Lemon Juice'],
-							[10.6, 101852, 'Le1mon Juice'],
-							[10.6, 101852, 'Le2mon Juice'],
-							[10.6, 101852, 'Le3mon Juice'],
-							[10.6, 101852, 'Lemon Juice'],
-							[10.6, 101852, 'L4emon Juice'],
-							[10.6, 101852, 'Le5mon Juice'],
-							[10.6, 101852, 'Lemon Juice'],
-							[10.6, 101852, 'Lem5on Juice'],
-							[10.6, 101852, 'Le6mon Juice'],
-							[10.6, 101852, 'Le7mon Juice'],
-							[10.6, 101852, 'Lemon Juice'],
-							[10.6, 101852, 'Lem7on Juice'],
-							[10.6, 101852, 'Le2mon Juice'],
-							[32.7, 20112, 'Walnut Brownie']
-						]
+							['score', 'count', 'province'],
+							...this.rankDataSet
+						],
 					},
 					grid: {containLabel: true},
-					xAxis: {name: 'amount'},
-					yAxis: {type: 'category'},
-					visualMap: {
-						orient: 'horizontal',
-						left: 'center',
-						min: 10,
-						max: 100,
-						dimension: 0,
-						inRange: {
-							color: ['#D7DA8B', '#E15457']
+					xAxis: {
+						name: '人数',
+						splitLine: {
+							show: false
+						},
+						axisLine: {
+							lineStyle: {
+								color: "#f44336"
+							}
 						}
 					},
+					yAxis: [{
+						type: 'category',
+						axisLabel: {
+							inside: false,
+							textStyle: {
+								color: '#fff',
+								fontWeight: 'normal',
+								fontSize: '12',
+							},
+						},
+						axisLine: {
+							show: false
+						},
+					},
+						{
+							show: true,
+							data: this.rankDataSet.map(item => {
+								return item[1]
+							}),
+							axisLabel: {
+								textStyle: {
+									color: function (value, index) {
+										let colors = w.rankColors ? w.rankColors : [];
+										return colors[index]
+									}
+								}
+							},
+							axisLine: {
+								show: false
+							},
+							splitLine: {
+								show: false
+							},
+							axisTick: {
+								show: false
+							},
+							
+						}],
 					series: [
 						{
 							type: 'bar',
 							encode: {
-								x: 'amount',
-								y: 'product'
+								x: 'count',
+								y: 'province'
+							},
+							barWidth: 30,
+							itemStyle: {
+								normal: {
+									color: function (params) {
+										let colors = w.rankColors ? w.rankColors : [];
+										return colors[params.dataIndex];
+									},
+								}
 							}
 						}
 					]
@@ -76,12 +126,17 @@
 			}
 		},
 		mounted() {
-			this.goRank()
+			this.getRank();
+			this.goRank();
+			onSocket.call(this, 'rank'); // 手动滚动的数据
 		},
 		methods: {
 			goRank() {
 				const rankChart = echarts.init(document.querySelector("#rank"));
 				rankChart.setOption(this.rankOptions)
+			},
+			getRank() {
+				emitSocket('getRank');
 			}
 		}
 	}
@@ -90,7 +145,6 @@
 <style scoped lang="scss">
 		.rank-module {
 				height: 100%;
-				background: rgba(0, 0, 0, .7);
 				right: -500px;
 				z-index: 1;
 				transition: all 0.3s ease-in;

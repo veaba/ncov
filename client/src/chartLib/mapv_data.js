@@ -24,7 +24,7 @@ function getCoorDinates(cityName, mapv) {
  * */
 export const textData = (mapv, worldData = []) => {
 	return worldData.map(item => {
-		const cityName = item.name;
+		const cityName = item.city;
 		const count = item.count || 0;
 		// 先手动库找到，如果找不到，再去内置库找，真的没有，丢空数组
 		// 这里会产生一个默认的坐标，地图上会看一个错误的坐标点
@@ -45,7 +45,7 @@ export const textData = (mapv, worldData = []) => {
  */
 export const heatMapData = (worldData = []) => {
 	return worldData.map(item => {
-		const cityName = item.name;
+		const cityName = item.city;
 		const count = item.count;
 		let coordinates = getCoorDinates(cityName, mapv);
 		return {
@@ -65,7 +65,7 @@ export const heatMapData = (worldData = []) => {
 export const movePointData = function (mapv, worldData = []) {
 	let data = [];
 	worldData.map(item => {
-		const cityName = item.name;
+		const cityName = item.city;
 		const count = item.count || 0;
 		const fromCenter = {lng: geo['湖北'][0], lat: geo['湖北'][1]};
 		const [lng, lat] = getCoorDinates(cityName, mapv);
@@ -91,7 +91,7 @@ export const movePointData = function (mapv, worldData = []) {
  * */
 export const moveLineData = function (mapv, worldData = []) {
 	return worldData.map(item => {
-		const cityName = item.name;
+		const cityName = item.city;
 		const count = item.count;
 		const fromCenter = {lng: geo['武汉'][0], lat: geo['武汉'][1]};
 		const [lng, lat] = getCoorDinates(cityName, mapv);

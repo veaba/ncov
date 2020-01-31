@@ -13,6 +13,7 @@
 ## 性能/安全/todo 
 - 限制频率太高
 - 字段长度检查
+- mongoose find 太慢了，需要10s才返回结果
 ### iptables 封禁ip，最好通过大数据获取模型来实现
 通过nginx 拉取用户日志特征，非法访问的ip封禁
 - /phpmyadmin/

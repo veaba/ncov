@@ -17,6 +17,7 @@ const logger = require('tracer').console(); // console追踪库
  */
 const connectMongo = async () => {
     console.log('\x1B[32m%s\x1B[49m', ' >     Mongodb服务已启动 √     ');
+    // mongoose.set('useCreateIndex', true); //加上这个 DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
     mongoose.connect(config.base + ':' + config.port + '/' + config.database, configOption, (err: any) => {
         if (err) {
             logger.warn('mongodb 数据库链接失败，请检查');

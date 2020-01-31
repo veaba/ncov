@@ -164,7 +164,7 @@ const reportSchema = new Schema({
     hideHour: Number,           // 潜伏期，单位：小时
 
     // 症状，四个必填一个
-    isConfirm: String,          // 是否确认
+    isConfirm: Boolean,          // 是否确认
     isDead: Boolean,            // 是否陨落
     isCure: Boolean,            // 是否治愈
     isSuspected: Boolean,       // 是否是疑似
@@ -209,7 +209,7 @@ const socketSchema = new Schema({
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 /**
- * @desc 用户提交上来的数据保存起来
+ * @desc 用户提交上来的数据保存起来，城市为单位存储起来
  * */
 
 const auditSchema = new Schema({
@@ -245,7 +245,7 @@ const auditSchema = new Schema({
     hideHour: Number,           // 潜伏期，单位：小时
 
     // 症状，四个必填一个
-    isConfirm: String,          // 是否确认
+    isConfirm: Boolean,          // 是否确认
     isDead: Boolean,            // 是否陨落
     isCure: Boolean,            // 是否治愈
     isSuspected: Boolean,       // 是否是疑似

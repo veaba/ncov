@@ -53,7 +53,7 @@ export const onSocket = function (eventName) {
 				break;
 			// 审核通过或者已被审核，前端得到标记位
 			case 'auditStatus':
-				console.info('被审核过的@@@',res);
+				console.info('被审核过的@@@', res);
 				this.auditList.map((item, index) => {
 					if (item._id === res.data._id) {
 						this.auditList.splice(index, 1);//关闭
@@ -85,11 +85,15 @@ export const onSocket = function (eventName) {
 			// 后端主动推送
 			case 'worldMap':
 				this.goLoading = true;
-				this.worldMapData = res.data || {};
+				this.worldMapData = res.data || [];
 				this.asyncTime = res.msg || 0;
 				setTimeout(() => {
 					this.goLoading = false;
-				}, 300);
+				}, 100);
+				break;
+			case 'rank':
+				console.info('rank==>', res.data);
+				this.rankData = res.data || [];
 				break;
 			default:
 				console.log('无效事件接收');
@@ -99,5 +103,6 @@ export const onSocket = function (eventName) {
 
 
 export const emitSocket = (eventName, data) => {
+	console.info(eventName, data);
 	socket.emit(eventName, data);
 };

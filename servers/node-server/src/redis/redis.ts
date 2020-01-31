@@ -37,6 +37,7 @@ const setHash = async (key: string, data: object) => {
  * @param field 可选
  * */
 const getHash = async (key: string, field?: string) => {
+    key = key.toString();
     const client = redis.createClient(redisConfig);
     client.on('error', (err: any) => {
         console.log(err, 'getHash')

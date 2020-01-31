@@ -25,7 +25,7 @@ import {isEmptyObject} from "../utils/check";
 export const taskChannelList = async (collection: string, limit?: number, match?: object) => {
     const list = await TheModel(collection).aggregate([
         {$match: match || {}},
-        {$sort: {_id: -1}},
+        {$sort: {count: -1}},
         {$limit: limit || 20},
     ]);
     return list || []
@@ -224,7 +224,7 @@ export const isHasOne = async (obj: object, collection_name: string) => {
  * @desc 拉取全部
  * */
 export const getAllList = async (obj: object, collection_name: string) => {
-    return (await TheModel(collection_name).find(obj))
+    return (await TheModel(collection_name).find(obj).lean())
 };
 
 /**
@@ -237,7 +237,7 @@ export const getAllList = async (obj: object, collection_name: string) => {
 export const getKeysDB = async (obj: object, keys: string[], collection_name: string) => {
     let selectedObj: any = {};
     keys.map(item => selectedObj[item] = 1);
-    return JSON.parse(JSON.stringify(await TheModel(collection_name).findOne(obj, selectedObj) || {}))
+    return await TheModel(collection_name).findOne(obj, selectedObj) || {};
 };
 
 /**
@@ -246,9 +246,28 @@ export const getKeysDB = async (obj: object, keys: string[], collection_name: st
  * @param keys ['a','b']
  * @param collection_name
  * @return {key,..} => {_id:2333}
+ * @getKeysAll-map: 29297.541ms 放开全部
+ * @getKeysAll-map: 11s 设置了pass
+ * @count 只查长度的话只需要50ms，10k长度
  * */
 export const getKeysAll = async (obj: object, keys: string[], collection_name: string) => {
     let selectedObj: any = {};
     keys.map(item => selectedObj[item] = 1);
-    return await TheModel(collection_name).find(obj, selectedObj) || {}
+    return await TheModel(collection_name).find(obj, selectedObj).lean() || {};
+};
+
+/**
+ * @desc rank 排序
+ * */
+export const getRankAll = async (obj: object, keys: string[], collection_name: string) => {
+    const project: any = {};
+    keys.map(item => {
+        project[item] = 1
+    });
+    const list = await TheModel(collection_name).aggregate([
+        {$match: obj || {}},
+        {$project: project},
+        {$sort: {count: 1}}
+    ]);
+    return list || []
 };

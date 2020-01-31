@@ -6,7 +6,7 @@
 // import {_io} from "../app";
 import {format, getTime} from 'date-fns'
 
-import {findCount, getKeysAll, taskChannelList, updateOne} from "../mongo/curd";
+import {findCount, getKeysAll, getRankAll, taskChannelList, updateOne} from "../mongo/curd";
 
 /**
  * @desc 广播定时任务
@@ -49,78 +49,91 @@ export const auditTask = async () => {
 
 /**
  * @desc 推送人数统计任务，读取reports pass 为true 的数据
+ * @reports 710.355ms
+ * @audits  a1: 40.648ms
  * */
-
 export const totalTask = async () => {
-    const count = await findCount({isConfirm: true, pass: true}, 'reports');
-    const cure = await findCount({isCure: true, pass: true}, 'reports');
-    const dead = await findCount({isDead: true, pass: true}, 'reports');
-    const suspected = await findCount({isSuspected: true, pass: true}, 'reports');
-    const all = count + cure + dead;
-    return {
-        all,
-        count,
-        cure,
-        suspected,
-        dead,
-    }
+    let resList = await getKeysAll({pass: true}, ['count', 'cure', 'dead', 'suspected'], 'audits');
+    const totalObj = {
+        count: 0,
+        cure: 0,
+        dead: 0,
+        suspected: 0,
+        treat: 0
+    };
+    resList.map((item: any) => {
+        totalObj.count += item.count;
+        totalObj.cure += item.cure;
+        totalObj.dead += item.dead;
+        totalObj.suspected += item.suspected;
+    });
+    totalObj.treat = totalObj.count - (totalObj.cure + totalObj.dead);
+    return totalObj
 };
 
 /**
  * @desc 推送世界地图数据,读入reports pass 为true的数据
- * @todo 根据入参时间获取世界地图数据
+ * @data 根据入参时间获取世界地图数据
  * @time  // 1580256000000 -> 2020-01-29 08:00:00
  * @param dateStr
  * @return [{name,country,province,city,area,count,cure,dead,suspected}]
  * */
-export const worldMapTask = async (dateStr?: string) => {
-    let queryDate: number = 0;
+export const worldMapTask = async (dateStr?: string | null) => {
+    let reportDateObj: any = {};
     if (dateStr && new Date(dateStr)) {
-        queryDate = getTime(new Date(dateStr))
-    } else {
-        queryDate = getTime(new Date(format(new Date(), 'yyyy-MM-dd')))
+        reportDateObj.reportDate = getTime(new Date(dateStr))
     }
-    // todo bug
-    let passList = await getKeysAll({pass: true, reportDate: queryDate}, [
-        'isConfirm', 'isCure', 'isSuspected', 'isDead',
-        'country', 'province', 'city', 'area', 'reportDate'], 'reports');
-    const allObj: any = {};
-    passList.map((item: any) => {
-        if (!allObj[item.city]) {
-            allObj[item.city] = {};
+    return await getKeysAll({pass: true, ...reportDateObj}, [
+        'count', 'cure', 'dead', 'suspected',
+        'country', 'province', 'city', 'area', 'reportDate'], 'audits');
+};
+
+/**
+ * @desc 获取rank
+ * */
+export const rankTask = async (dateStr?: string | null) => {
+    let reportDateObj: any = {};
+    if (dateStr && new Date(dateStr)) {
+        reportDateObj.reportDate = getTime(new Date(dateStr))
+    }
+    let auditList = await getRankAll({pass: true, country: "中国", ...reportDateObj}, [
+        "count", "cure", "dead", "suspected",
+        'country', 'province'], 'audits') || [];
+    let provinceObj: any = {};
+    auditList.map((item: any) => {
+        if (!provinceObj[item.province]) {
+            provinceObj[item.province] = {
+                count: 0,
+                cure: 0,
+                dead: 0,
+                suspected: 0
+            }
         }
-        allObj[item.city].country = item.country;
-        allObj[item.city].province = item.province;
-        allObj[item.city].city = item.city;
-        allObj[item.city].area = item.area;
-        if (item.isConfirm) {
-            allObj[item.city].count = (allObj[item.city].count || 0) + 1
-        }
-        if (item.isCure) {
-            allObj[item.city].cure = (allObj[item.city].cure || 0) + 1
-        }
-        if (item.isDead) {
-            allObj[item.city].dead = (allObj[item.city].dead || 0) + 1
-        }
-        if (item.isSuspected) {
-            allObj[item.city].suspected = (allObj[item.city].suspected || 0) + 1
-        }
+        provinceObj[item.province].count += (item.count || 0);
+        provinceObj[item.province].cure += (item.cure || 0);
+        provinceObj[item.province].dead += (item.dead || 0);
+        provinceObj[item.province].suspected += (item.suspected || 0);
+        provinceObj[item.province].province = item.province || "";
+        provinceObj[item.province].country = item.country || ""
     });
 
-    let resList = [];
-
-    for (let city in allObj) {
-        resList.push({
-            name: city,
-            country: allObj[city].country,
-            province: allObj[city].province,
-            city: city,
-            area: allObj[city].area,
-            count: allObj[city].count || 0,
-            cure: allObj[city].cure || 0,
-            dead: allObj[city].dead || 0,
-            suspected: allObj[city].suspected || 0,
-        })
+    let rankList = [];
+    for (let item in provinceObj) {
+        delete provinceObj[item]._id;
+        rankList.push(provinceObj[item])
     }
-    return resList
+
+    rankList.sort((left: any, right: any) => {
+        if (left.count > right.count) {
+            return 1
+        }
+        if (left.count < right.count) {
+            return -1
+        }
+        return 0
+    });
+
+    return rankList
+
 };
+

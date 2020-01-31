@@ -48,7 +48,7 @@
 				<div class="row left-right clear">
 						<div>
 								<span>姓名：</span>
-								<input type="text" v-model="reportData.name" :disabled="isDisabledName" placeholder="姓名">
+								<input type="text" v-model="reportData.name" :disabled="isDisabledName" maxlength="10" placeholder="姓名">
 						</div>
 						<div>
 								<span>年龄：</span>
@@ -79,19 +79,19 @@
 				<div class="row left-right clear">
 						<div>
 								<span class="must-be">国家：</span>
-								<input name="country" type="text" v-model="reportData.country" placeholder="必填，国家" maxlength="100">
+								<input name="country" type="text" maxlength="10" v-model="reportData.country" placeholder="必填，国家" >
 						</div>
 						<div style="float: right;">
 								<span class="must-be">省市：</span>
-								<input name="province" type="text" v-model="reportData.province" placeholder="必填，省份、州、省级市"
-								       maxlength="100">
+								<input name="province" type="text"  v-model="reportData.province" placeholder="必填(请勿加'省'字，外国可填国名)"
+								       maxlength="10">
 						</div>
 				
 				</div>
 				<div class="row left-right clear">
 						<div>
 								<span class="must-be">城市：</span>
-								<input name="city" type="text" v-model="reportData.city" placeholder="城市" maxlength="100">
+								<input name="city" type="text" v-model="reportData.city" placeholder="必填(请勿加'市'字,外国可填国名)" maxlength="100">
 						</div>
 						<div style="float: right;">
 								<span>县区：</span>
@@ -161,7 +161,7 @@
 				isConfirm: false,
 				isCommitting: false,
 				// todo
-				reportData:{
+				reportData: {
 					count: Math.floor(Math.random() * 100),
 					suspected: Math.floor(Math.random() * 100),
 					dead: Math.floor(Math.random() * 100),

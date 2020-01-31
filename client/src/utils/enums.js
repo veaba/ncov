@@ -19,3 +19,21 @@ export const professionMap = {
 // 境内还是境外
 
 export const zoomMap = ["中国"];
+
+/**
+ * @desc 疫情颜色
+ * */
+export const nCovColorsMap = [
+	"#4caf50",  // 治愈
+	"#9c27b0",  // 死亡
+	"#ffa730",  // 疑似
+	"#f44336",  // 确诊
+];
+
+/**
+ * @desc rank的渐变范围从
+ * #f44336 -> #ffa730
+ *  ["#f44336", "#f75c35", "#fa7533", "#fc8e32", "#ffa730"]
+ *
+ * */
+
