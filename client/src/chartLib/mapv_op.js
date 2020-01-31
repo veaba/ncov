@@ -17,7 +17,10 @@ export const textOp = {
 // 热点图层
 export const heatMapOp = {
 	size: 13,
-	gradient: {0.25: "rgb(0,0,255)", 0.55: "rgb(0,255,0)", 0.85: "yellow", 1.0: "rgb(255,0,0)"},
+	gradient: {
+		0.25: "#2281af",
+		0.55: "#64bbfc",
+		1.0: "#16b4f4"},
 	max: 100,
 	// range: [0, 100], // 过滤显示数据范围
 	draw: 'heatmap'
@@ -28,16 +31,16 @@ export const pointOp = {};
 
 // todo 迁徙图层-点
 export const movePointOp = {
-	fillStyle: 'rgba(255, 250, 250, 0.5)',
+	fillStyle: '#16b4f4',
 	zIndex: 200,
-	size: 2.5,
+	size: 5,
 	animation: {
 		type: 'time',
 		stepsRange: {
-			start: 0,
-			end: 50
+			start: 1,
+			end: 100
 		},
-		trails: 5,
+		trails: 1,
 		duration: 2,
 	},
 	draw: 'simple'
@@ -45,22 +48,10 @@ export const movePointOp = {
 
 // 迁徙图层-线
 export const moveLineOp = {
-	strokeStyle: 'rgba(255, 250, 50, 0.8)',
-	shadowColor: 'rgba(255, 250, 50, 1)',
-	shadowBlur: 20,
-	lineWidth: 2,
+	strokeStyle: 'rgba(3,116,170,0.32)',
+	shadowColor: '#0374AA',
+	shadowBlur: 1,
+	lineWidth: 1,
 	zIndex: 100,
 	draw: 'simple'
 };
-
-// todo 百度地图自带飞行线,废弃
-// export const flyLineOp = {
-// 	style: "chaos",
-// 	step: 0.3,
-// 	color: "rgba(33.242,214,0.3)",
-// 	textureColor: (data) => {
-// 		return data.properties.count > 0.5 ? "#ff0000" : "#56ccdd";
-// 	},
-// 	textureWidth: 20,
-// 	textureLength: 10
-// };

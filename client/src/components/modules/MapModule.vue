@@ -36,7 +36,7 @@
 </template>
 
 <script>
-	import {drawMap, realtimeDrawMap} from '../../utils/draw';
+	import {drawMap} from '../../utils/draw';
 	import {emitSocket, onSocket} from "../../utils/socketIo";
 	import {formatTime} from "../../utils/utils";
 	
