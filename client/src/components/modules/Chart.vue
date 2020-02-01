@@ -1,3 +1,6 @@
+<!--
+@desc todo  bug 内容初次无法展示
+-->
 <template>
 		<div :class="'chart-module ' +(chartButtonStatus?'active':'')">
 				<div class="total-pie" id="totalPie">
@@ -18,15 +21,19 @@
 				type: Object,
 				default() {
 					return {
-						count: 0,
-						cure: 0,
-						dead: 0,
-						suspected: 0
+						chinaConfirm: 0,
+						chinaHeal: 0,
+						chinaDead: 0,
+						chinaSuspect: 0
 					}
 				}
 			},
 		},
-		
+		data() {
+			return {
+				totalPie: null
+			}
+		},
 		watch: {
 			totalObj(val) {
 				let theData = [];
@@ -49,15 +56,13 @@
 							name: "死亡/" + val[key]
 						})
 					}
-					// if (key === 'chinaSuspect') {
-					// 	theData.push({
-					// 		value: val[key] || 0,
-					// 		name: "疑似/" + val[key]
-					// 	})
-					// }
 				}
 				this.pieTotalData = theData;
-				this.goTotalPie()
+				if (val.chinaConfirm || val.chinaDead || val.chinaHeal || val.chinaSuspect) {
+					this.$nextTick(() => {
+						this.goTotalPie()
+					})
+				}
 			}
 		},
 		computed: {
@@ -102,11 +107,12 @@
 			}
 		},
 		mounted() {
+			this.totalPie = echarts.init(document.querySelector("#totalPie"));
+			this.totalPie.setOption(this.pieOptions)
 		},
 		methods: {
 			goTotalPie() {
-				const TotalPie = echarts.init(document.querySelector("#totalPie"));
-				TotalPie.setOption(this.pieOptions)
+				this.totalPie.setOption(this.pieOptions)
 			}
 		}
 	};
@@ -121,14 +127,14 @@
 		.chart-module {
 				position: absolute;
 				left: -400px;
-				bottom: 0;
+				bottom: 90px;
 				color: #fff;
 				border-radius: 4px;
 				transition: all 0.3s ease-in;
 		}
 		
 		.chart-module.active {
-				left: 0;
+				left: 30px;
 				transition: all 0.3s ease-in;
 		}
 </style>

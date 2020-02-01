@@ -33,4 +33,7 @@ export const getTotal = async (socket: any, data: any, channel: string, eventNam
                 res = null // 最后将res设置为null
             }
         })
+        .catch((err:any)=>{
+            console.info("getTotal",getTotal);
+        })
 };

@@ -243,18 +243,21 @@ export const tencent = async (dateStr?: number | string | null) => {
                 const chinaDayList = allData.chinaDayList;
                 //  延时推送，以免一次性数据量太大
                 await _pushSuccess('broadcast', 'getTotal', totalData, getTime(new Date())); // 统计
-                setTimeout(async () => {
-                    await _pushSuccess('broadcast', 'getWorldRank', worldRank, getTime(new Date())); // 世界rank
-                }, 1000);
-                setTimeout(async () => {
-                    await _pushSuccess('broadcast', 'getChinaDay', chinaDayList, getTime(new Date())); // timeline 折线图
-                }, 3000);
-                setTimeout(async () => {
-                    await _pushSuccess('broadcast', 'getChinaRank', chinaRank, getTime(new Date())); // 国内rank
-                }, 4000);
-                setTimeout(async () => {
-                    await _pushSuccess('broadcast', 'getWorldMap', worldMapData, getTime(new Date())); // 世界地图
-                }, 5000);
+                await _pushSuccess('broadcast', 'getWorldRank', worldRank, getTime(new Date())); // 世界rank
+                await _pushSuccess('broadcast', 'getChinaDay', chinaDayList, getTime(new Date())); // timeline 折线图
+                await _pushSuccess('broadcast', 'getChinaRank', chinaRank, getTime(new Date())); // 国内rank
+                await _pushSuccess('broadcast', 'getWorldMap', worldMapData, getTime(new Date())); // 世界地图
+                //
+                // setTimeout(async () => {
+                //
+                // }, 1000);
+                // setTimeout(async () => {
+                //
+                // }, 3000);
+                // setTimeout(async () => {
+                // }, 4000);
+                // setTimeout(async () => {
+                // }, 5000);
                 res = null // 最后将res设置为null
             }
         })

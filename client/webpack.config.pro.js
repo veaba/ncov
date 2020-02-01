@@ -19,7 +19,6 @@ module.exports = (env = {}) => ({
 	},
 	resolve: {
 		alias: {
-			// 这在技术上是不需要的，因为bundler的默认'vue'条目
 			// is a simple `export * from '@vue/runtime-dom`. However having this
 			// extra re-export somehow causes webpack to always invalidate the module
 			// on the first HMR update and causes the page to reload.
@@ -84,17 +83,17 @@ module.exports = (env = {}) => ({
 			},
 			// 后续向对外暴露API文件
 			{
-				from: __dirname + '/public/data.js',
-				to: __dirname + '/dist/data.js',
+				from: __dirname + '/public',
+				to: __dirname + '/dist',
 			},
-			{
-				from: __dirname + '/public/screen.png',
-				to: __dirname + '/dist/screen.png',
-			},
-			{
-				from: __dirname + '/public/favicon.icon',
-				to: __dirname + '/dist/favicon.icon',
-			}
+			// {
+			// 	from: __dirname + '/public/screen.png',
+			// 	to: __dirname + '/dist/screen.png',
+			// },
+			// {
+			// 	from: __dirname + '/public/favicon.icon',
+			// 	to: __dirname + '/dist/favicon.icon',
+			// }
 		])
 	],
 	devServer: {

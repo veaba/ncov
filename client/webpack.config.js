@@ -1,5 +1,5 @@
 /***********************
- * @name webpack 生产配置文件
+ * @name webpack dev配置文件
  * @author Jo.gel
  * @date 2020/1/21 0021
  ***********************/
@@ -10,11 +10,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.h
 const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
 module.exports = (env = {}) => ({
 	mode: env.prod ? 'production' : 'development',
-	devtool: env.prod ? false : 'source-map',
-	// devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
+	// devtool: env.prod ? false : 'source-map',
+	devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
 	entry: path.resolve(__dirname, './src/main.js'),
 	output: {
-		publicPath: ""
+		path: path.resolve(__dirname, './dist'),
+		publicPath: '/',
 	},
 	resolve: {
 		alias: {
@@ -45,7 +46,11 @@ module.exports = (env = {}) => ({
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
-						options: {hmr: !env.prod}
+						options: {
+							hmr: !env.prod,
+							publicPath: '/'
+						}
+						
 					},
 					'css-loader'
 				],
@@ -54,7 +59,7 @@ module.exports = (env = {}) => ({
 			// 增加scss
 			{
 				test: /\.(scss)$/,
-				use: ['vue-style-loader','css-loader','sass-loader'],
+				use: ['vue-style-loader', 'css-loader', 'sass-loader'],
 				exclude: /node_modules/
 			}
 		]
@@ -73,17 +78,17 @@ module.exports = (env = {}) => ({
 		}),
 		new CopyWebpackPlugin([
 			{
-				from: __dirname + '/public/echarts.js',
-				to: __dirname + '/dist/echarts.js',
+				from: __dirname + '/public',
+				to: __dirname + '/dist',
 			},
-			{
-				from: __dirname + '/public/echarts.js.map',
-				to: __dirname + '/dist/echarts.js.map',
-			},
-			{
-				from: __dirname + '/public/china.js',
-				to: __dirname + '/dist/china.js',
-			}
+			// {
+			// 	from: __dirname + '/public/echarts.js.map',
+			// 	to: __dirname + '/dist/echarts.js.map',
+			// },
+			// {
+			// 	from: __dirname + '/public/china.js',
+			// 	to: __dirname + '/dist/china.js',
+			// }
 		])
 	],
 	devServer: {

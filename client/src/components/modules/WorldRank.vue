@@ -21,11 +21,14 @@
 		data() {
 			return {
 				worldRankData: [],
+				worldRankChart: null
 			}
 		},
 		watch: {
-			worldRankData() {
-				this.getWorldRank();
+			worldRankData(val) {
+				if (val.length) {
+					this.getWorldRank();
+				}
 			}
 		},
 		computed: {
@@ -134,13 +137,16 @@
 		},
 		mounted() {
 			this.emitWorldRank();
-			this.getWorldRank();
 			onSocket.call(this, 'getWorldRank'); // 手动滚动的数据
+			this.worldRankChart = echarts.init(document.querySelector("#worldRank"));
+			this.$nextTick(() => {
+				this.worldRankChart.setOption(this.rankOptions)
+			})
 		},
 		methods: {
 			getWorldRank() {
-				const worldRankChart = echarts.init(document.querySelector("#worldRank"));
-				worldRankChart.setOption(this.rankOptions)
+				this.worldRankChart.setOption(this.rankOptions)
+				
 			},
 			emitWorldRank() {
 				emitSocket('getWorldRank');

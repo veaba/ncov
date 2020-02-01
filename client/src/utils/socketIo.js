@@ -43,8 +43,8 @@ export const onSocket = function (eventName) {
 				this.worldRankData = res.data || [];
 				break;
 			case 'getChinaDay':
-				// todo
 				console.info('getChinaDay==>', res.data);
+				this.chinaDay = res.data || [];
 				break;
 			default:
 				console.log('无效事件接收');
@@ -54,6 +54,5 @@ export const onSocket = function (eventName) {
 
 
 export const emitSocket = (eventName, data) => {
-	console.info(eventName, data);
 	socket.emit(eventName, data);
 };

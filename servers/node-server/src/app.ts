@@ -24,7 +24,6 @@ app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
 });
-
 // 广播
 const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {

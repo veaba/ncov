@@ -1,4 +1,4 @@
-import {format} from 'date-fns';
+import {format, subDays} from 'date-fns';
 
 /**
  * @desc 分离频道和sid
@@ -70,4 +70,27 @@ export const gradientColor = (startColor, endColor, num) => {
 	};
 	
 	return gradientColors(startColor, endColor, num);
+};
+
+function _dateFn(date) {
+	return format(date, 'MM-dd');
+}
+
+/**
+ * @desc 过去几天
+ * @return [1-25,2-1]
+ * */
+export const lastWhatDay = (num) => {
+	const whatDayStart = subDays(new Date(), num);
+	return [_dateFn(whatDayStart), _dateFn(new Date())];
+};
+/**
+ * @desc 过去7天数组，不包含今天
+ * */
+export const lastWhatDaysList = (num) => {
+	const daysList = [];
+	for (let i = 1; i < num + 2; i++) {
+		daysList.push(_dateFn(subDays(new Date(), i)));
+	}
+	return daysList.sort();
 };

@@ -18,11 +18,14 @@
 		data() {
 			return {
 				chinaRankData: [],
+				rankChart: null
 			}
 		},
 		watch: {
-			chinaRankData() {
-				this.getChinaRank();
+			chinaRankData(val) {
+				if (val.length) {
+					this.rankChart.setOption(this.rankOptions)
+				}
 			}
 		},
 		computed: {
@@ -43,7 +46,7 @@
 						{
 							text: '国内确诊人数RANK',
 							left: 'center',
-							top:"20px",
+							top: "20px",
 							textStyle: {
 								color: '#fff'
 							}
@@ -131,14 +134,14 @@
 		},
 		mounted() {
 			this.getRank();
-			this.getChinaRank();
 			onSocket.call(this, 'getChinaRank'); // 手动滚动的数据
+			this.rankChart = echarts.init(document.querySelector("#rank"));
+			this.$nextTick(() => {
+				this.rankChart.setOption(this.rankOptions)
+			})
+			
 		},
 		methods: {
-			getChinaRank() {
-				const rankChart = echarts.init(document.querySelector("#rank"));
-				rankChart.setOption(this.rankOptions)
-			},
 			getRank() {
 				emitSocket('getChinaRank');
 			}
