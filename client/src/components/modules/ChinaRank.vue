@@ -43,6 +43,7 @@
 						{
 							text: '国内确诊人数RANK',
 							left: 'center',
+							top:"20px",
 							textStyle: {
 								color: '#fff'
 							}

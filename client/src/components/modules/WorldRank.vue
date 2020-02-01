@@ -46,7 +46,7 @@
 						{
 							text: '全世界确诊人数RANK',
 							left: 'center',
-							top: "100px",
+							top: "20px",
 							textStyle: {
 								color: '#fff'
 							}
@@ -152,7 +152,7 @@
 <style scoped lang="scss">
 		.worldRank-module {
 				position: absolute;
-				bottom: 0;
+				top: 0;
 				height: 60%;
 				width: 500px;
 				left: -500px;

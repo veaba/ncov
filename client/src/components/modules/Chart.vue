@@ -1,5 +1,5 @@
 <template>
-		<div class="left-layout chart-module">
+		<div :class="'chart-module ' +(chartButtonStatus?'active':'')">
 				<div class="total-pie" id="totalPie">
 				</div>
 		</div>
@@ -119,7 +119,16 @@
 		}
 		
 		.chart-module {
+				position: absolute;
+				left: -400px;
+				bottom: 0;
 				color: #fff;
 				border-radius: 4px;
+				transition: all 0.3s ease-in;
+		}
+		
+		.chart-module.active {
+				left: 0;
+				transition: all 0.3s ease-in;
 		}
 </style>

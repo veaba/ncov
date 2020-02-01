@@ -61,7 +61,8 @@
 			
 			setTimeout(() => {
 				this.chinaRankButtonStatus = true;
-				this.worldRankButtonStatus = true
+				this.worldRankButtonStatus = true;
+				this.chartButtonStatus = true
 			}, 2000)
 		},
 		data() {

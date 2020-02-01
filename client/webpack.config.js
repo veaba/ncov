@@ -79,6 +79,10 @@ module.exports = (env = {}) => ({
 			{
 				from: __dirname + '/public/echarts.js.map',
 				to: __dirname + '/dist/echarts.js.map',
+			},
+			{
+				from: __dirname + '/public/china.js',
+				to: __dirname + '/dist/china.js',
 			}
 		])
 	],
