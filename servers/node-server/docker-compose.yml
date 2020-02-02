@@ -2,7 +2,7 @@ version: "3"
 services:
   server:
     image: keymetrics/pm2
-    container_name: server-node
+    container_name: server-node-172.4.0.80
     restart: always
     ports:
       - "9999:9999"
