@@ -7,10 +7,9 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - ./dist:/srv/node-server
-      - ./ecosystem.config.js:/srv/node-server/ecosystem.config.js
+      - .:/srv/node-server
       - /etc/localtime:/etc/localtime
-    command: pm2-runtime start /srv/node-server/ecosystem.config.js
+    command: pm2-runtime start /srv/node-server/dist/ecosystem.config.js
     networks:
       default:
         ipv4_address: 172.4.0.80
