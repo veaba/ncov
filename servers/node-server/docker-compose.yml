@@ -1,0 +1,19 @@
+version: "3"
+services:
+  server:
+    image: keymetrics/pm2
+    container_name: server-node
+    restart: always
+    ports:
+      - "9999:9999"
+    volumes:
+      - /home/edu-server:/srv/node-server
+      - /etc/localtime:/etc/localtime
+    command: pm2-runtime start /srv/node-server/ecosystem.config.js
+    networks:
+      default:
+        ipv4_address: 172.4.0.80
+networks:
+  default:
+    external:
+      name: 2019_nCoV_network
