@@ -5,7 +5,7 @@ Focus on Wuhan 2019-nCoV, data visualization, to help analyze the epidemic situa
 
 
 <p align="center">
- <a href="http://2020-ncov.datav.ai">2020-nCov感染可视化(科学上网)</a>  |  <a href="http://2019-ncov.datav.ai">2019-nCov 新版可视化(科学上网)</a>
+ <a href="http://2020-ncov.datav.ai">2020-nCov感染可视化(科学上网)</a>
 <p>
 
 ![](client/public/screen.png)
