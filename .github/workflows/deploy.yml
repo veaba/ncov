@@ -34,7 +34,7 @@ jobs:
           ACCESS_TOKEN_DEPLOY: ${{secrets.ACTIONS_ACCESS_TOKEN_NCOV_CI }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./client/dist
-          CNAME: 2019-ncov.datav.ai
+          CNAME: 2020-ncov.datav.ai
         run: |
           chmod +x ./scripts/deploy-client.sh
           bash ./scripts/deploy-client.sh

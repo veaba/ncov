@@ -7,34 +7,44 @@
 
 ## 技术栈/Technical framework
 
-- vue 3.0.0-alpha
-- *echarts*
+### 前端: 
+- vue3
+- echarts
 - 百度地图
 - mapv
-- webpack
-- todo AI大数据框架：[Tensorflow](https://tensorflow.google.cn/)
+- nginx
+- webpack 
+- socket.io
 
-
-## 结构
-
-### 感染人数入参
-```js
-const data=[
-	{
-		count:1,
-        geometry:{
-        type:'Point',
-        coordinates:[lng, lat],
-        coordinates_mercator:[13232403.39, 3028540.05]
-        }
-	}
-]
-				
-```
+### 后端：
+- python 爬虫（todo 大数据分析）
+- mongodb 存储
+- redis 
+- kafka
+- node 主要给页面提供转接内容和socket通信
 
 ## API
 
 为外部提供2019-nCoV 数据
 
-直接拉取本站js
-[data.js](https://2019-ncov.datav.ai/data.js)，里面暴露DATA对象，也支持es 的export，详见文件
+
+- 直接对接2019-ncov.datav.ai 的socket.io 并提供几个emit事件
+
+### emit
+
+每1-2分钟推送一次
+
+- getTotal
+- getWorldMap
+- getChinaRank
+- getWorldRank
+- getChinaDay
+
+### on
+每1-2分钟推送一次
+
+- getTotal
+- getWorldMap
+- getChinaRank
+- getWorldRank
+- getChinaDay
