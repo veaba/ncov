@@ -11,7 +11,7 @@ import {
     LovesSchema, ReportSchema,
     NewsSchema, SocketSchema,
     TimelinesSchema,
-    UsersSchema, WeibosSchema, AuditSchema
+    UsersSchema, WeibosSchema, AuditSchema, HistorysSchema
 } from "./model";
 import {_dbSuccess} from "../utils/exception";
 import {isEmptyObject} from "../utils/check";
@@ -147,6 +147,9 @@ export const TheSchema = (obj: object, collection_name: string) => {
         case 'weibos':
             models = new WeibosSchema(obj);
             break;
+        case 'history':
+            models = new HistorysSchema(obj);
+            break;
         default:
             throw new Error('未能识别Schema类型');
     }
@@ -203,6 +206,9 @@ export const TheModel = (collection_name: string) => {
             break;
         case 'weibos':
             models = WeibosSchema;
+            break;
+        case 'historys':
+            models = HistorysSchema;
             break;
         default:
             throw new Error('未能识别Model类型');

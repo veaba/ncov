@@ -6,7 +6,7 @@
  ***********************/
 import {geo} from "./map_geo";
 
-function getCoorDinates(cityName, mapv) {
+export function getCoorDinates(cityName, mapv) {
 	let coordinates = geo[cityName] || [];
 	if (!coordinates.length) {
 		const {lng = "", lat = ""} = mapv.utilCityCenter.getCenterByCityName(cityName) || {};

@@ -63,7 +63,7 @@
 				this.chinaRankButtonStatus = true;
 				this.worldRankButtonStatus = true;
 				this.chartButtonStatus = true
-			}, 2000)
+			}, 1000)
 		},
 		data() {
 			return {
@@ -300,8 +300,9 @@
 <style lang="scss" scoped>
 		.home {
 				position: relative;
-				
-				
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
 		}
 
 

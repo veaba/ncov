@@ -41,6 +41,7 @@
 	import {drawMap} from '../../utils/draw';
 	import {emitSocket, onSocket} from "../../utils/socketIo";
 	import {formatTime, lastWhatDaysList} from "../../utils/utils";
+	import {geo} from '../../chartLib/map_geo'
 	
 	export default {
 		name: "MapModule",
@@ -77,13 +78,111 @@
 					worldDead: 0,
 					worldSuspect: 0,
 				},
-				
 				worldMapData: [],
+				moveLineWorldMapData: [],// 飞行线的数据
+				localWorldMapData: [],   // 地点数据
 				asyncTime: 0,
 				goLoading: false,
 				chinaDay: [],
 				last7days: lastWhatDaysList(7),
-				chinaMap: null
+				chinaMap: null,
+				options: {
+					backgroundColor: '#101f33',
+					legend: {
+						show: false,
+						orient: 'vertical',
+						top: 'bottom',
+						left: 'right',
+						data: ['地点', '线路'],
+						textStyle: {
+							color: '#fff'
+						}
+					},
+					geo: {
+						map: 'world',
+						// map: 'china',
+						zoom: 2,
+						label: {
+							emphasis: {
+								show: false
+							}
+						},
+						center: [115.65875349263533, 30.53695878561894],
+						roam: true,
+						itemStyle: {
+							normal: {
+								areaColor: '#323c48',
+								borderColor: '#404a59'
+							},
+							emphasis: {
+								areaColor: '#2a333d'
+							}
+						}
+					},
+					series: [
+						{
+							name: '地点',
+							type: 'effectScatter',
+							coordinateSystem: 'geo',
+							zlevel: 2,
+							rippleEffect: {
+								brushType: 'stroke'
+							},
+							label: {
+								normal: {
+									show: true,
+									position: "right", //显示位置
+									offset: [5, 0], //偏移设置
+									formatter: (params) => {
+										const {name} = params;
+										if (geo[name]) {
+											return name
+										}
+										return ''
+									}
+								},
+								emphasis: {
+									show: true
+								}
+							},
+							symbolSize: 2,
+							showEffectOn: 'render',
+							itemStyle: {
+								normal: {
+									color: '#46bee9'
+								}
+							},
+							data: []
+						},
+						{
+							name: '线路',
+							type: 'lines',
+							coordinateSystem: 'geo',
+							zlevel: 2,
+							large: true,
+							effect: {
+								show: true,
+								constantSpeed: 30,
+								symbol: 'pin',
+								symbolSize: 3,
+								trailLength: 0,
+							},
+							lineStyle: {
+								normal: {
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+										offset: 0, color: '#58B3CC'
+									}, {
+										offset: 1, color: '#F58158'
+									}], false),
+									width: 1,
+									opacity: 0.2,
+									curveness: 0.1
+								}
+							},
+							data: []
+						},
+					]
+				}
 			}
 		},
 		watch: {
@@ -162,378 +261,66 @@
 				},
 				deep: true
 			},
-			worldMapData: {
+			localWorldMapData: {
 				handler(val) {
-					// drawMap(val, 2);
+					if (this.chinaMap && val.length) {
+						this.options.series[0].data = this.localWorldMapData;
+						this.setChinaMap();
+					}
+				},
+				deep: true
+			},
+			moveLineWorldMapData: {
+				handler(val) {
+					if (this.chinaMap && val.length) {
+						this.options.series[0].data = this.localWorldMapData;
+						this.options.series[1].data = this.moveLineWorldMapData;
+						this.setChinaMap();
+					}
 				},
 				deep: true
 			},
 		},
 		computed: {
-			options() {
-				var allData = {
-					"citys": [
-						{
+			/**
+			 * @desc 转换地图数据
+			 * [
+			 * 	{
 							"name": "勃利",
 							"value": [130.592171, 45.755063, 1],
 							"symbolSize": 2,
 							"itemStyle": {"normal": {"color": "#F58158"}}
-						}, {
-							"name": "长春",
-							"value": [125.323544, 43.817072, 8],
-							"symbolSize": 2,
-							"itemStyle": {"normal": {"color": "#F58158"}}
-						}],
-					"moveLines": [
-						{
-							"fromName": "吉林",
-							"toName": "西城",
-							"coords": [[126.549572, 43.837883], [116.365868, 39.912289]]
-						}, {
-							"fromName": "四川",
-							"toName": "上海",
-							"coords": [[104.075931, 30.651652], [121.473701, 31.230416]]
-						}, {
-							"fromName": "吉林",
-							"toName": "咸阳",
-							"coords": [[126.549572, 43.837883], [108.708991, 34.329605]]
-						}, {
-							"fromName": "吉林",
-							"toName": "中山",
-							"coords": [[126.549572, 43.837883], [113.392782, 22.517646]]
-						}, {"fromName": "黑龙江", "toName": "胶州", "coords": [[126.661669, 45.742347], [120.033382, 36.26468]]}]
-				};
-				
-				const options = []
-				
-				return {
-					timeline: {
-						data: this.last7days || [],
-						axisType: 'category',
-						autoPlay: true,
-						playInterval: 3000,
-						left: '25%',
-						right: '10%',
-						bottom: '3%',
-						width: '50%',
-						label: {
-							normal: {
-								textStyle: {
-									color: '#ddd'
-								}
-							},
-							emphasis: {
-								textStyle: {
-									color: '#fff'
-								}
-							}
-						},
-						symbolSize: 10,
-						lineStyle: {
-							color: '#555'
-						},
-						checkpointStyle: {
-							borderColor: '#777',
-							borderWidth: 2
-						},
-						controlStyle: {
-							showNextBtn: true,
-							showPrevBtn: true,
-							normal: {
-								color: '#666',
-								borderColor: '#666'
-							},
-							emphasis: {
-								color: '#aaa',
-								borderColor: '#aaa'
-							}
-						},
-						
-					},
-					baseOption: {
-						geo: {
-							map: 'china',
-							label: {
-								emphasis: {
-									show: false
-								}
-							},
-							roam: true,
-							itemStyle: {
-								normal: {
-									areaColor: '#323c48',
-									borderColor: '#404a59'
-								},
-								emphasis: {
-									areaColor: '#2a333d'
-								}
-							}
 						}
-					},
-					options: [
-						{
-							backgroundColor: '#101f33',
-							legend: {
-								show: false,
-								orient: 'vertical',
-								top: 'bottom',
-								left: 'right',
-								data: ['地点', '线路'],
-								textStyle: {
-									color: '#fff'
-								}
-							},
-							geo: {
-								map: 'china',
-								label: {
-									emphasis: {
-										show: false
-									}
-								},
-								roam: true,
-								itemStyle: {
-									normal: {
-										areaColor: '#323c48',
-										borderColor: '#404a59'
-									},
-									emphasis: {
-										areaColor: '#2a333d'
-									}
-								}
-							},
-							series: [{
-								name: '地点',
-								type: 'effectScatter',
-								coordinateSystem: 'geo',
-								zlevel: 2,
-								rippleEffect: {
-									brushType: 'stroke'
-								},
-								label: {
-									emphasis: {
-										show: true,
-										position: 'right',
-										formatter: '{b}'
-									}
-								},
-								symbolSize: 2,
-								showEffectOn: 'render',
-								itemStyle: {
-									normal: {
-										color: '#46bee9'
-									}
-								},
-								data: allData.citys
-							}, {
-								name: '线路',
-								type: 'lines',
-								coordinateSystem: 'geo',
-								zlevel: 2,
-								large: true,
-								effect: {
-									show: true,
-									constantSpeed: 30,
-									symbol: 'pin',
-									symbolSize: 3,
-									trailLength: 0,
-								},
-								lineStyle: {
-									normal: {
-										color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-											offset: 0, color: '#58B3CC'
-										}, {
-											offset: 1, color: '#F58158'
-										}], false),
-										width: 1,
-										opacity: 0.2,
-										curveness: 0.1
-									}
-								},
-								data: allData.moveLines
-							}]
-						},
-						{
-							backgroundColor: '#101f33',
-							legend: {
-								show: false,
-								orient: 'vertical',
-								top: 'bottom',
-								left: 'right',
-								data: ['地点', '线路'],
-								textStyle: {
-									color: '#fff'
-								}
-							},
-							geo: {
-								map: 'china',
-								label: {
-									emphasis: {
-										show: false
-									}
-								},
-								roam: true,
-								itemStyle: {
-									normal: {
-										areaColor: '#323c48',
-										borderColor: '#404a59'
-									},
-									emphasis: {
-										areaColor: '#2a333d'
-									}
-								}
-							},
-							series: [{
-								name: '地点',
-								type: 'effectScatter',
-								coordinateSystem: 'geo',
-								zlevel: 2,
-								rippleEffect: {
-									brushType: 'stroke'
-								},
-								label: {
-									emphasis: {
-										show: true,
-										position: 'right',
-										formatter: '{b}'
-									}
-								},
-								symbolSize: 2,
-								showEffectOn: 'render',
-								itemStyle: {
-									normal: {
-										color: '#46bee9'
-									}
-								},
-								data: allData.citys
-							}, {
-								name: '线路',
-								type: 'lines',
-								coordinateSystem: 'geo',
-								zlevel: 2,
-								large: true,
-								effect: {
-									show: true,
-									constantSpeed: 30,
-									symbol: 'pin',
-									symbolSize: 3,
-									trailLength: 0,
-								},
-								lineStyle: {
-									normal: {
-										color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-											offset: 0, color: '#58B3CC'
-										}, {
-											offset: 1, color: '#F58158'
-										}], false),
-										width: 1,
-										opacity: 0.2,
-										curveness: 0.1
-									}
-								},
-								data: allData.moveLines
-							}]
-						},
-						{
-							backgroundColor: '#101f33',
-							legend: {
-								show: false,
-								orient: 'vertical',
-								top: 'bottom',
-								left: 'right',
-								data: ['地点', '线路'],
-								textStyle: {
-									color: '#fff'
-								}
-							},
-							geo: {
-								map: 'china',
-								label: {
-									emphasis: {
-										show: false
-									}
-								},
-								roam: true,
-								itemStyle: {
-									normal: {
-										areaColor: '#323c48',
-										borderColor: '#404a59'
-									},
-									emphasis: {
-										areaColor: '#2a333d'
-									}
-								}
-							},
-							series: [{
-								name: '地点',
-								type: 'effectScatter',
-								coordinateSystem: 'geo',
-								zlevel: 2,
-								rippleEffect: {
-									brushType: 'stroke'
-								},
-								label: {
-									emphasis: {
-										show: true,
-										position: 'right',
-										formatter: '{b}'
-									}
-								},
-								symbolSize: 2,
-								showEffectOn: 'render',
-								itemStyle: {
-									normal: {
-										color: '#46bee9'
-									}
-								},
-								data: allData.citys
-							}, {
-								name: '线路',
-								type: 'lines',
-								coordinateSystem: 'geo',
-								zlevel: 2,
-								large: true,
-								effect: {
-									show: true,
-									constantSpeed: 30,
-									symbol: 'pin',
-									symbolSize: 3,
-									trailLength: 0,
-								},
-								lineStyle: {
-									normal: {
-										color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-											offset: 0, color: '#58B3CC'
-										}, {
-											offset: 1, color: '#F58158'
-										}], false),
-										width: 1,
-										opacity: 0.2,
-										curveness: 0.1
-									}
-								},
-								data: allData.moveLines
-							}]
-						}
-					]
-				}
-			}
+			 * ]
+			 * [
+			 *  {
+			 *      "fromName": "吉林",
+			 *      "toName": "上海"，
+			 *      "coords": [[126.549572, 43.837883], [116.365868, 39.912289]]
+			 *  }
+			 * ]
+			 * */
 		},
 		mounted() {
 			onSocket.call(this, 'getWorldMap'); // 手动滚动的数据
 			onSocket.call(this, 'getChinaDay'); // 时间轴
+			emitSocket('getChinaDay');
 			this.getWorldMap();
 			this.getTotal();
 			this.chinaMap = echarts.init(document.querySelector("#map"));
 			this.chinaMap.setOption(this.options);
 		},
 		methods: {
+			
 			setChinaMap() {
-				this.chinaMap.setOption(this.options)
+				this.$nextTick(() => {
+					this.chinaMap.setOption(this.options)
+				})
 			},
 			// 向socket发起取世界地图数据请求
 			getWorldMap() {
-				// this.goLoading = true;
-				this.goLoading = false;
+				this.goLoading = true;
+				// this.goLoading = false;
 				emitSocket('getWorldMap');
 			},
 			// 向socket发起取地图统计请求

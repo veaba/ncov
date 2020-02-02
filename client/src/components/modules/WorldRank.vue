@@ -63,7 +63,7 @@
 					},
 					grid: {containLabel: true},
 					xAxis: {
-						name: '人数',
+						name: '',
 						splitLine: {
 							show: false
 						},

@@ -1,5 +1,7 @@
 import {ioServer} from "../config";
 import {sid_obj} from "./utils";
+import {getCoorDinates} from '../chartLib/mapv_data';
+import {geo} from "../chartLib/map_geo";
 
 const socket = require('socket.io-client')(ioServer + '/broadcast', {reconnectionAttempts: 10});
 export const onSocket = function (eventName) {
@@ -30,7 +32,32 @@ export const onSocket = function (eventName) {
 				break;
 			case 'getWorldMap':
 				this.goLoading = true;
-				this.worldMapData = res.data || [];
+				const lineWorldMapData = [];
+				const localWorldMapData = [];
+				// 转换格式
+				for (let item of res.data) {
+					let coordinateArray = getCoorDinates(item.city, mapv) || geo[item.city];
+					if (!coordinateArray[0]) {
+						coordinateArray = getCoorDinates(item.province, mapv) || geo[item.province];
+					}
+					if (!coordinateArray[0]) {
+						coordinateArray = getCoorDinates(item.country, mapv) || geo[item.country];
+					}
+					
+					lineWorldMapData.push({
+						fromName: "武汉",
+						toName: item.city || item.province || item.country,
+						coords: [[115.65875349263533, 30.53695878561894], coordinateArray]
+					});
+					localWorldMapData.push({
+						name: item.city || item.province || item.country,
+						value: [...coordinateArray, item.confirm],
+						symbolSize: 2,
+						itemStyle: {"normal": {"color": "#F58158"}}
+					});
+				}
+				this.localWorldMapData = localWorldMapData;
+				this.moveLineWorldMapData = lineWorldMapData;
 				this.asyncTime = res.msg || 0;
 				setTimeout(() => {
 					this.goLoading = false;
@@ -43,7 +70,6 @@ export const onSocket = function (eventName) {
 				this.worldRankData = res.data || [];
 				break;
 			case 'getChinaDay':
-				console.info('getChinaDay==>', res.data);
 				this.chinaDay = res.data || [];
 				break;
 			default:
@@ -54,5 +80,6 @@ export const onSocket = function (eventName) {
 
 
 export const emitSocket = (eventName, data) => {
+	console.info('前端发起emit', new Date().getTime());
 	socket.emit(eventName, data);
 };

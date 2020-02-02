@@ -3,6 +3,8 @@
  * @time 2020年1月25日20:38:36
  * @author veaba
  * */
+import {isHasOne} from "./mongo/curd";
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -16,7 +18,7 @@ import {connectMongo} from './mongo/mongo'
 import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
 
-import {format} from 'date-fns'
+import {format, startOfYesterday} from 'date-fns'
 // 2020-01-27T12:38:42.043Z => 2020年1月27日20:39:01
 // const x = format(new Date('2020-01-27T12:38:42.043Z'), 'yyyy-MM-dd HH:mm:ss');
 // console.info('时间==>', x);
@@ -79,6 +81,18 @@ const broadcastChannel: any = io.of('/broadcast')
  * @desc 异步地图涂推送图标数据
 
  }*/
+
+// todo 定时存储是时间到数据库，但是这个还是存在误差的
+
+// setInterval(async () => {
+//     // todo 查询history 数据库，是否存在字段，不存在则写入
+//     if (new Date().getHours() < 1) {
+//         if (!await isHasOne({date: format(startOfYesterday(), 'yyyy-MM-dd')}, 'historys')) {
+//             await saveHistoryData()
+//         }
+//     }
+//
+// }, 2 * 60 * 1000);
 
 // 推送感染数据
 setInterval(async () => {

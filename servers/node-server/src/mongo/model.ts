@@ -128,6 +128,13 @@ const newsSchema = new Schema({});
  * @desc weibos 微博数据
  * */
 const weibosSchema = new Schema({});
+
+/**
+ * @desc 存储昨天以前的数据
+ * */
+const historysSchema = new Schema({
+    date: Object
+});
 /**
  * @desc report 感染的案例数据，患者为单位
  * */
@@ -274,6 +281,7 @@ const SocketSchema = mongoose.model('sockets', socketSchema);
 const TimelinesSchema = mongoose.model('timelines', timelinesSchema);
 const UsersSchema = mongoose.model('users', usersSchema);
 const WeibosSchema = mongoose.model('weibos', weibosSchema);
+const HistorysSchema = mongoose.model('historys', historysSchema);
 
 
 export {
@@ -289,5 +297,6 @@ export {
     TimelinesSchema,
     ReportSchema,
     UsersSchema,
-    WeibosSchema
+    WeibosSchema,
+    HistorysSchema
 }

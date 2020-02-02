@@ -31,7 +31,40 @@
 		},
 		data() {
 			return {
-				totalPie: null
+				totalPie: null,
+				pieTotalData: [],
+				pieOptions: {
+					color: nCovColorsMap,
+					title: {
+						text: '国内疫情占比情况 / 官方收集数据',
+						// subtext: '治疗=(确诊-死亡-治愈)',
+						left: 'center',
+						top: "10px",
+						textStyle: {
+							color: "#aaa"
+						}
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: '{a} <br/>{b} : {c} ({d}%)'
+					},
+					series: [
+						{
+							name: '疫情占比',
+							type: 'pie',
+							radius: '55%',
+							center: ['50%', '50%'],
+							data: [],
+							emphasis: {
+								itemStyle: {
+									shadowBlur: 10,
+									shadowOffsetX: 0,
+									shadowColor: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						}
+					]
+				}
 			}
 		},
 		watch: {
@@ -59,56 +92,18 @@
 				}
 				this.pieTotalData = theData;
 				if (val.chinaConfirm || val.chinaDead || val.chinaHeal || val.chinaSuspect) {
+					this.pieOptions.series[0].data = this.pieTotalData;
 					this.$nextTick(() => {
 						this.goTotalPie()
 					})
 				}
 			}
 		},
-		computed: {
-			pieOptions() {
-				return {
-					color: nCovColorsMap,
-					title: {
-						text: '国内疫情占比情况 / 官方收集数据',
-						// subtext: '治疗=(确诊-死亡-治愈)',
-						left: 'center',
-						top: "10px",
-						textStyle: {
-							color: "#aaa"
-						}
-					},
-					tooltip: {
-						trigger: 'item',
-						formatter: '{a} <br/>{b} : {c} ({d}%)'
-					},
-					series: [
-						{
-							name: '疫情占比',
-							type: 'pie',
-							radius: '55%',
-							center: ['50%', '50%'],
-							data: this.pieTotalData,
-							emphasis: {
-								itemStyle: {
-									shadowBlur: 10,
-									shadowOffsetX: 0,
-									shadowColor: 'rgba(0, 0, 0, 0.5)'
-								}
-							}
-						}
-					]
-				}
-			}
-		},
-		data() {
-			return {
-				pieTotalData: [],
-			}
-		},
 		mounted() {
 			this.totalPie = echarts.init(document.querySelector("#totalPie"));
-			this.totalPie.setOption(this.pieOptions)
+			this.$nextTick(() => {
+				this.totalPie.setOption(this.pieOptions)
+			})
 		},
 		methods: {
 			goTotalPie() {
@@ -127,7 +122,7 @@
 		.chart-module {
 				position: absolute;
 				left: -400px;
-				bottom: 90px;
+				bottom: 0;
 				color: #fff;
 				border-radius: 4px;
 				transition: all 0.3s ease-in;
@@ -135,6 +130,7 @@
 		
 		.chart-module.active {
 				left: 30px;
+				bottom: 0;
 				transition: all 0.3s ease-in;
 		}
 </style>

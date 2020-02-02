@@ -75,8 +75,8 @@ export const onSocket = async (socket: any, eventName: string) => {
                 await getWorldRank(socket, data, channel, eventName);
                 break;
             case 'getWorldMap':
-                await getWorldMap(socket, data, channel, eventName);
-                break;
+                console.info('接受到getWorldMap消息', new Date().getTime());
+                return await getWorldMap(socket, data, channel, eventName);
             default:
                 throw new Error('未能识别Channel类型');
         }
