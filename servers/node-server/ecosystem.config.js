@@ -6,7 +6,7 @@
 module.exports={
 	apps:[{
 		name:"server-node",
-		script:"/srv/node-server/dist/app.js",
+		script:"/srv/node-server/app.js",
 		args:"one two",
 		instances:1,
 		autorestart:true,
