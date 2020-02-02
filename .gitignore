@@ -7,3 +7,5 @@ config.py
 config.js
 config.ts
 __pycache__
+nginx.conf
+ssl
