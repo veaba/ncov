@@ -27,7 +27,6 @@ export const onSocket = function (eventName) {
 				}
 				break;
 			case 'getTotal':
-				console.info("getTotal==>", res.data);
 				this.totalObj = res.data || {};
 				break;
 			case 'getWorldMap':

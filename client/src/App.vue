@@ -28,37 +28,29 @@
 <script>
 	
 	import {onMounted} from 'vue';
-	import {onSocket, emitSocket} from './utils/socketIo';
+	import {onSocket} from './utils/socketIo';
 	// import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
 	// import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
 	// import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
 	// import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
 	// import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
 	// import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
-	import ChartModule from "./components/modules/Chart.vue";                 // todo 图表
+	import ChartModule from "./components/modules/Chart.vue";                 // 饼图
 	import MapModule from './components/modules/MapModule.vue'                // 世界地图
 	import ChinaRankModule from './components/modules/ChinaRank.vue'          // 国内省份排行
 	import WorldRankModule from './components/modules/WorldRank.vue'          // 世界排行
 	import {formatTime} from "./utils/utils";
 	
-	7;
-	
 	export default {
 		components: {
-			// BarrageModule,
 			ChartModule,
-			// ConsoleModule,
-			// DashboardModule,
 			MapModule,
-			// PostModule,
 			ChinaRankModule,
 			WorldRankModule,
-			// TimelineModule,
 		},
 		mounted() {
-			onSocket.call(this, 'auth');   // 获取广播出来的新闻
+			// onSocket.call(this, 'auth');   // 获取广播出来的新闻
 			onSocket.call(this, 'getTotal'); // 手动滚动的数据
-			
 			setTimeout(() => {
 				this.chinaRankButtonStatus = true;
 				this.worldRankButtonStatus = true;
@@ -95,46 +87,46 @@
 		},
 		methods: {
 			// 以下代码是可以再简写的
-			onShowModule(moduleParams = {}) {
-				const {module, other} = moduleParams;
-				switch (module) {
-					case 'report':
-						this.reportButtonStatus = !this.reportButtonStatus;
-						this.auditButtonStatus = false;
-						this.timelineButtonStatus = false;
-						this.chartButtonStatus = false;
-						break;
-					case 'timeline':
-						this.timelineButtonStatus = !this.timelineButtonStatus;
-						this.newsButtonStatus = false;
-						this.auditButtonStatus = false;
-						this.reportButtonStatus = false;
-						this.chartButtonStatus = false;
-						break;
-					case 'audit':
-						this.auditButtonStatus = !this.auditButtonStatus;
-						this.timelineButtonStatus = false;
-						this.reportButtonStatus = false;
-						this.chartButtonStatus = false;
-						break;
-					case 'news':
-						this.newsButtonStatus = !this.newsButtonStatus;
-						this.timelineButtonStatus = false;
-						this.timelineButtonStatus = false;
-						this.reportButtonStatus = false;
-						this.chartButtonStatus = false;
-						break;
-					case 'chart':
-						this.chartButtonStatus = !this.chartButtonStatus;
-						break;
-					case 'worldRank':
-						this.worldRankButtonStatus = !this.worldRankButtonStatus;
-						break;
-					case 'dashboard':
-						this.reportButtonStatus = false;
-						break
-				}
-			}
+			// onShowModule(moduleParams = {}) {
+			// 	const {module, other} = moduleParams;
+			// 	switch (module) {
+			// 		case 'report':
+			// 			this.reportButtonStatus = !this.reportButtonStatus;
+			// 			this.auditButtonStatus = false;
+			// 			this.timelineButtonStatus = false;
+			// 			this.chartButtonStatus = false;
+			// 			break;
+			// 		case 'timeline':
+			// 			this.timelineButtonStatus = !this.timelineButtonStatus;
+			// 			this.newsButtonStatus = false;
+			// 			this.auditButtonStatus = false;
+			// 			this.reportButtonStatus = false;
+			// 			this.chartButtonStatus = false;
+			// 			break;
+			// 		case 'audit':
+			// 			this.auditButtonStatus = !this.auditButtonStatus;
+			// 			this.timelineButtonStatus = false;
+			// 			this.reportButtonStatus = false;
+			// 			this.chartButtonStatus = false;
+			// 			break;
+			// 		case 'news':
+			// 			this.newsButtonStatus = !this.newsButtonStatus;
+			// 			this.timelineButtonStatus = false;
+			// 			this.timelineButtonStatus = false;
+			// 			this.reportButtonStatus = false;
+			// 			this.chartButtonStatus = false;
+			// 			break;
+			// 		case 'chart':
+			// 			this.chartButtonStatus = !this.chartButtonStatus;
+			// 			break;
+			// 		case 'worldRank':
+			// 			this.worldRankButtonStatus = !this.worldRankButtonStatus;
+			// 			break;
+			// 		case 'dashboard':
+			// 			this.reportButtonStatus = false;
+			// 			break
+			// 	}
+			// }
 		}
 	};
 </script>

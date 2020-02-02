@@ -1,5 +1,5 @@
 <!--
-@desc  todo 延时进入展开装饰地图
+@desc  WorldRank
 -->
 <template>
 		<div :class="'worldRank-module ' +(worldRankButtonStatus?'active':'')">
