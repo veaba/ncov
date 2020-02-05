@@ -1,1 +1,1 @@
-export const ioServer = 'http://172.4.0.80:9999';
+export const ioServer = 'http://127.0.0.1:9999';

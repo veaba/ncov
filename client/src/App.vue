@@ -1,8 +1,8 @@
 <template>
 		<div class="home">
-				<MapModule :totalObj="totalObj"></MapModule>
+				<MapModule @emitPlayStatus="emitPlayStatus" :playWarning="playWarning" :totalObj="totalObj"></MapModule>
 				<!--todo 弹幕-->
-				<!--				<BarrageModule></BarrageModule>-->
+				<BarrageModule></BarrageModule>
 				<ChartModule :totalObj="totalObj" :chartButtonStatus="chartButtonStatus"></ChartModule>
 				
 				<!--				<PostModule-->
@@ -29,7 +29,7 @@
 	
 	import {onMounted} from 'vue';
 	import {onSocket} from './utils/socketIo';
-	// import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
+	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
 	// import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
 	// import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
 	// import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
@@ -43,6 +43,7 @@
 	
 	export default {
 		components: {
+			BarrageModule,
 			ChartModule,
 			MapModule,
 			ChinaRankModule,
@@ -66,6 +67,9 @@
 				newsButtonStatus: false,        // 消息窗口
 				chinaRankButtonStatus: false,   // rank
 				worldRankButtonStatus: false,   //
+				playWarning: {
+					status: false
+				},
 				authObj: {
 					isAuth: false,
 					oAuthUrl: "",
@@ -86,6 +90,10 @@
 			}
 		},
 		methods: {
+			emitPlayStatus(val) {
+				console.info('haha,', val);
+				this.playWarning.status = false
+			}
 			// 以下代码是可以再简写的
 			// onShowModule(moduleParams = {}) {
 			// 	const {module, other} = moduleParams;

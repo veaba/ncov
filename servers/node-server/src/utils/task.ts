@@ -6,9 +6,10 @@
 // import {_io} from "../app";
 import {format, getTime} from 'date-fns'
 
-import {findCount, getKeysAll, getRankAll, taskChannelList, updateOne} from "../mongo/curd";
+import {findCount, getKeysAll, getRankAll, isHasOne, taskChannelList, updateOne} from "../mongo/curd";
 import {axios} from "./axios";
 import {_pushSuccess} from "../app";
+import {getHash, setHash} from "../redis/redis";
 
 /**
  * @desc 广播定时任务
@@ -241,23 +242,45 @@ export const tencent = async (dateStr?: number | string | null) => {
                 const chinaRank = parserChinaRank(allData.areaTree[0]);
                 const worldRank = parseWorldRank(allData.areaTree);
                 const chinaDayList = allData.chinaDayList;
-                //  延时推送，以免一次性数据量太大
-                await _pushSuccess('broadcast', 'getTotal', totalData, getTime(new Date())); // 统计
-                await _pushSuccess('broadcast', 'getWorldRank', worldRank, getTime(new Date())); // 世界rank
-                await _pushSuccess('broadcast', 'getChinaDay', chinaDayList, getTime(new Date())); // timeline 折线图
-                await _pushSuccess('broadcast', 'getChinaRank', chinaRank, getTime(new Date())); // 国内rank
-                await _pushSuccess('broadcast', 'getWorldMap', worldMapData, getTime(new Date())); // 世界地图
-                //
-                // setTimeout(async () => {
-                //
-                // }, 1000);
-                // setTimeout(async () => {
-                //
-                // }, 3000);
-                // setTimeout(async () => {
-                // }, 4000);
-                // setTimeout(async () => {
-                // }, 5000);
+                // 处理history部分
+                const fullYear = new Date().getFullYear();
+                const fullMouth = new Date().getMonth() + 1; //0月开始
+                const fullDay = new Date().getDate();
+                const fullHour = new Date().getHours();
+                const fullMinute = new Date().getMinutes();
+                const date = fullYear + '-' + (fullMouth + '').padStart(2, '0') + '-' + String(fullDay - 1).padStart(2, '0'); // 昨天的日期
+                const today = fullYear + '-' + (fullMouth + '').padStart(2, '0') + '-' + String(fullDay).padStart(2, '0'); // 今天的日期
+
+                // 0时10分前，更新数据，以存储历史数据，这个会有误差
+                if (fullHour < 1 && fullMinute < 10) {
+                    await updateOne({
+                        date,
+                        totalData,
+                        worldMapData,
+                        chinaRank,
+                        worldRank,
+                        chinaDayList
+                    }, {}, 'historys');
+                    await setHash(date.toString(), {date: date.toString()})
+                }
+                let redisTotalData: any = await getHash(today);
+                if (!redisTotalData) {
+                    redisTotalData = {}
+                }
+                const redisTotal = redisTotalData.totalData || "{}";
+                const {worldConfirm, worldHeal, worldDead, worldSuspect} = JSON.parse(redisTotal);
+                // 检查不相同，则推送到前端
+                if (!redisTotalData.totalData || worldConfirm !== totalData.worldConfirm || worldHeal !== totalData.worldHeal &&
+                    worldDead !== totalData.worldDead || worldSuspect !== totalData.worldSuspect) {
+                    //  延时推送，以免一次性数据量太大
+                    await _pushSuccess('broadcast', 'getTotal', totalData, 'push'); // 统计
+                    await _pushSuccess('broadcast', 'getWorldRank', worldRank, getTime(new Date())); // 世界rank
+                    await _pushSuccess('broadcast', 'getChinaDay', chinaDayList, getTime(new Date())); // timeline 折线图
+                    await _pushSuccess('broadcast', 'getChinaRank', chinaRank, getTime(new Date())); // 国内rank
+                    await _pushSuccess('broadcast', 'getWorldMap', worldMapData, getTime(new Date())); // 世界地图
+                    console.info('在推送数据~', new Date().getTime(), totalData);
+                    await setHash(today, {totalData: JSON.stringify(totalData || {})});
+                }
                 res = null // 最后将res设置为null
             }
         })

@@ -4,7 +4,11 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}</h3>
+						<h3>{{playWarning}}2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}</h3>
+						<!--						="playWarning"-->
+						<video id="playWarning" src="warning.wav" loop style="display: none">
+								your browser does not support the video tag
+						</video>
 						<!---数据滚动-->
 						<div class="scroll-total">
 								<div class="total confirm">
@@ -62,12 +66,19 @@
 					}
 				}
 			},
+			playWarning: {
+				type: Object,
+				default() {
+					return {
+						status: false
+					};
+				}
+			}
 		},
 		data() {
 			return {
 				updateDataTime: "截止1月24日 9时",
 				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao",
-				
 				scrollObj: {
 					chinaConfirm: 0,
 					chinaHeal: 0,
@@ -186,6 +197,14 @@
 			}
 		},
 		watch: {
+			
+			// todo,播放声音
+			playWarning: {
+				handler(val) {
+					console.info(1111, val);
+				},
+				deep: true
+			},
 			// 实现数字滚动消息
 			totalObj: {
 				handler(val) {
@@ -308,10 +327,16 @@
 			this.getWorldMap();
 			this.getTotal();
 			this.chinaMap = echarts.init(document.querySelector("#map"));
-			this.chinaMap.setOption(this.options);
+			this.$nextTick(() => {
+				this.chinaMap.setOption(this.options);
+			});
+			// todo bug  不起作用
+			window.onresize = () => {
+				this.chinaMap = echarts.init(document.querySelector("#map"));
+				this.setChinaMap()
+			};
 		},
 		methods: {
-			
 			setChinaMap() {
 				this.$nextTick(() => {
 					this.chinaMap.setOption(this.options)
@@ -320,7 +345,6 @@
 			// 向socket发起取世界地图数据请求
 			getWorldMap() {
 				this.goLoading = true;
-				// this.goLoading = false;
 				emitSocket('getWorldMap');
 			},
 			// 向socket发起取地图统计请求

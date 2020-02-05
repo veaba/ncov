@@ -11,6 +11,7 @@ import {isObject} from "../utils/check";
 import {delKey} from "../redis/redis";
 import {getTotal, getWorldMap} from "./worldMap";
 import {getChinaRank, getChinaDay, getWorldRank} from "./rank";
+import {talkIn} from "./talk";
 
 /**
  * @desc 记录socket连接数，新连接插入，断开更新
@@ -35,11 +36,13 @@ export const connectSocket = async (socket: any) => {
  * @check  检查权限，redis 不存在sid、admin
  * */
 export const onSocket = async (socket: any, eventName: string) => {
-    const {nsp} = socket; // id,
-
+    const {nsp, id} = socket;
     const {name} = nsp || {};   // 频道
-    // const {sid} = _sid_obj(id);
+    const {sid} = _sid_obj(id);
     const channel = (name || '').replace('/', '', '');
+
+    socket.broadcast.to(sid).emit('getTotal', 'hahah');
+    socket.broadcast.to(sid).emit('talk', 'hahah');
     socket.on(eventName, async (data: any) => {
         switch (eventName) {
             // channel->report，发起报告审核,管理直接通过
@@ -62,6 +65,9 @@ export const onSocket = async (socket: any, eventName: string) => {
             // case 'getNews':
             //     await getNews(socket, sid, data, channel, eventName);
             //     break;
+            case 'talk':
+                await talkIn(socket, sid, data, channel, eventName);
+                break;
             case 'getTotal':
                 await getTotal(socket, data, channel, eventName);
                 break;

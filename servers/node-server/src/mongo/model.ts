@@ -41,19 +41,6 @@ const broadcastSchema = new Schema({
     img: String
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
-/**
- * @desc broadcasts 广播表
- * */
-const broadcastTestSchema = new Schema({
-    channel: String,
-    createTime: String,
-    desc: String,
-    newsUrl: String,
-    title: String,
-    new: Boolean,
-    img: String
-}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
-
 
 /**
  * @desc helps 帮助表
@@ -133,7 +120,12 @@ const weibosSchema = new Schema({});
  * @desc 存储昨天以前的数据
  * */
 const historysSchema = new Schema({
-    date: Object
+    date: String,
+    totalData: Object,
+    worldMapData: Object,
+    chinaRank: Object,
+    worldRank: Object,
+    chinaDayList: Object
 });
 /**
  * @desc report 感染的案例数据，患者为单位
@@ -185,7 +177,6 @@ const reportSchema = new Schema({
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 /**
  * @desc timelines 时间轴
- * @todo isoDate
  * */
 const timelinesSchema = new Schema({
     reportDate: Number,         // 报告日期，年月日，时分秒自动补0,时间戳
@@ -268,9 +259,22 @@ const auditSchema = new Schema({
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
+/**
+ * @desc 弹幕
+ * */
+const barragesSchema = new Schema(
+    {
+        sid: String,
+        avatarUrl: String,
+        isAdmin: Boolean,
+        message: Object,
+        channel: String,
+        eventName: String,
+        createTimestamp: Number || String
+    }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}}
+);
 const AuditSchema = mongoose.model('audits', auditSchema);
 const BroadcastSchema = mongoose.model('broadcasts', broadcastSchema);
-const BroadcastTestSchema = mongoose.model('broadcasts_tests', broadcastSchema);
 const HelpsSchema = mongoose.model('helps', helpsSchema);
 const HospitalsSchema = mongoose.model('hospitals', hospitalsSchema);
 const LogSchema = mongoose.model('logs', logSchema);
@@ -282,12 +286,12 @@ const TimelinesSchema = mongoose.model('timelines', timelinesSchema);
 const UsersSchema = mongoose.model('users', usersSchema);
 const WeibosSchema = mongoose.model('weibos', weibosSchema);
 const HistorysSchema = mongoose.model('historys', historysSchema);
-
+const BarragesSchema = mongoose.model('barrages', barragesSchema);
 
 export {
     AuditSchema,
+    BarragesSchema,
     BroadcastSchema,
-    BroadcastTestSchema,
     HelpsSchema,
     HospitalsSchema,
     LogSchema,

@@ -3,7 +3,7 @@ import {sid_obj} from "./utils";
 import {getCoorDinates} from '../chartLib/mapv_data';
 import {geo} from "../chartLib/map_geo";
 
-const socket = require('socket.io-client')(ioServer + '/broadcast', {reconnectionAttempts: 10});
+const socket = io(ioServer + '/broadcast', {reconnectionAttempts: 10});
 export const onSocket = function (eventName) {
 	socket.on('connect', () => {
 		const {id} = socket;
@@ -26,11 +26,18 @@ export const onSocket = function (eventName) {
 					console.info(this.authObj, '授权');
 				}
 				break;
+			case 'talk':
+				this.barrageContent.push(res.data || {});
+				break;
 			case 'getTotal':
+				if (res.msg === 'push') {
+					console.info('???');
+					console.info(this.playWarning);
+					this.playWarning.status=true
+				}
 				this.totalObj = res.data || {};
 				break;
 			case 'getWorldMap':
-				this.goLoading = true;
 				const lineWorldMapData = [];
 				const localWorldMapData = [];
 				// 转换格式

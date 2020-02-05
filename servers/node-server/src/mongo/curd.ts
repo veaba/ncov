@@ -5,15 +5,14 @@
  * */
 
 import {
-    BroadcastSchema, BroadcastTestSchema,
+    BroadcastSchema,
     HelpsSchema,
     HospitalsSchema, LogSchema,
     LovesSchema, ReportSchema,
     NewsSchema, SocketSchema,
     TimelinesSchema,
-    UsersSchema, WeibosSchema, AuditSchema, HistorysSchema
+    UsersSchema, WeibosSchema, AuditSchema, HistorysSchema, BarragesSchema
 } from "./model";
-import {_dbSuccess} from "../utils/exception";
 import {isEmptyObject} from "../utils/check";
 
 /**
@@ -114,6 +113,9 @@ export const TheSchema = (obj: object, collection_name: string) => {
         case 'audits':
             models = new AuditSchema(obj);
             break;
+        case 'barrages':
+            models = new BarragesSchema(obj);
+            break;
         case 'broadcasts':
             models = new BroadcastSchema(obj);
             break;
@@ -171,11 +173,11 @@ export const TheModel = (collection_name: string) => {
         case 'audits':
             models = AuditSchema;
             break;
+        case 'barrages':
+            models = BarragesSchema;
+            break;
         case 'broadcasts':
             models = BroadcastSchema;
-            break;
-        case 'broadcasts_tests':
-            models = BroadcastTestSchema; // TODO 移除
             break;
         case 'helps':
             models = HelpsSchema;
@@ -224,6 +226,26 @@ export const TheModel = (collection_name: string) => {
  */
 export const isHasOne = async (obj: object, collection_name: string) => {
     return !!(await TheModel(collection_name).where(obj).countDocuments())
+};
+
+/**
+ * @desc 获取长度
+ * */
+export const getCount = async (obj: object, collection_name: string) => {
+    return await TheModel(collection_name).where(obj).countDocuments()
+};
+
+/**
+ * @desc 分页
+ * */
+export const flipPage = async (collection: string,skip:number,limit?: number, match?: object) => {
+    const list = await TheModel(collection).aggregate([
+        {$match: match || {}},
+        {$sort: {id: -1}},
+        {$skip:skip},
+        {$limit: limit || 20},
+    ]);
+    return list || []
 };
 
 /**

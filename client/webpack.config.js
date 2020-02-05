@@ -96,6 +96,9 @@ module.exports = (env = {}) => ({
 		hot: true,
 		stats: 'minimal',
 		contentBase: "dist",
-		overlay: true
+		overlay: true,
+		proxy: {
+			// '/socket.io': 'http://127.0.0.1:9999/socket.io'
+		}
 	}
 });

@@ -6,9 +6,9 @@
 		<div class="barrage-module">
 				
 				<div class="display-wrap">
-						{{barrageContent}}
-						
-						{{clickTickTimestamp}}
+						<ul>
+								<li v-for="item in barrageContent">{{item}}</li>
+						</ul>
 				</div>
 				
 				<div class="footer-input clear">
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import {emitSocket} from "../../utils/socketIo";
+	import {emitSocket, onSocket, onSocketPython} from "../../utils/socketIo";
 	
 	export default {
 		name: "Barrage",
@@ -34,6 +34,8 @@
 			}
 		},
 		mounted() {
+			onSocket.call(this, 'talk');
+			// onSocketPython.call(this, 'talk');
 			this.clearTimer = setInterval(() => {
 				this.clickTickTimestamp.shift()
 			}, 3000)
@@ -72,7 +74,7 @@
 				left: 50%;
 				top: 50%;
 				text-align: center;
-				transform: translate(-50%, 50%);
+				transform: translate(-50%, -50%);
 				width: 100%;
 				max-height: 100%;
 				border: 1px solid green;

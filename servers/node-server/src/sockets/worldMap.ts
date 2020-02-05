@@ -18,7 +18,7 @@ export const getWorldMap = async (socket: any, data: any, channel: string, event
                 const allData = JSON.parse(res.data || {});
                 const worldMapData = parseWorldMap(allData.areaTree);
                 await _pushSuccess(channel, eventName, worldMapData); // 世界地图
-                res = null // 最后将res设置为null
+                res = null; // 最后将res设置为null
                 console.timeEnd('getWorldMap');
                 console.info('getWorldMap完成推送到前端', new Date().getTime());
             }
