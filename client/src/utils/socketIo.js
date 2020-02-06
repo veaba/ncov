@@ -20,10 +20,8 @@ export const onSocket = function (eventName) {
 			case 'auth':
 				if (res && res.code === 2403) {
 					this.authObj.isAuth = false;
-					console.info(this.authObj, '未授权');
 				} else if (res.code === 0) {
 					this.authObj.isAuth = true;
-					console.info(this.authObj, '授权');
 				}
 				break;
 			case 'talk':
@@ -31,8 +29,6 @@ export const onSocket = function (eventName) {
 				break;
 			case 'getTotal':
 				if (res.msg === 'push') {
-					console.info('???');
-					console.info(this.playWarning);
 					this.playWarning.status=true
 				}
 				this.totalObj = res.data || {};
@@ -86,6 +82,5 @@ export const onSocket = function (eventName) {
 
 
 export const emitSocket = (eventName, data) => {
-	console.info('前端发起emit', new Date().getTime());
 	socket.emit(eventName, data);
 };

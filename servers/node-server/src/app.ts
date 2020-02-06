@@ -60,7 +60,7 @@ const broadcastChannel: any = io.of('/broadcast')
         const {id} = socket;
         const {sid} = _sid_obj(id);
         // 给指定人发送消息
-        await getBarrageList(io, sid)
+        await getBarrageList(io, sid,socket)
     });
 
 /**

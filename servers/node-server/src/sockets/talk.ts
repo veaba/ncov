@@ -16,7 +16,7 @@ import {flipPage, getCount, insertOne} from "../mongo/curd";
  * @desc 写入同时存储到数据库
  * */
 export const talkIn = async (socket: any, sid: string, data: string, channel: string, eventName: string) => {
-    // await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
+    await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
     const redisObj: any = await getHash(sid) || {};
     const talkInObj = {
         sid,
@@ -38,13 +38,11 @@ export const talkIn = async (socket: any, sid: string, data: string, channel: st
  * @sid 指定用户推送
  * */
 
-export const getBarrageList = async (io: any, sid: string) => {
+export const getBarrageList = async (io: any, sid: string, socket: any) => {
     const theCount: number = await getCount({}, 'barrages');
     const countDivideTen = Math.ceil(theCount / 10) || 1;
     for (let i = 1; i <= countDivideTen; i++) {
-        console.info('ii=>', i);
         const pushData = await flipPage('barrages', i * 10 - 10, 10);
-        console.info('data=>', pushData);
-        io.to(sid).emit('talk', pushData);
+        socket.to(sid).emit('talk', pushData);
     }
 };

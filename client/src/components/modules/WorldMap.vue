@@ -4,8 +4,7 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>{{playWarning}}2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}</h3>
-						<!--						="playWarning"-->
+						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}</h3>
 						<video id="playWarning" src="warning.wav" loop style="display: none">
 								your browser does not support the video tag
 						</video>
@@ -201,7 +200,6 @@
 			// todo,播放声音
 			playWarning: {
 				handler(val) {
-					console.info(1111, val);
 				},
 				deep: true
 			},
@@ -332,8 +330,7 @@
 			});
 			// todo bug  不起作用
 			window.onresize = () => {
-				this.chinaMap = echarts.init(document.querySelector("#map"));
-				this.setChinaMap()
+				this.chinaMap.resize()
 			};
 		},
 		methods: {
@@ -344,7 +341,8 @@
 			},
 			// 向socket发起取世界地图数据请求
 			getWorldMap() {
-				this.goLoading = true;
+				// todo
+				// this.goLoading = true;
 				emitSocket('getWorldMap');
 			},
 			// 向socket发起取地图统计请求

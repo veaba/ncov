@@ -40,9 +40,6 @@ export const onSocket = async (socket: any, eventName: string) => {
     const {name} = nsp || {};   // 频道
     const {sid} = _sid_obj(id);
     const channel = (name || '').replace('/', '', '');
-
-    socket.broadcast.to(sid).emit('getTotal', 'hahah');
-    socket.broadcast.to(sid).emit('talk', 'hahah');
     socket.on(eventName, async (data: any) => {
         switch (eventName) {
             // channel->report，发起报告审核,管理直接通过

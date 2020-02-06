@@ -2,7 +2,10 @@
 		<div class="home">
 				<MapModule @emitPlayStatus="emitPlayStatus" :playWarning="playWarning" :totalObj="totalObj"></MapModule>
 				<!--todo 弹幕-->
-				<BarrageModule></BarrageModule>
+				<BarrageModule
+								:isBarrageMode="isBarrageMode"
+								:authObj="authObj"
+								@emitBarrageHide="emitBarrageHide"></BarrageModule>
 				<ChartModule :totalObj="totalObj" :chartButtonStatus="chartButtonStatus"></ChartModule>
 				
 				<!--				<PostModule-->
@@ -22,6 +25,24 @@
 				<!--								:auditButtonStatus="auditButtonStatus"-->
 				<!--								:auditList="auditList"-->
 				<!--				></ConsoleModule>-->
+				
+				<div v-if="!isBarrageMode" class="tip-barrage in-button">
+						
+						
+						<span @click="onInRoom" v-if="authObj.isAuth">
+								已登录，可进入弹幕模式
+						</span>
+						
+						<a target="_blank" :href="authObj.oAuthUrl" v-else>
+								点击授权，弹幕支持
+								<img style="width: 24px;
+										     height: 24px;
+										     top: 4px;
+												 position: relative;"
+								     src="./assets/images/github-logo.png" alt="">
+						</a>
+				</div>
+		
 		</div>
 </template>
 
@@ -29,14 +50,14 @@
 	
 	import {onMounted} from 'vue';
 	import {onSocket} from './utils/socketIo';
-	import BarrageModule from "./components/modules/Barrage.vue";             // todo 弹幕
+	import BarrageModule from "./components/modules/Barrage.vue";                // 弹幕
 	// import ConsoleModule from "./components/modules/Console.vue";             // todo 确认消息控制台，需要授权
 	// import DashboardModule from "./components/modules/Dashboard.vue";         // todo 仪表盘，控制页面显示
 	// import MessageModule from "./components/modules/Message.vue";             // todo 一旦新消息发布，则显示，单条消息发送Modal
 	// import PostModule from './components/modules/Post.vue';                   // todo 人工，发布消息
 	// import TimelineModule from "./components/modules/Timeline.vue";           // todo 时间轴
 	import ChartModule from "./components/modules/Chart.vue";                 // 饼图
-	import MapModule from './components/modules/MapModule.vue'                // 世界地图
+	import MapModule from './components/modules/WorldMap.vue'                // 世界地图
 	import ChinaRankModule from './components/modules/ChinaRank.vue'          // 国内省份排行
 	import WorldRankModule from './components/modules/WorldRank.vue'          // 世界排行
 	import {formatTime} from "./utils/utils";
@@ -50,8 +71,8 @@
 			WorldRankModule,
 		},
 		mounted() {
-			// onSocket.call(this, 'auth');   // 获取广播出来的新闻
-			onSocket.call(this, 'getTotal'); // 手动滚动的数据
+			onSocket.call(this, 'getTotal');  // 手动滚动的数据
+			onSocket.call(this, 'auth');      // 授权
 			setTimeout(() => {
 				this.chinaRankButtonStatus = true;
 				this.worldRankButtonStatus = true;
@@ -67,6 +88,7 @@
 				newsButtonStatus: false,        // 消息窗口
 				chinaRankButtonStatus: false,   // rank
 				worldRankButtonStatus: false,   //
+				isBarrageMode: true,
 				playWarning: {
 					status: false
 				},
@@ -90,51 +112,16 @@
 			}
 		},
 		methods: {
+			onInRoom() {
+				this.isBarrageMode = true
+			},
+			emitBarrageHide(val) {
+				this.isBarrageMode = false
+			},
 			emitPlayStatus(val) {
 				console.info('haha,', val);
 				this.playWarning.status = false
 			}
-			// 以下代码是可以再简写的
-			// onShowModule(moduleParams = {}) {
-			// 	const {module, other} = moduleParams;
-			// 	switch (module) {
-			// 		case 'report':
-			// 			this.reportButtonStatus = !this.reportButtonStatus;
-			// 			this.auditButtonStatus = false;
-			// 			this.timelineButtonStatus = false;
-			// 			this.chartButtonStatus = false;
-			// 			break;
-			// 		case 'timeline':
-			// 			this.timelineButtonStatus = !this.timelineButtonStatus;
-			// 			this.newsButtonStatus = false;
-			// 			this.auditButtonStatus = false;
-			// 			this.reportButtonStatus = false;
-			// 			this.chartButtonStatus = false;
-			// 			break;
-			// 		case 'audit':
-			// 			this.auditButtonStatus = !this.auditButtonStatus;
-			// 			this.timelineButtonStatus = false;
-			// 			this.reportButtonStatus = false;
-			// 			this.chartButtonStatus = false;
-			// 			break;
-			// 		case 'news':
-			// 			this.newsButtonStatus = !this.newsButtonStatus;
-			// 			this.timelineButtonStatus = false;
-			// 			this.timelineButtonStatus = false;
-			// 			this.reportButtonStatus = false;
-			// 			this.chartButtonStatus = false;
-			// 			break;
-			// 		case 'chart':
-			// 			this.chartButtonStatus = !this.chartButtonStatus;
-			// 			break;
-			// 		case 'worldRank':
-			// 			this.worldRankButtonStatus = !this.worldRankButtonStatus;
-			// 			break;
-			// 		case 'dashboard':
-			// 			this.reportButtonStatus = false;
-			// 			break
-			// 	}
-			// }
 		}
 	};
 </script>
@@ -303,6 +290,31 @@
 				width: 100%;
 				height: 100%;
 				overflow: hidden;
+		}
+		
+		.tip-barrage {
+				cursor: pointer;
+				padding: 0 10px;
+		}
+		
+		.in-button {
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+				bottom: 20px;
+				display: block;
+				line-height: 62px;
+				float: left;
+				font-size: 18px;
+				background: #FF8626;
+				border: 1px solid #FF8626;
+				color: #fff;
+				border-radius: 8px;
+				z-index: 100;
+				
+				a {
+						text-decoration: none;
+				}
 		}
 
 
