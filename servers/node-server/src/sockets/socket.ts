@@ -8,10 +8,11 @@ import {insertOne, updateOne} from "../mongo/curd";
 import {_sid_obj} from "../utils/utils";
 import {getTime} from 'date-fns'
 import {isObject} from "../utils/check";
-import {delKey} from "../redis/redis";
+import {delKey, delSet, setSet, totalOnline} from "../redis/redis";
 import {getTotal, getWorldMap} from "./worldMap";
 import {getChinaRank, getChinaDay, getWorldRank} from "./rank";
 import {talkIn} from "./talk";
+import {_pushSuccess} from "../app";
 
 /**
  * @desc 记录socket连接数，新连接插入，断开更新
@@ -20,12 +21,16 @@ import {talkIn} from "./talk";
 export const connectSocket = async (socket: any) => {
     const {id, handshake} = socket;
     const {issued} = handshake;
+    const {sid} = _sid_obj(id);
     await insertOne({..._sid_obj(id), noAuthCount: 1, beginTime: issued}, 'sockets');
+    await setSet('onlineSocket', sid);
+    await _pushSuccess('broadcast', 'online', await totalOnline('onlineSocket'));
     socket.on('disconnect', async () => {
         const {id} = socket;
-        const {sid} = _sid_obj(id);
+        await delSet('onlineSocket', sid);
         await updateOne({sid}, {..._sid_obj(id), endTime: getTime(new Date())}, 'sockets');
-        await delKey(sid)
+        await delKey(sid);
+        await _pushSuccess('broadcast', 'online', await totalOnline('onlineSocket'));
     })
 };
 

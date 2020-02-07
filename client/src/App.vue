@@ -119,7 +119,6 @@
 				this.isBarrageMode = false
 			},
 			emitPlayStatus(val) {
-				console.info('haha,', val);
 				this.playWarning.status = false
 			}
 		}

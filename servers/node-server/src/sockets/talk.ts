@@ -41,8 +41,18 @@ export const talkIn = async (socket: any, sid: string, data: string, channel: st
 export const getBarrageList = async (io: any, sid: string, socket: any) => {
     const theCount: number = await getCount({}, 'barrages');
     const countDivideTen = Math.ceil(theCount / 10) || 1;
+    let timer: any = 0;
     for (let i = 1; i <= countDivideTen; i++) {
-        const pushData = await flipPage('barrages', i * 10 - 10, 10);
-        socket.to(sid).emit('talk', pushData);
+        timer = setTimeout(async () => {
+            console.info('我在执行首次推送任务==>', sid,);
+            const pushData = await flipPage('barrages', i * 10 - 10, 10);
+            await socket.to(sid).emit('talk', pushData);
+        }, i * 2000);
+        // 如果发现socket 断开。则break
+        if (JSON.stringify(socket.rooms) === '{}') {
+            clearTimeout(timer);
+            break
+        }
     }
+    clearTimeout(timer)
 };

@@ -94,3 +94,10 @@ export const lastWhatDaysList = (num) => {
 	}
 	return daysList.sort();
 };
+
+/*
+* @desc 生成十六进制颜色
+* */
+export const randomColor = () => {
+	return '#' + Math.floor(Math.random() * 16777215).toString(16);
+};

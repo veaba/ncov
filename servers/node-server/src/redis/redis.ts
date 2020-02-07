@@ -11,7 +11,7 @@ import {redisConfig} from "../config";
 /**
  * @desc 设置hash key，增量替换而已
  * */
-const setHash = async (key: string, data: object) => {
+export const setHash = async (key: string, data: object) => {
     if (!key) {
         console.info('setHash 丢失key');
         return
@@ -32,11 +32,73 @@ const setHash = async (key: string, data: object) => {
 };
 
 /**
+ * @desc redis 设置集合
+ * */
+export const setSet = async (key: string, field: string) => {
+    key = key.toString();
+    const client = redis.createClient(redisConfig);
+    client.on('error', (err: any) => {
+        console.log(err, 'setSet')
+    });
+    return new Promise((resolve) => {
+        if (field) {
+            client.sadd(key, field, async (err: any, obj: any) => {
+                if (err) console.log(err);
+                client.end(true);//关闭连接
+                resolve(obj)
+            })
+        } else {
+            throw new Error('请输入设置的字段')
+        }
+    })
+};
+
+/**
+ * @desc redis 从集合中删除
+ * */
+export const delSet = async (key: string, field: string) => {
+    key = key.toString();
+    const client = redis.createClient(redisConfig);
+    client.on('error', (err: any) => {
+        console.log(err, 'delSet')
+    });
+    return new Promise((resolve) => {
+        if (field) {
+            client.srem(key, field, async (err: any, obj: any) => {
+                if (err) console.log(err);
+                client.end(true);//关闭连接
+                resolve(obj)
+            })
+        } else {
+            throw new Error('请输入设置的字段')
+        }
+    })
+};
+
+/**
+ * @desc 统计在线人数
+ * */
+export const totalOnline = async (key:string) => {
+    key = key.toString();
+    const client = redis.createClient(redisConfig);
+    client.on('error', (err: any) => {
+        console.log(err, 'totalOnline')
+    });
+    return new Promise((resolve) => {
+        client.SCARD(key, async (err: any, obj: any) => {
+            if (err) console.log(err);
+            client.end(true);//关闭连接
+            resolve(obj)
+        })
+    })
+};
+
+/**
  * @desc 获取hash key
  * @param key
  * @param field 可选
  * */
-const getHash = async (key: string, field?: string) => {
+export const getHash = async (key: string, field?: string) => {
     key = key.toString();
     const client = redis.createClient(redisConfig);
     client.on('error', (err: any) => {
@@ -63,7 +125,7 @@ const getHash = async (key: string, field?: string) => {
 /**
  * @desc 删除hash
  * */
-const delKey = async (key: string) => {
+export const delKey = async (key: string) => {
     const client = redis.createClient(redisConfig);
     client.on('error', (err: any) => {
         console.log(err, 'getHash')
@@ -83,7 +145,7 @@ const delKey = async (key: string) => {
  * @param key
  * @param second
  * */
-const setTime = async (key: string, second: number) => {
+export const setTime = async (key: string, second: number) => {
     const client = redis.createClient(redisConfig);
     client.on('error', (err: any) => {
         console.log(err, 'getHash')
@@ -97,10 +159,3 @@ const setTime = async (key: string, second: number) => {
     })
 
 };
-
-export {
-    setTime,
-    setHash,
-    getHash,
-    delKey,
-}

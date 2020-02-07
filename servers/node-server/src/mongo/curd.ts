@@ -158,11 +158,6 @@ export const TheSchema = (obj: object, collection_name: string) => {
     return models
 };
 
-/**
- * @desc 查询当前在线用户人数
- * @todo 只需要查询end_Time不存在，或者created==updated即可
- * */
-
 
 /**
  * @desc model

@@ -1,17 +1,18 @@
 <!--
-@desc todo 弹幕消息系统
+@desc 弹幕消息系统，简单实现动画效果
 @todo 究极版下一次大迭代=>消息动画直接击中武汉地理坐标 2020年1月31日19:08:26
 -->
 <template>
 		<div class="barrage-module" :style="!isBarrageMode?{'z-index':'-1'}:{'z-index':'100'}">
 				
 				<div class="display-wrap">
-						<ul>
-								{{leftAnimation}}
+						<ul class="ul">
 								{{width}}
-								<li class="animate-to-left" :style="{left:leftAnimation[index]+'px'}"
+								<li class="animate-to-left" :style="{left:leftAnimation[index]+'px',top:index*66+'px'}"
 								    v-for="(item,index) in barrages">
-										{{item.message||""}}
+										<img :src="item.avatarUrl" :alt="item.name||''">
+										<span v-show="item.name">{{item.name}}：</span>
+										<span :style="{color:item.color}">{{item.message||""}}</span>
 								</li>
 						</ul>
 				</div>
@@ -23,9 +24,8 @@
 						       placeholder="请输入你要喊武汉加油的话！" maxlength="32">
 						
 						<button v-if="authObj.isAuth" class="input-button" @click="onEnterInput">发送</button>
-						
 						<a :href="authObj.oAuthUrl||''" target="_blank">
-								<button v-if="!authObj.isAuth" class="input-button" @click="onEnterInput">
+								<button v-if="!authObj.isAuth" class="input-button">
 										授权
 										<img style="width: 24px;
 										     height: 24px;
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-	import {emitSocket, onSocket, onSocketPython} from "../../utils/socketIo";
+	import {emitSocket, onSocket} from "../../utils/socketIo";
 	
 	export default {
 		name: "Barrage",
@@ -61,63 +61,82 @@
 				barrageContent: [],
 				inputContent: "武汉加油！",
 				clearTimer: null,
+				leftMoveTimer: null,
 				width: window.innerWidth,
-				leftAnimation: [
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-					window.innerWidth / 2,
-				]
+				leftAnimation: [],
+			}
+		},
+		watch: {
+			barrageContent: {
+				handler(val) {
+					if (val.length) {
+						this.createdLeft(val.length)
+					} else {
+						clearInterval(this.leftMoveTimer)
+					}
+				},
+				deep: true
 			}
 		},
 		computed: {
+			randomSetup() {
+				let len = this.barrageContent.length || 0;
+				let randomArray = [];
+				let speedAra = [2, 3, 5, 8];
+				for (let i = 0; i < len; i++) {
+					randomArray.push(speedAra[Math.floor(Math.random() * 4)])
+				}
+				return randomArray
+				
+			},
 			barrages() {
 				return this.barrageContent.slice(0, 10)
-			}
+			},
 		},
 		mounted() {
 			onSocket.call(this, 'talk');
 			this.clearTimer = setInterval(() => {
 				this.clickTickTimestamp.shift()
 			}, 3000);
-			
-			this.createdLeft()
-			
 		},
 		destroyed() {
 			clearInterval(this.clearTimer)
 		},
 		methods: {
-			// 生成左移动画
-			createdLeft() {
-				let speedAra = [5, 10, 15, 20];
-				let randomSetup = [];
-				for (let i = 0; i < 10; i++) {
-					randomSetup.push(speedAra[Math.floor(Math.random() * 4)])
-				}
-				setInterval(() => {
-					for (let i = 0; i < 10; i++) {
-						this.leftAnimation[i] = this.leftAnimation[i] - randomSetup[i] - Math.floor(Math.random() * 10)
+			/**
+			 * @desc 简单实现弹幕效果
+			 * */
+			createdLeft(len) {
+				clearInterval(this.leftMoveTimer);
+				this.leftMoveTimer = setInterval(() => {
+					for (let i = 0; i < len; i++) {
+						if (this.leftAnimation[i] === null || Number.isNaN(this.leftAnimation[i])) {
+							this.leftAnimation[i] = this.width / 2 - this.randomSetup[i]
+						} else {
+							this.leftAnimation[i] = this.leftAnimation[i] - this.randomSetup[i]
+						}
 					}
 					let maxVal = Math.max.apply(null, this.leftAnimation);
-					if (maxVal < -1080) {
-						for (let i = 0; i < 10; i++) {
-							this.leftAnimation[i] = 960;
+					if (maxVal < -(this.width / 1.5)) {
+						for (let i = 0; i < len; i++) {
+							this.leftAnimation[i] = this.width / 1.5;
 						}
-						this.barrageContent.splice(0, 10)
-						// speedAra.sort(() => Math.random() > 0.5 ? 1 : -1)
+						this.barrageContent.splice(0, 10);
+						clearInterval(this.leftMoveTimer);
 					}
-					
-				}, 50)
+					if (!this.barrageContent.length) {
+						clearInterval(this.leftMoveTimer);
+					}
+				}, 20)
 			},
 			onOutRoom() {
 				this.$emit('emitBarrageHide', false)
+			},
+			// 自减的移动的函数
+			leftMove(index) {
+				setInterval(() => {
+					return Math.random() * 100
+				}, 1000)
 			},
 			onEnterInput() {
 				if (this.clickTickTimestamp.length < 5) {
@@ -131,10 +150,10 @@
 					alert('内容为空，无法发送');
 					return false
 				}
-				emitSocket('talk', this.inputContent);
 				this.$nextTick(() => {
 					this.inputContent = '武汉加油'
-				})
+				});
+				emitSocket('talk', this.inputContent);
 			}
 		}
 	};
@@ -155,7 +174,6 @@
 		
 		.barrage-module {
 				position: absolute;
-				border: 1px solid red;
 				width: 100%;
 				height: 100%;
 				left: 0;
@@ -165,11 +183,18 @@
 		}
 		
 		.animate-to-left {
+				display: inline-block;
 				position: relative;
 				font-size: 18px;
 				line-height: 64px;
 				font-weight: bold;
-				border: 1px solid red;
+				left: 920px;
+				
+				img {
+						border-radius: 50%;
+						vertical-align: middle;
+						margin-right: 10px;
+				}
 		}
 		
 		.footer-input {
@@ -227,5 +252,10 @@
 						color: #fff;
 						border-radius: 8px 0 0 8px;
 				}
+		}
+		
+		.ul {
+				position: relative;
+				min-height: 660px;
 		}
 </style>

@@ -1,5 +1,5 @@
 import {ioServer} from "../config";
-import {sid_obj} from "./utils";
+import {randomColor, sid_obj} from "./utils";
 import {getCoorDinates} from '../chartLib/mapv_data';
 import {geo} from "../chartLib/map_geo";
 
@@ -24,12 +24,25 @@ export const onSocket = function (eventName) {
 					this.authObj.isAuth = true;
 				}
 				break;
+			case 'online':
+				this.online = res.data||0;
+				break;
 			case 'talk':
-				this.barrageContent.push(res.data || {});
+				if (Array.isArray(res.data)) {
+					this.barrageContent = (res.data || []).map(item => {
+						item.color = randomColor();
+						return item;
+					});
+				} else {
+					let talkItem = JSON.parse(JSON.stringify(res.data || {}));
+					talkItem.color = randomColor();
+					this.barrageContent.push(talkItem);
+					talkItem = null;
+				}
 				break;
 			case 'getTotal':
 				if (res.msg === 'push') {
-					this.playWarning.status=true
+					this.playWarning.status = true;
 				}
 				this.totalObj = res.data || {};
 				break;
@@ -82,5 +95,6 @@ export const onSocket = function (eventName) {
 
 
 export const emitSocket = (eventName, data) => {
+	console.info('eventName', eventName, new Date());
 	socket.emit(eventName, data);
 };

@@ -4,30 +4,31 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}</h3>
+						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}
+								{{online?"当前在线人数：（"+online+"）":""}}</h3>
 						<video id="playWarning" src="warning.wav" loop style="display: none">
 								your browser does not support the video tag
 						</video>
 						<!---数据滚动-->
 						<div class="scroll-total">
-								<div class="total confirm">
+								<div :class="'total confirm '+(scrollAnimate.confirm?'active':'')">
 										<strong>
 												{{scrollObj.chinaConfirm}}/<span>(世界：{{scrollObj.worldConfirm}})</span>
 										</strong>
 										<span class="block">确诊</span>
 								</div>
-								<div class="total heal">
+								<div :class="'total heal '+(scrollAnimate.heal?'active':'')">
 										<strong>
 												{{scrollObj.chinaHeal}}/<span>(世界：{{scrollObj.worldHeal}})</span>
 										</strong>
 										<span class="block">治愈</span>
 								</div>
-								<div class="total dead">
+								<div :class="'total dead '+(scrollAnimate.dead?'active':'')">
 										<strong>{{scrollObj.chinaDead}}/<span>(世界：{{scrollObj.worldDead}})</span>
 										</strong>
 										<span class="block">死亡</span>
 								</div>
-								<div class="total suspect">
+								<div :class="'total suspect '+(scrollAnimate.suspect?'active':'')">
 										<strong>{{scrollObj.chinaSuspect}}/<span>(世界：{{scrollObj.worldSuspect}})</span>
 										</strong>
 										<span class="block">疑似</span>
@@ -76,8 +77,15 @@
 		},
 		data() {
 			return {
+				online: 0,
 				updateDataTime: "截止1月24日 9时",
 				sourceUrl: "https://news.sina.cn/zt_d/yiqing0121/?wm=3049_0016&from=qudao",
+				scrollAnimate: {
+					confirm: false,
+					heal: false,
+					dead: false,
+					suspect: false
+				},
 				scrollObj: {
 					chinaConfirm: 0,
 					chinaHeal: 0,
@@ -211,8 +219,13 @@
 					let intervalDead = null;
 					let intervalSuspected = null;
 					clearInterval(intervalConfirm);
+					this.scrollAnimate.confirm = false;
+					this.scrollAnimate.heal = false;
+					this.scrollAnimate.dead = false;
+					this.scrollAnimate.suspect = false;
 					if (this.scrollObj.chinaConfirm && val.chinaConfirm && (this.scrollObj.chinaConfirm < this.totalObj.chinaConfirm)) {
 						clearInterval(intervalConfirm);
+						this.scrollAnimate.confirm = true;
 						intervalConfirm = setInterval(() => {
 							this.scrollObj.chinaConfirm++;
 							if (this.scrollObj.chinaConfirm >= this.totalObj.chinaConfirm) {
@@ -223,10 +236,12 @@
 						if (!this.scrollObj.chinaConfirm) {
 							this.scrollObj.chinaConfirm = val.chinaConfirm
 						}
+						this.scrollAnimate.confirm = false;
 						clearInterval(intervalConfirm)
 					}
 					if (this.scrollObj.chinaHeal && val.chinaHeal && (this.scrollObj.chinaHeal < this.totalObj.chinaHeal)) {
 						clearInterval(intervalCure);
+						this.scrollAnimate.heal = true;
 						intervalCure = setInterval(() => {
 							this.scrollObj.chinaHeal++;
 							if (this.scrollObj.chinaHeal >= this.totalObj.chinaHeal) {
@@ -237,11 +252,13 @@
 						if (!this.scrollObj.chinaHeal) {
 							this.scrollObj.chinaHeal = val.chinaHeal
 						}
+						this.scrollAnimate.heal = false;
 						clearInterval(intervalCure)
 					}
 					
 					if (this.scrollObj.chinaDead && val.chinaDead && (this.scrollObj.chinaDead < this.totalObj.chinaDead)) {
 						clearInterval(intervalDead);
+						this.scrollAnimate.dead = true;
 						intervalDead = setInterval(() => {
 							this.scrollObj.chinaDead++;
 							if (this.scrollObj.chinaDead >= this.totalObj.chinaDead) {
@@ -252,11 +269,13 @@
 						if (!this.scrollObj.chinaDead) {
 							this.scrollObj.chinaDead = val.chinaDead
 						}
+						this.scrollAnimate.dead = false;
 						clearInterval(intervalDead)
 					}
 					
 					if (this.scrollObj.chinaSuspect && val.chinaSuspect && (this.scrollObj.chinaSuspect < this.totalObj.chinaSuspect)) {
 						clearInterval(intervalSuspected);
+						this.scrollAnimate.suspect = true;
 						intervalSuspected = setInterval(() => {
 							this.scrollObj.chinaSuspect++;
 							if (this.scrollObj.chinaSuspect >= this.totalObj.chinaSuspect) {
@@ -267,6 +286,7 @@
 						if (!this.scrollObj.chinaSuspect) {
 							this.scrollObj.chinaSuspect = val.chinaSuspect
 						}
+						this.scrollAnimate.suspect = false;
 						clearInterval(intervalSuspected)
 					}
 					
@@ -321,6 +341,7 @@
 		mounted() {
 			onSocket.call(this, 'getWorldMap'); // 手动滚动的数据
 			onSocket.call(this, 'getChinaDay'); // 时间轴
+			onSocket.call(this, 'online');      // 获取在线人数
 			emitSocket('getChinaDay');
 			this.getWorldMap();
 			this.getTotal();
@@ -421,6 +442,7 @@
 				}
 				
 				.total {
+						position: relative;
 						float: left;
 						margin-right: 10px;
 						height: 100%;
@@ -429,6 +451,7 @@
 						background: rgba(2, 16, 25, 0.7);
 						padding: 10px;
 						border-radius: 10px;
+						/*overflow: hidden;*/
 						
 						strong {
 								line-height: 70px;
@@ -448,6 +471,120 @@
 						}
 				}
 		}
-
+		
+		
+		/*滚动动画*/
+		.total.active {
+				&:before {
+						position: absolute;
+						display: block;
+						content: "";
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+						background: rgba(255, 255, 255, 0.16);
+						transition: all 4s;
+						border-radius: 4px;
+				}
+				
+		}
+		
+		.total.confirm.active {
+				&:before {
+						animation: leftToRightConfirm 3s linear infinite;
+						border: 1px solid #F6362B
+				}
+				
+		}
+		
+		.total.heal.active {
+				&:before {
+						animation: leftToRightHeal 3s linear infinite;
+						border: 1px solid #708C40
+				}
+				
+		}
+		
+		.total.dead.active {
+				&:before {
+						animation: leftToRightDead 3s linear infinite;
+						border: 1px solid #B01F8D
+				}
+				
+		}
+		
+		.total.suspect.active {
+				&:before {
+						animation: leftToRightSuspect 3s linear infinite;
+						border: 1px solid #FF9A06
+				}
+				
+		}
+		
+		
+		@keyframes leftToRightConfirm {
+				0% {
+						
+						border: 1px solid #F6362B
+				}
+				25% {
+						border: 1px solid rgba(246, 54, 43, 0.56)
+				}
+				50% {
+						border: 1px solid #F6362B
+				}
+				75% {
+						border: 1px solid rgba(246, 54, 43, 0.56)
+				}
+		}
+		
+		@keyframes leftToRightHeal {
+				0% {
+						
+						border: 1px solid #708C40
+				}
+				25% {
+						border: 1px solid rgba(112, 140, 64, 0.56)
+				}
+				50% {
+						border: 1px solid #708C40
+				}
+				75% {
+						border: 1px solid rgba(112, 140, 64, 0.56)
+				}
+		}
+		
+		@keyframes leftToRightDead {
+				0% {
+						
+						border: 1px solid #B01F8D
+				}
+				25% {
+						border: 1px solid rgba(176, 31, 141, 0.56)
+				}
+				50% {
+						border: 1px solid #B01F8D
+				}
+				75% {
+						border: 1px solid rgba(176, 31, 141, 0.56)
+				}
+		}
+		
+		@keyframes leftToRightSuspect {
+				0% {
+						
+						border: 1px solid #FF9A06
+				}
+				25% {
+						border: 1px solid rgba(255, 154, 6, 0.56)
+				}
+				50% {
+						border: 1px solid #FF9A06
+				}
+				75% {
+						border: 1px solid rgba(255, 154, 6, 0.56)
+				}
+		}
 
 </style>

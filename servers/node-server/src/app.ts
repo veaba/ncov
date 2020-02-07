@@ -3,8 +3,6 @@
  * @time 2020年1月25日20:38:36
  * @author veaba
  * */
-import {flipPage, isHasOne} from "./mongo/curd";
-
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -13,7 +11,7 @@ const bodyParser = require('body-parser');
 // 请求体解析
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-import {auditTask, broadcastTask, rankTask, tencent, totalTask, worldMapTask} from "./utils/task";
+import {tencent} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
 import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
@@ -34,6 +32,7 @@ consumer.connect();
 import {cusKafka} from "./kafka/kafka";
 import {_sid_obj} from "./utils/utils";
 import {getBarrageList} from "./sockets/talk";
+import {delKey} from "./redis/redis";
 
 cusKafka(consumer, 'talk');
 
@@ -60,23 +59,8 @@ const broadcastChannel: any = io.of('/broadcast')
         const {id} = socket;
         const {sid} = _sid_obj(id);
         // 给指定人发送消息
-        await getBarrageList(io, sid,socket)
+        await getBarrageList(io, sid, socket)
     });
-
-/**
- *  eventName={
-        ageChart =>,疫情感染年龄分布 饼图 {}，各阶段的年龄
-        sexChart =>，疫情感染性别分布，饼图
-        statisticsChart => 疫情生命特征统计分布 柱状图 {count确诊,dead陨落,cure治愈,suspected疑似,track追踪}
-        worldMap => 中间那个大地图所需的数据
-        chinaTotalChart => 中国境内统计的横向 柱状带小柱图，有新数据会动，会排序 {count确诊,dead陨落,cure治愈,suspected疑似,track追踪,province}省份
-        loveChart => 爱心地图，迁徙线，红点小红心，表示从x国，x地到中国境内的资助，在大地图上展示
-        chartPieChart   => 省份占比,
-
-    }
- * @desc 异步地图涂推送图标数据
-
- }*/
 
 
 // 推送感染数据
@@ -84,13 +68,6 @@ setInterval(async () => {
     await tencent()
 }, 60 * 1000);
 
-// let ii = 0;
-// // test
-// setInterval(async () => {
-//     ii += Math.floor(Math.random() * 100);
-//     await _pushSuccess('broadcast', 'getTotal', {chinaConfirm: 24447 + ii}, 'push')
-// }, 10000)
-;
 /**
  * @desc 向订阅的频道推送消息，成功的提示
  * */
@@ -109,6 +86,7 @@ const _pushError = async (channel: string, eventName: string, data: any, msg?: s
 };
 http.listen(9999, async () => {
     await connectMongo();
+    await delKey("onlineSocket");
     console.info(' >     Biubiu 走您~ 9999 √');
 });
 

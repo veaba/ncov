@@ -10,7 +10,6 @@ const Schema = mongoose.Schema;
 
 /**
  * @desc users 授权会员表
- * @todo 可以做个记录登录次数的功能
  * */
 const usersSchema = new Schema({
     name: String,               // 用户姓名

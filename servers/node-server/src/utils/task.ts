@@ -22,7 +22,6 @@ export const broadcastTask = async () => {
         // 说明是新的
         if (!item.is_new) {
             sendData.push(item);
-            // todo 并更新这些值
             // await updateOne({_id: item._id}, {...item, is_new: true}, 'broadcasts')
         }
     }
@@ -42,7 +41,6 @@ export const auditTask = async () => {
         // 说明是新的
         if (!item.pass) {
             auditList.push(item);
-            // todo 并更新这些值
             await updateOne({_id: item._id}, {...item, pass: true}, 'broadcasts')
         }
     }

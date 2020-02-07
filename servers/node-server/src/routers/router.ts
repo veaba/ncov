@@ -2,7 +2,6 @@
  * @desc Router
  * @time 2020年1月27日12:29:26
  * @author veaba
- * @todo 默认值
  * */
 import {getKeysDB, insertOne, isHasOne, updateOne} from "../mongo/curd";
 
@@ -54,7 +53,7 @@ const handlerRedirect = async (req: any, res: any) => {
                         githubOAuthObj: apiRes,
                     }, 'users');
                     const {_id} = await getKeysDB({name: apiRes.login}, [], 'users');
-                    reqRedisObj._id = _id;
+                    reqRedisObj._id = _id.toString();
                     reqRedisObj.avatar_url = apiRes.avatar_url;
                     reqRedisObj.name = apiRes.login;
                     reqRedisObj.sid = sid;
