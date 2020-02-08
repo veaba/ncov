@@ -10,7 +10,7 @@ export const onSocket = function (eventName) {
 		const {channel, sid} = sid_obj(id);
 		if (this.authObj) {
 			if (sid) {
-				this.authObj.oAuthUrl = 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=https://2019-ncov.datava.ai/redirect/github/' + sid;
+				this.authObj.oAuthUrl = 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=https://2019-ncov.datav.ai/redirect/github/' + sid;
 			} else this.authObj.isAuth = false;
 		}
 		
