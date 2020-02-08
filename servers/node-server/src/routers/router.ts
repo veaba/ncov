@@ -77,18 +77,9 @@ const handlerRedirect = async (req: any, res: any) => {
         });
 };
 
-// const test = async (req: any, res: any) => {
-//     console.info(req.params);
-//     return res.send(req.params)
-// };
 
 // Github OAuth
 router.get('/redirect/github/:sid', handlerRedirect);
-
-// router.get('/test/:aid', test);
-
-
-
 export {
     router
 }

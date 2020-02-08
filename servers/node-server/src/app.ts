@@ -34,8 +34,6 @@ import {_sid_obj} from "./utils/utils";
 import {getBarrageList} from "./sockets/talk";
 import {delKey} from "./redis/redis";
 
-cusKafka(consumer, 'talk');
-
 app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
@@ -58,10 +56,14 @@ const broadcastChannel: any = io.of('/broadcast')
         await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
         const {id} = socket;
         const {sid} = _sid_obj(id);
+
         // 给指定人发送消息
         await getBarrageList(io, sid, socket)
+
     });
 
+cusKafka(consumer, 'talk').then(() => {
+});
 
 // 推送感染数据
 setInterval(async () => {
@@ -75,7 +77,7 @@ const _pushSuccess = async (channel: string, eventName: string, data: any, msg?:
     if (!channel.includes('/')) {
         channel = '/' + channel
     }
-    return io.of(channel).emit(eventName, {code: code, data, msg: msg || 'success'})
+    return await io.of(channel).emit(eventName, {code: code, data, msg: msg || 'success'})
 };
 /**
  * @desc 向订阅的频道报告错误的消息

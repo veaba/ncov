@@ -1,5 +1,9 @@
+/**
+ * @desc kafka
+ * @author veaba
+ * @date 2020年2月6日
+ * */
 import {_pushSuccess, consumer, producer} from "../app";
-import {kafkaConfig} from "../config";
 
 /**
  * @desc kafka
@@ -32,7 +36,7 @@ export const cusAllKafka = async () => {
  * @value message.value
  * */
 export const cusKafka = async (consumer: any, topic: any) => {
-    consumer.subscribe({topic: 'talk', fromBeginning: true});
+    await consumer.subscribe({topic: 'talk', fromBeginning: false});
     await consumer.run({
         autoCommit: false,
         // 一次提供一条的函数

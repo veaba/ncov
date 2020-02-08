@@ -4,7 +4,7 @@
 <template>
 		<div class="map-module">
 				<div class="map-header">
-						<h3>2019新型肺炎疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}
+						<h3>新型冠状病毒肺炎NCP(2019-nCoV)疫情地图{{asyncTime?' , 实时同步后台数据【'+scrollObj.lastUpdateTime+'】':""}}
 								{{online?"当前在线人数：（"+online+"）":""}}</h3>
 						<video id="playWarning" src="warning.wav" loop style="display: none">
 								your browser does not support the video tag

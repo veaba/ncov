@@ -3,10 +3,8 @@
  * @time 2020年1月25日23:37:52
  * @author veaba
  * */
-// import {_io} from "../app";
-import {format, getTime} from 'date-fns'
-
-import {findCount, getKeysAll, getRankAll, isHasOne, taskChannelList, updateOne} from "../mongo/curd";
+import {getTime} from 'date-fns'
+import {getKeysAll, getRankAll, taskChannelList, updateOne} from "../mongo/curd";
 import {axios} from "./axios";
 import {_pushSuccess} from "../app";
 import {getHash, setHash} from "../redis/redis";
@@ -276,25 +274,9 @@ export const tencent = async (dateStr?: number | string | null) => {
                     await _pushSuccess('broadcast', 'getChinaDay', chinaDayList, getTime(new Date())); // timeline 折线图
                     await _pushSuccess('broadcast', 'getChinaRank', chinaRank, getTime(new Date())); // 国内rank
                     await _pushSuccess('broadcast', 'getWorldMap', worldMapData, getTime(new Date())); // 世界地图
-                    console.info('在推送数据~', new Date().getTime(), totalData);
                     await setHash(today, {totalData: JSON.stringify(totalData || {})});
                 }
-                res = null // 最后将res设置为null
+                res = null
             }
         })
-};
-
-
-/*
-* - 世界地图
-* - 中国省份rank
-* - 外国rank榜单，左侧
-* - 轮播的时间轴 中下
-* - 弹幕直接走腾讯的数据，全屏
-* - 过去数据中国和轮播一起绑定
-* - 新增数据 今日新增折线图-中国
-* */
-export const barrage = async () => {
-    console.info('弹幕==');
-    await _pushSuccess('broadcast', 'barrage', [], '弹幕消息'); // 弹幕消息
 };

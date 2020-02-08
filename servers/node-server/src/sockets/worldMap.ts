@@ -10,18 +10,17 @@ import {axios} from "../utils/axios";
  * @param eventName
  * */
 export const getWorldMap = async (socket: any, data: any, channel: string, eventName: string) => {
-    console.info('getWorldMap开始请求腾讯接口', new Date().getTime());
-    console.time('getWorldMap');
     axios.get('https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&callback=')
         .then(async (res: any) => {
             if (res.ret === 0) {
                 const allData = JSON.parse(res.data || {});
                 const worldMapData = parseWorldMap(allData.areaTree);
                 await _pushSuccess(channel, eventName, worldMapData); // 世界地图
-                res = null; // 最后将res设置为null
-                console.timeEnd('getWorldMap');
-                console.info('getWorldMap完成推送到前端', new Date().getTime());
+                res = null;
             }
+        })
+        .catch((err: any) => {
+            console.info('getWorldMap', err);
         })
 };
 /**
@@ -34,10 +33,10 @@ export const getTotal = async (socket: any, data: any, channel: string, eventNam
                 const allData = JSON.parse(res.data || {});
                 const totalData = parseTotal(allData.chinaTotal, allData.areaTree.slice(1), allData.lastUpdateTime);
                 await _pushSuccess(channel, eventName, totalData); // total数据
-                res = null // 最后将res设置为null
+                res = null
             }
         })
         .catch((err: any) => {
-            console.info("getTotal", getTotal);
+            console.info("getTotal", err);
         })
 };

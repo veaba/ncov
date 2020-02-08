@@ -1,7 +1,6 @@
 <template>
 		<div class="home">
 				<MapModule @emitPlayStatus="emitPlayStatus" :playWarning="playWarning" :totalObj="totalObj"></MapModule>
-				<!--todo 弹幕-->
 				<BarrageModule
 								:isBarrageMode="isBarrageMode"
 								:authObj="authObj"

@@ -1,5 +1,5 @@
 <!--
-@desc todo  bug 内容初次无法展示
+@desc 饼图
 -->
 <template>
 		<div :class="'chart-module ' +(chartButtonStatus?'active':'')">

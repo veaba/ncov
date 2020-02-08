@@ -13,8 +13,11 @@ export const getChinaRank = async (socket: any, data: any, channel: string, even
                 const allData = JSON.parse(res.data || {});
                 const chinaRank = parserChinaRank(allData.areaTree[0]);
                 await _pushSuccess(channel, eventName, chinaRank); // 国内rank
-                res = null // 最后将res设置为null
+                res = null
             }
+        })
+        .catch((err: any) => {
+            console.info('getChinaRank', err);
         })
 };
 
@@ -28,8 +31,11 @@ export const getWorldRank = async (socket: any, data: any, channel: string, even
                 const allData = JSON.parse(res.data || {});
                 const worldRank = parseWorldRank(allData.areaTree);
                 await _pushSuccess(channel, eventName, worldRank); // 世界rank
-                res = null // 最后将res设置为null
+                res = null
             }
+        })
+        .catch((err: any) => {
+            console.info('getWorldRank', err);
         })
 };
 /**
@@ -43,7 +49,10 @@ export const getChinaDay = async (socket: any, data: any, channel: string, event
                 const allData = JSON.parse(res.data || {});
                 const chinaDayList = allData.chinaDayList;
                 await _pushSuccess(channel, eventName, chinaDayList, getTime(new Date())); // timeline 折线图
-                res = null // 最后将res设置为null
+                res = null
             }
+        })
+        .catch((err: any) => {
+            console.info('getChinaDay', err);
         })
 };

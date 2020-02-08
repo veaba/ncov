@@ -7,7 +7,6 @@
 				
 				<div class="display-wrap">
 						<ul class="ul">
-								{{width}}
 								<li class="animate-to-left" :style="{left:leftAnimation[index]+'px',top:index*66+'px'}"
 								    v-for="(item,index) in barrages">
 										<img :src="item.avatarUrl" :alt="item.name||''">

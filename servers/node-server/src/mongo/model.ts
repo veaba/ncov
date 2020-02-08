@@ -2,7 +2,6 @@
  * @desc Model
  * @time 2020年1月25日20:38:36
  * @author veaba
- * @todo 默认值
  * */
 import mongoose from "mongoose"
 

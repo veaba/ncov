@@ -45,7 +45,7 @@ export const onSocket = async (socket: any, eventName: string) => {
     const {name} = nsp || {};   // 频道
     const {sid} = _sid_obj(id);
     const channel = (name || '').replace('/', '', '');
-    socket.on(eventName, async (data: any) => {
+    await socket.on(eventName, async (data: any) => {
         switch (eventName) {
             // channel->report，发起报告审核,管理直接通过
             // case 'report':
@@ -83,7 +83,6 @@ export const onSocket = async (socket: any, eventName: string) => {
                 await getWorldRank(socket, data, channel, eventName);
                 break;
             case 'getWorldMap':
-                console.info('接受到getWorldMap消息', new Date().getTime());
                 return await getWorldMap(socket, data, channel, eventName);
             default:
                 throw new Error('未能识别Channel类型');

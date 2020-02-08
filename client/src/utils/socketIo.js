@@ -25,7 +25,7 @@ export const onSocket = function (eventName) {
 				}
 				break;
 			case 'online':
-				this.online = res.data||0;
+				this.online = res.data || 0;
 				break;
 			case 'talk':
 				if (Array.isArray(res.data)) {
@@ -95,6 +95,5 @@ export const onSocket = function (eventName) {
 
 
 export const emitSocket = (eventName, data) => {
-	console.info('eventName', eventName, new Date());
 	socket.emit(eventName, data);
 };

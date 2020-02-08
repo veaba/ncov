@@ -5,7 +5,7 @@ import {getHash} from "../redis/redis";
 import {_pushError, _pushSuccess} from "../app";
 import {logSocket} from "./socket";
 import {getTime} from 'date-fns'
-import {insertMany, insertOne, updateOne} from "../mongo/curd";
+import {insertMany, insertOne} from "../mongo/curd";
 
 /**
  * @desc report socket

@@ -1,7 +1,6 @@
 <!--
 @desc 这个页面将收录用户提交的请求
 @todo 但需要手动确认才可以，这需要做权限划分
-@todo 是更新至，还是新增的病例
 -->
 <template>
 		<div :class="'right-layout post-modules ' +(reportButtonStatus?'active':'')">
