@@ -4,7 +4,7 @@
  * @author veaba
  * */
 import {getKeysDB, insertOne, isHasOne, updateOne} from "../mongo/curd";
-
+import 'url-search-params-polyfill'
 const {Router} = require('express');
 const router = Router();
 import {githubOAuthConfig} from '../config'
