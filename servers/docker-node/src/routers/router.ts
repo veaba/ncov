@@ -5,12 +5,13 @@
  * */
 import {getKeysDB, insertOne, isHasOne, updateOne} from "../mongo/curd";
 import 'url-search-params-polyfill'
+
 const {Router} = require('express');
 const router = Router();
 import {githubOAuthConfig} from '../config'
 import {axios} from "../utils/axios";
 import {setHash} from "../redis/redis";
-import {_pushSuccess} from "../app";
+import {_pushPrivate, _pushSuccess} from "../app";
 import {_authFail, _authSuccess} from "../utils/utils";
 
 const handlerRedirect = async (req: any, res: any) => {
@@ -69,7 +70,7 @@ const handlerRedirect = async (req: any, res: any) => {
                     reqRedisObj.sid = sid;
                 }
                 await setHash(sid, reqRedisObj);
-                await _pushSuccess('/broadcast', 'auth', [], '已授权访问Github', 0);
+                await _pushPrivate('/broadcast', 'auth', '/broadcast#' + sid, [], '已授权访问Github', 0);
                 // 插入到redis里面去，表示登录在线的，断开socket即失去登录状态
                 res.set('Content-Type', 'text/html');
                 res.send(_authSuccess());

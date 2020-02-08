@@ -86,6 +86,16 @@ const _pushError = async (channel: string, eventName: string, data: any, msg?: s
     //todo记录错误日志
     return io.of(channel).emit(eventName, {code: 1, data, msg: msg || 'error'})
 };
+
+/**
+ * @desc 发送给私人
+ * */
+const _pushPrivate = async (channel: string, eventName: string, id: any, data: any, msg?: any, code?: number,) => {
+    if (!channel.includes('/')) {
+        channel = '/' + channel
+    }
+    return await io.of(channel).to(id).emit(eventName, {data, msg: msg || "success", code: code})
+};
 http.listen(9999, async () => {
     await connectMongo();
     await delKey("onlineSocket");
@@ -95,5 +105,6 @@ http.listen(9999, async () => {
 export {
     broadcastChannel,
     _pushError,
-    _pushSuccess
+    _pushSuccess,
+    _pushPrivate
 }
