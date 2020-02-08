@@ -7,9 +7,9 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - .:/srv/node-server
+      - .:/srv/docker-node
       - /etc/localtime:/etc/localtime
-    command: pm2-runtime start /srv/node-server/ecosystem.config.js
+    command: pm2-runtime start /srv/docker-node/ecosystem.config.js
     networks:
       default:
         ipv4_address: 172.4.0.80
