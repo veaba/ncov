@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "kafka-node": "^5.0.0",
-    "kafkajs": "^1.12.0"
-  },
-  "devDependencies": {
-    "@types/kafka-node": "^3.0.0"
-  }
-}

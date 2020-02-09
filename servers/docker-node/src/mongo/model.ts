@@ -262,6 +262,7 @@ const auditSchema = new Schema({
  * */
 const barragesSchema = new Schema(
     {
+        name: String,
         sid: String,
         avatarUrl: String,
         isAdmin: Boolean,

@@ -36,7 +36,6 @@
 						</div>
 				</div>
 				<div id="map"></div>
-				{{chinaDay}}
 				<div v-show="goLoading" class="ncov-loading"></div>
 		</div>
 </template>
