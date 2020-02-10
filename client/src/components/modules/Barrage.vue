@@ -193,6 +193,8 @@
 						border-radius: 50%;
 						vertical-align: middle;
 						margin-right: 10px;
+						width: 60px;
+						height: 60px;
 				}
 		}
 		
