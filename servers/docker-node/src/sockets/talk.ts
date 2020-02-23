@@ -8,7 +8,6 @@
 import {proKafka} from "../kafka/kafka";
 import {getTime} from 'date-fns'
 import {_authUser} from "../utils/utils";
-import {ReportInterface} from "../interface/interface";
 import {getHash} from "../redis/redis";
 import {flipPage, getCount, insertOne} from "../mongo/curd";
 
@@ -38,21 +37,17 @@ export const talkIn = async (socket: any, sid: string, data: string, channel: st
  * @sid 指定用户推送
  * */
 
-export const getBarrageList = async (io: any, sid: string, socket: any) => {
-    const theCount: number = await getCount({}, 'barrages');
-    const countDivideTen = Math.ceil(theCount / 10) || 1;
+export const getBarrageList = async (io: any, socket: any, eventName: string) => {
     const {id} = socket;
-    let timer: any = 0;
-    clearTimeout(timer);
-    for (let i = 1; i <= countDivideTen; i++) {
-        timer = setTimeout(async () => {
-            const pushData = await flipPage('barrages', i * 10 - 10, 10);
-            await io.of('/broadcast').to(id).emit('talk', {data: pushData}); //可以
-        }, i * 2000);
-        // 如果发现socket 断开。则break
-        if (JSON.stringify(socket.rooms) === '{}') {
-            clearTimeout(timer);
-            break
+    await socket.on(eventName, async (data: any) => {
+        const {page = 1, size = 10}: any = data || {};
+        const theCount: number = await getCount({}, 'barrages');
+        const countDivideTen = Math.ceil(theCount / size) || 1; //可用的总页数
+        let pushData = [];
+        if (page + 1 <= countDivideTen) {
+            pushData = await flipPage('barrages', page * size - size, size, ['avatarUrl', 'name', 'message']);
         }
-    }
+        await io.of('/broadcast').to(id).emit('getTalk', {list: pushData || [], count: countDivideTen}); //可以
+
+    });
 };

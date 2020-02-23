@@ -233,11 +233,14 @@ export const getCount = async (obj: object, collection_name: string) => {
 /**
  * @desc 分页
  * */
-export const flipPage = async (collection: string,skip:number,limit?: number, match?: object) => {
+export const flipPage = async (collection: string, skip: number, limit?: number, project?: string[]) => {
+    const $project: any = {};
+    (project || []).map((item: any) => $project[item] = 1);
     const list = await TheModel(collection).aggregate([
-        {$match: match || {}},
+        {$match: {}},
+        {$project: $project},
         {$sort: {id: -1}},
-        {$skip:skip},
+        {$skip: skip},
         {$limit: limit || 20},
     ]);
     return list || []

@@ -73,8 +73,8 @@
 				for (let key in val) {
 					if (key === 'chinaConfirm') {
 						theData.push({
-							value: val[key] || 0,
-							name: "确诊/" + val[key]
+							value: (val[key] - val['chinaHeal'] - val['chinaDead']) || 0,
+							name: "治疗/" + (val[key] - val['chinaHeal'] - val['chinaDead'])
 						})
 					}
 					if (key === 'chinaHeal') {

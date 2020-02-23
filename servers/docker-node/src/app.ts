@@ -24,13 +24,14 @@ const kafka = new Kafka({
     brokers: [kafkaConfig.kafkaHost1, kafkaConfig.kafkaHost2]
 });
 
+console.time('kafka');
 export const producer = kafka.producer();
 producer.connect();
 export const consumer = kafka.consumer({groupId: "kafka-group"});
 // 首次推送
 consumer.connect();
+console.timeEnd('kafka');
 import {cusKafka} from "./kafka/kafka";
-import {_sid_obj} from "./utils/utils";
 import {getBarrageList} from "./sockets/talk";
 import {delKey} from "./redis/redis";
 
@@ -38,7 +39,8 @@ app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
 });
-
+cusKafka(consumer, 'talk').then(() => {
+});
 // 广播
 const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {
@@ -54,16 +56,11 @@ const broadcastChannel: any = io.of('/broadcast')
         await onSocket(socket, 'getChinaRank'); // 获取中国Rank排行数据
         await onSocket(socket, 'getWorldRank'); // 获取世界Rank排行数据
         await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
-        const {id} = socket;
-        const {sid} = _sid_obj(id);
-
         // 给指定人发送消息
-        await getBarrageList(io, sid, socket)
+        await getBarrageList(io, socket, 'getTalk')
 
     });
 
-cusKafka(consumer, 'talk').then(() => {
-});
 
 // 推送感染数据
 setInterval(async () => {

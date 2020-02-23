@@ -29,15 +29,21 @@ export const onSocket = function (eventName) {
 				break;
 			case 'talk':
 				if (Array.isArray(res.data)) {
-					this.barrageContent = (res.data || []).map(item => {
-						item.color = randomColor();
-						return item;
-					});
+				
 				} else {
 					let talkItem = JSON.parse(JSON.stringify(res.data || {}));
 					talkItem.color = randomColor();
 					this.barrageContent.push(talkItem);
 					talkItem = null;
+				}
+				break;
+			case 'getTalk':
+				if (res && res.list) {
+					this.barrageContent = (res.list || []).map(item => {
+						item.color = randomColor();
+						return item;
+					});
+					this.pageData.count = res.count || 0;
 				}
 				break;
 			case 'getTotal':
@@ -51,12 +57,12 @@ export const onSocket = function (eventName) {
 				const localWorldMapData = [];
 				// 转换格式
 				for (let item of res.data) {
-					let coordinateArray = getCoorDinates(item.city, mapv) || geo[item.city];
+					let coordinateArray = getCoorDinates(item.city) || geo[item.city];
 					if (!coordinateArray[0]) {
-						coordinateArray = getCoorDinates(item.province, mapv) || geo[item.province];
+						coordinateArray = getCoorDinates(item.province) || geo[item.province];
 					}
 					if (!coordinateArray[0]) {
-						coordinateArray = getCoorDinates(item.country, mapv) || geo[item.country];
+						coordinateArray = getCoorDinates(item.country) || geo[item.country];
 					}
 					
 					lineWorldMapData.push({

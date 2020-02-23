@@ -63,6 +63,11 @@
 				leftMoveTimer: null,
 				width: window.innerWidth,
 				leftAnimation: [],
+				pageData: {
+					size: 10,
+					page: 1,
+					count: 0
+				}
 			}
 		},
 		watch: {
@@ -94,6 +99,8 @@
 		},
 		mounted() {
 			onSocket.call(this, 'talk');
+			onSocket.call(this, 'getTalk');
+			this.getHistoryBarrage();
 			this.clearTimer = setInterval(() => {
 				this.clickTickTimestamp.shift()
 			}, 3000);
@@ -102,6 +109,12 @@
 			clearInterval(this.clearTimer)
 		},
 		methods: {
+			/**
+			 * @desc 获取历史弹幕记录
+			 * */
+			getHistoryBarrage() {
+				emitSocket('getTalk', this.pageData);
+			},
 			/**
 			 * @desc 简单实现弹幕效果
 			 * */
@@ -121,6 +134,15 @@
 							this.leftAnimation[i] = this.width / 1.5;
 						}
 						this.barrageContent.splice(0, 10);
+						// 下一批弹幕
+						console.info('page,count=>', this.pageData);
+						if (this.pageData.page + 1 <= this.pageData.count) {
+							this.pageData.page++;
+							this.$nextTick(() => {
+								emitSocket('getTalk', this.pageData);
+							})
+						}
+						
 						clearInterval(this.leftMoveTimer);
 					}
 					if (!this.barrageContent.length) {
@@ -130,12 +152,6 @@
 			},
 			onOutRoom() {
 				this.$emit('emitBarrageHide', false)
-			},
-			// 自减的移动的函数
-			leftMove(index) {
-				setInterval(() => {
-					return Math.random() * 100
-				}, 1000)
 			},
 			onEnterInput() {
 				if (this.clickTickTimestamp.length < 5) {

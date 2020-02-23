@@ -39,6 +39,7 @@ export const connectSocket = async (socket: any) => {
  * @report 需要检查权限
  * @feat 非授权访问下，有计数超过3次的socket，将主动断开链接
  * @check  检查权限，redis 不存在sid、admin
+ * @bug 频繁的socket连接，无法触发socket.on的事件
  * */
 export const onSocket = async (socket: any, eventName: string) => {
     const {nsp, id} = socket;
@@ -70,6 +71,10 @@ export const onSocket = async (socket: any, eventName: string) => {
             case 'talk':
                 await talkIn(socket, sid, data, channel, eventName);
                 break;
+            // case 'getTalk':
+            //     console.info('switch getTalk==>');
+            //     await getTalk(socket, sid, data, channel, eventName)
+            //     break;
             case 'getTotal':
                 await getTotal(socket, data, channel, eventName);
                 break;
