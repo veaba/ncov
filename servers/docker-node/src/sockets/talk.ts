@@ -12,10 +12,10 @@ import {getHash} from "../redis/redis";
 import {flipPage, getCount, insertOne} from "../mongo/curd";
 
 /**
- * @desc 写入同时存储到数据库
+ * @desc todo 写入同时存储到数据库
  * */
 export const talkIn = async (socket: any, sid: string, data: string, channel: string, eventName: string) => {
-    await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
+    // await _authUser(socket, sid, data, channel, eventName, 'noAuth'); // 非登录用户
     const redisObj: any = await getHash(sid) || {};
     const talkInObj = {
         sid,
@@ -27,7 +27,8 @@ export const talkIn = async (socket: any, sid: string, data: string, channel: st
         eventName,
         createTimestamp: getTime(new Date())
     };
-    await insertOne(talkInObj, 'barrages');
+    // await insertOne(talkInObj, 'barrages');
+    console.info('data=>',data);
     await proKafka('talk', JSON.stringify(talkInObj));
 };
 

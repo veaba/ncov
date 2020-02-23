@@ -159,7 +159,7 @@
 		.worldRank-module {
 				position: absolute;
 				top: 0;
-				height: 60%;
+				height: 100%;
 				width: 500px;
 				left: -500px;
 				z-index: 1;

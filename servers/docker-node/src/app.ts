@@ -24,13 +24,11 @@ const kafka = new Kafka({
     brokers: [kafkaConfig.kafkaHost1, kafkaConfig.kafkaHost2]
 });
 
-console.time('kafka');
 export const producer = kafka.producer();
 producer.connect();
 export const consumer = kafka.consumer({groupId: "kafka-group"});
 // 首次推送
 consumer.connect();
-console.timeEnd('kafka');
 import {cusKafka} from "./kafka/kafka";
 import {getBarrageList} from "./sockets/talk";
 import {delKey} from "./redis/redis";

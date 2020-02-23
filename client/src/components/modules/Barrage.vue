@@ -102,6 +102,7 @@
 			onSocket.call(this, 'getTalk');
 			this.getHistoryBarrage();
 			this.clearTimer = setInterval(() => {
+				emitSocket('talk', this.inputContent+new Date());
 				this.clickTickTimestamp.shift()
 			}, 3000);
 		},
@@ -134,6 +135,7 @@
 							this.leftAnimation[i] = this.width / 1.5;
 						}
 						this.barrageContent.splice(0, 10);
+						clearInterval(this.leftMoveTimer);
 						// 下一批弹幕
 						console.info('page,count=>', this.pageData);
 						if (this.pageData.page + 1 <= this.pageData.count) {
@@ -142,8 +144,6 @@
 								emitSocket('getTalk', this.pageData);
 							})
 						}
-						
-						clearInterval(this.leftMoveTimer);
 					}
 					if (!this.barrageContent.length) {
 						clearInterval(this.leftMoveTimer);

@@ -5,7 +5,7 @@
 								:isBarrageMode="isBarrageMode"
 								:authObj="authObj"
 								@emitBarrageHide="emitBarrageHide"></BarrageModule>
-				<ChartModule :totalObj="totalObj" :chartButtonStatus="chartButtonStatus"></ChartModule>
+				<!--				<ChartModule :totalObj="totalObj" :chartButtonStatus="chartButtonStatus"></ChartModule>-->
 				
 				<!--				<PostModule-->
 				<!--								:reportButtonStatus="reportButtonStatus"-->

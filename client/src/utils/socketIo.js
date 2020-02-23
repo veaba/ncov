@@ -28,14 +28,10 @@ export const onSocket = function (eventName) {
 				this.online = res.data || 0;
 				break;
 			case 'talk':
-				if (Array.isArray(res.data)) {
-				
-				} else {
-					let talkItem = JSON.parse(JSON.stringify(res.data || {}));
-					talkItem.color = randomColor();
-					this.barrageContent.push(talkItem);
-					talkItem = null;
-				}
+				let talkItem = JSON.parse(JSON.stringify(res.data || {}));
+				talkItem.color = randomColor();
+				this.barrageContent.push(talkItem);
+				talkItem = null;
 				break;
 			case 'getTalk':
 				if (res && res.list) {
