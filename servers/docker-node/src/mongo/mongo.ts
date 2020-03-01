@@ -58,7 +58,7 @@ const checkInit = async () => {
             if (isEmptyArray(res)) return await createDB({
                 ...adminData,
                 password: _encryptedPWD(_md5(adminData.password))
-            }, 'user')
+            }, 'users')
         })
         .catch((err: any) => {
             console.log(err)

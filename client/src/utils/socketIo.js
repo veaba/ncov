@@ -7,7 +7,7 @@ const socket = io(ioServer + '/broadcast', {reconnectionAttempts: 10});
 export const onSocket = function (eventName) {
 	socket.on('connect', () => {
 		const {id} = socket;
-		const {channel, sid} = sid_obj(id);
+		const {sid} = sid_obj(id);
 		if (this.authObj) {
 			if (sid) {
 				this.authObj.oAuthUrl = 'https://github.com/login/oauth/authorize?client_id=e3df94dac858a9eeed1d&redirect_uri=https://2019-ncov.datav.ai/redirect/github/' + sid;
@@ -30,12 +30,20 @@ export const onSocket = function (eventName) {
 			case 'talk':
 				let talkItem = JSON.parse(JSON.stringify(res.data || {}));
 				talkItem.color = randomColor();
-				this.barrageContent.push(talkItem);
+				talkItem.random = 8 + Math.random() + Math.floor(Math.random() * 4);
+				let len = this.barrageList.length;
+				if (len > 9) {
+					this.barrageList.splice(-((len || 1) - 1), 1);
+				} else {
+					this.barrageList.splice((len || 1) - 1, 0, talkItem);
+				}
+				
+				this.enterIds = [talkItem._id];
 				talkItem = null;
 				break;
 			case 'getTalk':
 				if (res && res.list) {
-					this.barrageContent = (res.list || []).map(item => {
+					this.barrageHistory = (res.list || []).map(item => {
 						item.color = randomColor();
 						return item;
 					});

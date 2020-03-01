@@ -15,21 +15,6 @@ import {tencent} from "./utils/task";
 import {connectMongo} from './mongo/mongo'
 import {connectSocket, onSocket} from "./sockets/socket";
 import {router} from './routers/router'
-
-const {Kafka} = require('kafkajs');
-import {kafkaConfig} from "./config";
-
-const kafka = new Kafka({
-    clientId: "my-app",
-    brokers: [kafkaConfig.kafkaHost1, kafkaConfig.kafkaHost2]
-});
-
-export const producer = kafka.producer();
-producer.connect();
-export const consumer = kafka.consumer({groupId: "kafka-group"});
-// 首次推送
-consumer.connect();
-import {cusKafka} from "./kafka/kafka";
 import {getBarrageList} from "./sockets/talk";
 import {delKey} from "./redis/redis";
 
@@ -37,25 +22,23 @@ app.use(router);
 app.get('/', (req: any, res: any) => {
     res.send('干嘛？')
 });
-cusKafka(consumer, 'talk').then(() => {
-});
 // 广播
 const broadcastChannel: any = io.of('/broadcast')
     .on('connection', async (socket: any) => {
-        await connectSocket(socket);
+        connectSocket(socket).then();
         // await onSocket(socket, 'report');       // report 检查权限+检查消息+记录日志，成功或者失败
         // await onSocket(socket, 'apply');        // 审核通过 report
         // await onSocket(socket, 'getAudit');     // 审核通过 report
         // await onSocket(socket, 'auditDelete');  // 删除audit+report
         // await onSocket(socket, 'getTimeline');  // 获取时间轴
-        await onSocket(socket, 'talk');         // 弹幕聊天
-        await onSocket(socket, 'getTotal');     // 获取世界地图统计数据
-        await onSocket(socket, 'getChinaDay');  // 获取中国折线图
-        await onSocket(socket, 'getChinaRank'); // 获取中国Rank排行数据
-        await onSocket(socket, 'getWorldRank'); // 获取世界Rank排行数据
-        await onSocket(socket, 'getWorldMap');  // 获取世界地图数据
+        onSocket(socket, 'talk').then();         // 弹幕聊天
+        onSocket(socket, 'getTotal').then();     // 获取世界地图统计数据
+        onSocket(socket, 'getChinaDay').then();  // 获取中国折线图
+        onSocket(socket, 'getChinaRank').then(); // 获取中国Rank排行数据
+        onSocket(socket, 'getWorldRank').then(); // 获取世界Rank排行数据
+        onSocket(socket, 'getWorldMap').then();  // 获取世界地图数据
         // 给指定人发送消息
-        await getBarrageList(io, socket, 'getTalk')
+        getBarrageList(io, socket, 'getTalk').then();
 
     });
 

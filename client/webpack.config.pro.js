@@ -4,13 +4,16 @@
  * @date 2020/1/21 0021
  ***********************/
 const path = require('path');
+const webpack = require('webpack');
 const {VueLoaderPlugin} = require('vue-loader');                // vue-loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');// css
 const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.html 到dist 目录
 const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
-const {CleanWebpackPlugin} =require('clean-webpack-plugin');      // 清空dist目录
+const TerserPlugin = require('terser-webpack-plugin');          // 移除注释
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');   // 清空dist目录
 module.exports = (env = {}) => ({
-	mode: env.prod ? 'production' : 'development',
+	mode: 'production',
 	// devtool: env.prod ? false : 'source-map',
 	// devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
 	entry: path.resolve(__dirname, './src/main.js'),
@@ -29,6 +32,7 @@ module.exports = (env = {}) => ({
 		rules: [
 			{
 				test: /\.vue$/,
+				exclude: /^node_modules$/,
 				use: 'vue-loader',
 			},
 			{
@@ -38,12 +42,13 @@ module.exports = (env = {}) => ({
 					loader: 'url-loader',
 					options: {
 						limit: 8192,
-						name:"/assets/img/[name]-[hash:8].[ext]"
+						name: "/assets/img/[name]-[hash:8].[ext]"
 					}
 				}
 			},
 			{
 				test: /\.css$/,
+				exclude: /^node_modules$/,
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
@@ -55,11 +60,12 @@ module.exports = (env = {}) => ({
 			// 增加scss
 			{
 				test: /\.(scss)$/,
-				use: ['vue-style-loader','css-loader','sass-loader'],
+				use: ['vue-style-loader', 'css-loader', 'sass-loader'],
 				exclude: /node_modules/
 			}
 		]
 	},
+
 	plugins: [
 		new CleanWebpackPlugin(),
 		new VueLoaderPlugin(),
@@ -69,7 +75,7 @@ module.exports = (env = {}) => ({
 		// 生成index.html
 		new HtmlWebpackPlugin({
 			filename: "index.html",
-			template: __dirname+"/public/index.html",
+			template: __dirname + "/public/index.html",
 			chunks: ["app"],
 			minify: {
 				collapseWhitespace: true
@@ -86,16 +92,23 @@ module.exports = (env = {}) => ({
 				from: __dirname + '/public',
 				to: __dirname + '/dist',
 			},
-			// {
-			// 	from: __dirname + '/public/screen.png',
-			// 	to: __dirname + '/dist/screen.png',
-			// },
-			// {
-			// 	from: __dirname + '/public/favicon.icon',
-			// 	to: __dirname + '/dist/favicon.icon',
-			// }
-		])
+		]),
 	],
+	// optimization: {
+	// 	minimize: true,
+	// 	minimizer: [new TerserPlugin(
+	// 		{
+	// 			extractComments: 'all',
+	// 		}
+	// 	)],
+	// },
+	// optimization: {
+	// 	minimizer: [
+	// 		new UglifyJsPlugin({
+	// 			test: /\.js(\?.*)?$/i,
+	// 		}),
+	// 	],
+	// },
 	devServer: {
 		inline: true,
 		hot: true,

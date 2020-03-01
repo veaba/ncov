@@ -153,7 +153,7 @@ export const TheSchema = (obj: object, collection_name: string) => {
             models = new HistorysSchema(obj);
             break;
         default:
-            throw new Error('未能识别Schema类型');
+            throw new Error('未能识别TheSchema类型===>' + collection_name);
     }
     return models
 };
