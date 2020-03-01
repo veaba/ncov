@@ -5,7 +5,6 @@
  ***********************/
 import {geo, getCenterByCityName} from "./map_geo";
 
-/***/
 export function getCoorDinates(cityName) {
 	let coordinates = geo[cityName] || [];
 	// console.info('coordinates=>',coordinates,cityName);
@@ -13,7 +12,7 @@ export function getCoorDinates(cityName) {
 		const {lng = "", lat = ""} = getCenterByCityName(cityName) || {};
 		if (!lng) {
 			coordinates = ["", ""];
-			console.info('==>', cityName);
+			// console.info('==>', cityName);
 		} else {
 			coordinates = [lng, lat];
 		}

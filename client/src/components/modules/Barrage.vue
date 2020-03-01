@@ -28,7 +28,7 @@
 								>
 										<img :src="item.avatarUrl||''" :alt="item.name||''">
 										<span v-show="item.name">{{item.name}}：</span>
-										<span :style="{color:item.color}">{{item.message||""}}  ==>{{item.random}}</span>
+										<span :style="{color:item.color}">{{item.message||""}}</span>
 								</li>
 						</transition-group>
 						
@@ -204,7 +204,7 @@
 					return false
 				}
 				this.$nextTick(() => {
-					this.inputContent = '武汉加油' + new Date()
+					this.inputContent = '武汉加油!'
 				});
 				emitSocket('talk', this.inputContent);
 			}
