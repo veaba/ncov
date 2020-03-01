@@ -13,6 +13,7 @@ export function getCoorDinates(cityName) {
 		const {lng = "", lat = ""} = getCenterByCityName(cityName) || {};
 		if (!lng) {
 			coordinates = ["", ""];
+			console.info('==>', cityName);
 		} else {
 			coordinates = [lng, lat];
 		}
