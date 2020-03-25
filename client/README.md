@@ -1,5 +1,40 @@
 # 前端项目
 
+- 后端：使用Go开发
+    - iris 框架 :https://iris-go.com/start/
+    - iris 中文 https://studyiris.com/example/mvc/overview.html
+    - beego 框架 https://beego.me/
+   
+- 后端：备选 rust
+    - hyper https://docs.rs/hyper/0.10.15/hyper/
+        - hyper起步 https://hyper.rs/guides/
+       
+        
+- 前端：Vue 3
+    - typescript开发
+## 2.x 版本: 多国数据感知
+- 引入vue-router
+
+## todo 多路由
+
+|名称|区域、行业、专题|
+|---|---|
+|/china|中国|
+|/global|全球|
+|/america|美国|
+|/italy|意大利|
+|/spain|西班牙|
+|/korea|韩国|
+|/japan|日本|
+|/germany|德国|
+|/serbia|塞尔维亚|
+|/wuhan|武汉|
+|/newyork|纽约|
+|/tokyo|东京|
+|/star|明星名人|
+|/loss|损失|
+|/sos|紧急呼叫~，援助的意思|
+## china power 来自中国的援助
 
 ## 流程: 
 
@@ -16,6 +51,7 @@
 2. 账号目前仅开放给Github用户，需要管理员权限的，可以联系[@veaba](https://github.com/veaba)
 
 
+## 草稿
 ### 消息推送
 todo 此处需要调整策略
 上述情况下，两分钟一次后端推送权威媒体的新闻，推送给新闻流
@@ -28,8 +64,7 @@ todo 此处需要调整策略
 2. 1分钟后自动关闭modal
 3. 帮助流也会走紧急消息弹窗
 
-### 新闻流又python爬虫+kafka完成，在考虑要不要接入报告流
-
+### todo新闻流又python爬虫+kafka完成，在考虑要不要接入报告流
 
 
 ## 技术栈
@@ -131,43 +166,17 @@ todo 此处需要调整策略
 - [] 增加时间去查询
 - [x] 弹幕功能
 - [x] 可以聊天
-- [] 颜色配色
-- [] 抽离微博的消息来生成响应的数据
+- [x] 颜色配色
+- [] 抽离微博的消息来生成相应的数据
 - [x] 当前在线的用户
 - [x] 有数据更新才会初始化用例
 - [x] 性能上的问题，前端socket 发起的时间太慢了
 
-## 调整，数据录入转为对接腾讯新闻的接口
-> 人工负责录入爱心的数据,变硬原因：一个人录入数据太慢了。
->
+### 调整，数据录入转为对接腾讯新闻的接口
+
 
 - timeline 
 >  https://view.inews.qq.com/g2/getOnsInfo?name=wuwei_ww_time_line&callback=jQuery341023861980778706648_1580489435728&_=1580489435729
 >
 -  区域数据
 > https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&callback=jQuery34105682990664578291_1580489603511&_=1580489603512
-
-
-
-/*
-* - 世界地图
-* - 中国省份rank
-* - 外国rank榜单，左侧
-* - 轮播的时间轴 中下
-* - 弹幕直接走腾讯的数据，全屏
-* - 过去数据中国和轮播一起绑定
-* - 新增数据 今日新增折线图-中国
-* */
-
-区域感染图
-爱心捐赠图
-迁徙图
-
-
-## todo
-
-- 定时器+vue watch渲染存在一个卡滞问题
-- 抛弃js top移动的方式，改用css动画
-- 肯定不能用transition的方式实现吧~
-- animation 应该也不行
-- vue 3 提供的transition-group会在v-for循环中重复添加内容，这不应该的
