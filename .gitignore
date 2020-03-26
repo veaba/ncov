@@ -9,3 +9,4 @@ config.ts
 __pycache__
 nginx.conf
 ssl
+target

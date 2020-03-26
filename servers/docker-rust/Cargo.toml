@@ -1,0 +1,10 @@
+[package]
+name = "docker-rust"
+version = "0.1.0"
+authors = ["veaba <Godpu@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+hyper = "0.13"
+tokio = { version = "0.2", features = ["full"] }
+rocket = "0.4.4"
