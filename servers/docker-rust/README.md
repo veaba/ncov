@@ -1,6 +1,10 @@
 # 基于Rust实现的后端服务（备选方案）
 
 
+- [Cargo 中文文档 budshome.com](https://cargo.budshome.com/getting-started/installation.html)
+- [getting start hyper](https://hyper.rs/guides/server/hello-world/)
+- [docs.rs hyper](https://docs.rs/hyper/0.13.4/hyper/server/index.html)
+
 ## run
 
 - 安装[rust rustc 1.42.0 (b8cedc004 2020-03-09)](https://rust-lang.org/)
@@ -51,3 +55,10 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
 ```
 - rocket  目前尚未工作起来
+ rocket 需要  nightly 
+ 
+ ```shell 
+rustup default nightly
+rustup override set nightly 
+rustup update && cargo update
+```

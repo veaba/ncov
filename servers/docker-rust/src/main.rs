@@ -1,12 +1,17 @@
-#![feature(proc_macro_hygiene, decl_macro)]
+#[macro_use]
+extern crate nickel;
 
-#[macro_use] extern crate rocket;
-
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
+use nickel::{Nickel, HttpRouter};
 
 fn main() {
-    rocket::ignite().mount("/", routes![index]).launch();
+    let mut server = Nickel::new();
+
+    server.utilize(router! {
+        get "/" => |_req, _res| {
+            "Hello world!"
+        }
+    });
+
+    server.get("/index", middleware! ("This is haha"));
+    server.listen("127.0.0.1:6767").unwrap();
 }
