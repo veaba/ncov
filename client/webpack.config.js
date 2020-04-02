@@ -8,16 +8,17 @@ const {VueLoaderPlugin} = require('vue-loader');                // vue-loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');// css
 const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.html 到dist 目录
 const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
+
 module.exports = (env = {}) => ({
 	mode: env.prod ? 'production' : 'development',
 	devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
 	output: {
-		path: path.resolve(__dirname, './dist'),
+		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
 		filename: 'bundle.js',
 		chunkFilename: "[id].chunk.js",
 	},
-	entry: path.resolve(__dirname, './src/main.ts'),
+	entry: path.resolve(__dirname, 'src/main.ts'),
 	resolve: {
 		alias: {
 			// is a simple `export * from '@vue/runtime-dom`. However having this
@@ -92,6 +93,14 @@ module.exports = (env = {}) => ({
 		])
 	],
 	devServer: {
+		historyApiFallback: {
+			rewrites: [
+				{
+					from: new RegExp(`^/(?:\\/?|/.*)$`),
+					to: `index.html`,
+				}
+			]
+		},
 		inline: true,
 		hot: true,
 		stats: 'minimal',
