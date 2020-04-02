@@ -1,14 +1,100 @@
 <template>
-		<div>
-				<router-view/>
-				h111
+		<div class="home">
+				<MapModule @emitPlayStatus="emitPlayStatus" :playWarning="playWarning" :totalObj="totalObj"></MapModule>
+				<BarrageModule
+								:isBarrageMode="isBarrageMode"
+								:authObj="authObj"
+								@emitBarrageHide="emitBarrageHide"></BarrageModule>
+				<WorldRankModule :worldRankButtonStatus="worldRankButtonStatus"></WorldRankModule>
+				<ChinaRankModule :chinaRankButtonStatus="chinaRankButtonStatus"></ChinaRankModule>
+				
+				<div v-if="!isBarrageMode" class="tip-barrage in-button">
+						
+						<span @click="onInRoom" v-if="authObj.isAuth">
+								已登录，可进入弹幕模式
+						</span>
+						
+						<a target="_blank" :href="authObj.oAuthUrl" v-else>
+								点击授权，弹幕支持
+								<img style="width: 24px;
+										     height: 24px;
+										     top: 4px;
+												 position: relative;"
+								     src="./assets/images/github-logo.png" alt="">
+						</a>
+				</div>
+		
 		</div>
 </template>
 
 <script>
 	import {defineComponent} from 'vue';
+	import {onSocket} from './utils/socketIo';
+	import BarrageModule from "./components/modules/Barrage.vue";                // 弹幕
+	import ChartModule from "./components/modules/Chart.vue";                 // 饼图
+	import MapModule from './components/modules/WorldMap.vue';                // 世界地图
+	import ChinaRankModule from './components/modules/ChinaRank.vue';          // 国内省份排行
+	import WorldRankModule from './components/modules/WorldRank.vue';          // 世界排行
 	export default defineComponent({
-		name: "App"
+		components: {
+			BarrageModule,
+			ChartModule,
+			MapModule,
+			ChinaRankModule,
+			WorldRankModule,
+		},
+		mounted() {
+			onSocket.call(this, 'getTotal');  // 手动滚动的数据
+			onSocket.call(this, 'auth');      // 授权
+			setTimeout(() => {
+				this.chinaRankButtonStatus = true;
+				this.worldRankButtonStatus = true;
+				this.chartButtonStatus = true;
+			}, 1000);
+		},
+		data() {
+			return {
+				auditButtonStatus: false,       // 控制台
+				reportButtonStatus: false,      // 录入
+				timelineButtonStatus: false,    // timeline
+				chartButtonStatus: false,       // 图表
+				newsButtonStatus: false,        // 消息窗口
+				chinaRankButtonStatus: false,   // rank
+				worldRankButtonStatus: false,   //
+				isBarrageMode: true,
+				playWarning: {
+					status: false
+				},
+				authObj: {
+					isAuth: false,
+					oAuthUrl: "",
+				},
+				// 推送过来审核的数据
+				auditList: [],
+				totalObj: {
+					chinaConfirm: 0,
+					chinaHeal: 0,
+					chinaDead: 0,
+					chinaSuspect: 0,
+					lastUpdateTime: "",
+					worldConfirm: 0,
+					worldHeal: 0,
+					worldDead: 0,
+					worldSuspect: 0,
+				},
+			};
+		},
+		methods: {
+			onInRoom() {
+				this.isBarrageMode = true;
+			},
+			emitBarrageHide(val) {
+				this.isBarrageMode = false;
+			},
+			emitPlayStatus(val) {
+				this.playWarning.status = false;
+			}
+		}
 	});
 </script>
 <style lang="scss">
