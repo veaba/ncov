@@ -6,11 +6,11 @@
 export const countryRoutes: object[] = [
     {
         path: "/country",
-        template: `<router-view></router-view>`,
+        component: () => import('../components/country/Country.vue'),
         children: [
             {
                 path: 'china',
-                component: () => import('../components/China.vue'),
+                component: () => import('../components/country/China.vue'),
             },
             {
                 path: 'america',

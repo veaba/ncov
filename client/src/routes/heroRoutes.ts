@@ -9,7 +9,23 @@ export const heroRoutes = [
         children: [
             {
                 path: '/index'
+            },
+            {
+                path: '/zhongnanshan'
+            },
+            {
+                path: '/lilanjuan'
+            },
+            {
+                path: '/zhangwenhong'
+            },
+            {
+                path: '/zhangboli'
+            },
+            {
+                path: '/zhangwenliang'
             }
+
         ]
     }
 ];
