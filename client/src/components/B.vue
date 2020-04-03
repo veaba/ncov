@@ -1,7 +1,6 @@
 <template>
-		<div class="home">
-				hello world~
-				<router-view></router-view>
+		<div>
+				I am b component
 		</div>
 </template>
 
@@ -9,6 +8,10 @@
 	import {defineComponent} from 'vue';
 	
 	export default defineComponent({
-		name: "Home"
+		name: "BComponent"
 	});
 </script>
+
+<style scoped>
+
+</style>

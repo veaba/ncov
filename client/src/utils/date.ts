@@ -17,7 +17,7 @@ export const yesterday = year + '-' + month + '-' + lastDay;
 
 
 // 可能时间产生错误
-export const fmtTime = (time) => {
+export const fmtTime = (time:any) => {
 	if (typeof time !== 'string') {
 		return ' '; // 如果不符合条件,则返回空
 	}

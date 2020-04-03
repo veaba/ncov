@@ -1,23 +1,42 @@
 <template>
 		<div>
-				<router-view/>
-				h111
+				<h1 style="text-align: center"> I am App component ~~~~~~</h1>
+				
+				<div class="center">
+						<router-link to="/a">/a</router-link>
+						
+						<router-link to="/b">/b</router-link>
+						
+						<router-link to="/c">/c</router-link>
+						
+						<router-link to="/c">/Home</router-link>
+						
+						<router-link to="/country">/country</router-link>
+						
+						<router-link to="/country/china">/country/china</router-link>
+						
+						<router-view/>
+				</div>
+		
+		
 		</div>
 </template>
 
 <script>
 	import {defineComponent} from 'vue';
+	
 	export default defineComponent({
 		name: "App"
 	});
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 		* {
 				box-sizing: border-box;
 		}
 		
 		a {
 				color: #0366d6;
+				display: block;
 		}
 		
 		body, html {
@@ -33,6 +52,11 @@
 		
 		li {
 				list-style: none;
+		}
+		
+		.center {
+				width: 400px;
+				margin: 0 auto;
 		}
 		
 		#app {

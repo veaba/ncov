@@ -1,6 +1,6 @@
 <template>
-		<div class="home">
-				hello world~
+		<div>
+				Country component
 				<router-view></router-view>
 		</div>
 </template>
@@ -9,6 +9,10 @@
 	import {defineComponent} from 'vue';
 	
 	export default defineComponent({
-		name: "Home"
+		name: "Country"
 	});
 </script>
+
+<style scoped>
+
+</style>
