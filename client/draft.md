@@ -1,5 +1,14 @@
 # 前端规划草稿
 
+## 工作计划
+- ui 设计
+- 数据来源
+- 页面展示
+- life 模块 先完成
+
+### 周期
+全部功能需要3-6个月以上
+ 
 ## 路由规划（成品不一定全部实现）
 
 ### Country/area 200+个地区（由于路由，此处不再大写开头）
@@ -99,7 +108,7 @@
 ### who 世界卫生组织
 ### solution
 - index                 解决方案概览
-  -- [covid-19-china-solution]() 发布中国解决方案的文档
+  - [covid-19-china-solution](https://github.com/veaba/covid-19-china-solution) 发布中国解决方案的文档
   
 ### hero                 抗疫表现的备受鼓舞和信任的个人或团体
 - zhongnanshang         钟南山
@@ -114,3 +123,23 @@
 ### evaluate             评价
 
 ### about                关于
+
+
+## 数据分享的方式
+- 直播
+- 社交模式
+- 可视化每日定时生成报表数据推送到各大社交网络
+- github OAuth
+- facebook OAuth
+- weChat OAuth
+- QQ OAuth
+- google OAuth
+- weibo OAuth
+- microsoft OAuth
+
+
+## i18n 国际化
+
+## 开发
+
+### 数据源
