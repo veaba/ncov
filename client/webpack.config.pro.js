@@ -9,8 +9,6 @@ const {VueLoaderPlugin} = require('vue-loader');                // vue-loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');// css
 const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.html 到dist 目录
 const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
-const TerserPlugin = require('terser-webpack-plugin');          // 移除注释
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');   // 清空dist目录
 module.exports = (env = {}) => ({
 	mode: 'production',
@@ -19,17 +17,27 @@ module.exports = (env = {}) => ({
 	entry: path.resolve(__dirname, './src/main.ts'),
 	output: {
 		path: path.resolve(__dirname, './dist'),
+		publicPath: '/',
+		filename: 'bundle.js',
+		chunkFilename: "[id].chunk.js",
 	},
 	resolve: {
 		alias: {
 			// is a simple `export * from '@vue/runtime-dom`. However having this
 			// extra re-export somehow causes webpack to always invalidate the module
 			// on the first HMR update and causes the page to reload.
-			'vue': '@vue/runtime-dom'
+			'vue': '@vue/runtime-dom',
 		},
+		// Add `.ts` and `.tsx` as a resolvable extension.
+		extensions: ['.ts', 'd.ts', '.tsx', '.js', '.vue'],
 	},
 	module: {
 		rules: [
+			{
+				test: /\.ts$/,
+				exclude: /node_modules/,
+				use: 'ts-loader',
+			},
 			{
 				test: /\.vue$/,
 				exclude: /^node_modules$/,
@@ -82,11 +90,6 @@ module.exports = (env = {}) => ({
 			}
 		}),
 		new CopyWebpackPlugin([
-			// copy lib
-			{
-				from: __dirname + '/src/chartLib',
-				to: __dirname + '/dist/chartLib',
-			},
 			// 后续向对外暴露API文件
 			{
 				from: __dirname + '/public',
@@ -94,26 +97,11 @@ module.exports = (env = {}) => ({
 			},
 		]),
 	],
-	// optimization: {
-	// 	minimize: true,
-	// 	minimizer: [new TerserPlugin(
-	// 		{
-	// 			extractComments: 'all',
-	// 		}
-	// 	)],
-	// },
-	// optimization: {
-	// 	minimizer: [
-	// 		new UglifyJsPlugin({
-	// 			test: /\.js(\?.*)?$/i,
-	// 		}),
-	// 	],
-	// },
 	devServer: {
 		inline: true,
 		hot: true,
 		stats: 'minimal',
-		contentBase: __dirname,
+		contentBase: "dist",
 		overlay: true
 	}
 });

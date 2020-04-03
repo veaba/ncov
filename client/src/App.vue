@@ -1,12 +1,26 @@
 <template>
 		<div>
+				<p>
+						<router-link to="/a">/a</router-link>
+				</p>
+				
+				<p>
+						<router-link to="/b">/b</router-link>
+				</p>
+				
+				<p>
+						<router-link to="/c">/c</router-link>
+				</p>
+				<p>
+						<router-link to="/">/Home</router-link>
+				</p>
 				<router-view/>
-				h111
 		</div>
 </template>
 
 <script>
 	import {defineComponent} from 'vue';
+	
 	export default defineComponent({
 		name: "App"
 	});

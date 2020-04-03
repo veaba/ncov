@@ -1,48 +1,25 @@
 import {createApp} from 'vue'
 import {createRouter, createWebHistory} from 'vue-router'
-// import {routes} from './routes'
-// import {globalState} from './store'
+import {routes} from './routes'
+import {globalState} from './store'
 import App from './App.vue'
 
 const router = createRouter({
     history: createWebHistory(),
-    routes: [
-        {
-            path: '/',
-            meta: {
-                title: "Home"
-            },
-            component: () => import('./layout/Home.vue'),
-            children: [
-                {
-                    path: 'a',
-                    component: () => import('./components/Hello.vue'),
-                },
-                {
-                    path: 'b',
-                    component: () => import('./components/Hello.vue'),
-                }
-            ]
-        },
-        {
-            path: '/c',
-            component: () => import('./components/Hello.vue'),
-        }
-
-    ]
+    routes
 });
 
 
-// declare global {
-//     interface Window {
-//         h: typeof createWebHistory
-//         r: typeof router
-//     }
-// }
+declare global {
+    interface Window {
+        h: typeof createWebHistory
+        r: typeof router
+    }
+}
 
 
 const app = createApp(App);
-// app.provide('state', globalState);
+app.provide('state', globalState);
 
 console.info('router====>', router);
 

@@ -1,17 +1,28 @@
-import Home from './layout/Home.vue'
-import Hello from './components/Hello.vue'
 export const routes: any[] = [
+
     {
         path: '/',
         meta: {
             title: "Home"
         },
-        component: Home,
+        component: () => import('./layout/Home.vue'),
         children: [
             {
-                path: '/china',
-                component: Hello,
+                path: 'china',
+                component: () => import('./components/Hello.vue'),
+            },
+            {
+                path: 'a',
+                component: () => import('./components/Hello.vue'),
+            },
+            {
+                path: 'b',
+                component: () => import('./components/Hello.vue'),
             }
         ]
+    },
+    {
+        path: '/c',
+        component: () => import('./components/Hello.vue'),
     }
 ];
