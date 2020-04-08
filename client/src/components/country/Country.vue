@@ -1,6 +1,5 @@
 <template>
-		<div>
-				Country component
+		<div class="country">
 				<router-view></router-view>
 		</div>
 </template>
@@ -13,6 +12,7 @@
 	});
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+		.country {
+		}
 </style>

@@ -23,17 +23,7 @@ export const routes: any[] = [
         meta: {
             title: "Home"
         },
-        component: () => import('../layout/Home.vue'),
-        children: [
-            {
-                path: '/a',
-                component: () => import('../components/A.vue'),
-            },
-            {
-                path: 'b',
-                component: () => import('../components/B.vue'),
-            }
-        ]
+        component: () => import('../layout/HomeLayout.vue'),
     },
     ...aboutRoutes,
     ...argueRoutes,

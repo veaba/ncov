@@ -1,12 +1,12 @@
 <template>
-		<div class="global">
-				Global
+		<div class="global-world">
+				Hello world
 		</div>
 </template>
 
 <script>
 	export default {
-		name: "Global"
+		name: "World"
 	};
 </script>
 

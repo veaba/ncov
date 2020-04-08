@@ -1,42 +1,34 @@
 <template>
-		<div>
-				<h1 style="text-align: center"> I am App component ~~~~~~</h1>
-				
-				<div class="center">
-						<router-link to="/a">/a</router-link>
-						
-						<router-link to="/b">/b</router-link>
-						
-						<router-link to="/c">/c</router-link>
-						
-						<router-link to="/c">/Home</router-link>
-						
-						<router-link to="/country">/country</router-link>
-						
-						<router-link to="/country/china">/country/china</router-link>
-						
+		<div class="layout-body">
+				<Header></Header>
+				<article>
 						<router-view/>
-				</div>
-		
-		
+				</article>
+				<Footer></Footer>
 		</div>
 </template>
 
 <script>
 	import {defineComponent} from 'vue';
+	import Footer from "./layout/Footer";
+	import Header from "./layout/Header";
 	
 	export default defineComponent({
-		name: "App"
+		name: "App",
+		components: {
+			Footer, Header
+		}
 	});
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 		* {
 				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
 		}
 		
 		a {
 				color: #0366d6;
-				display: block;
 		}
 		
 		body, html {
@@ -54,40 +46,20 @@
 				list-style: none;
 		}
 		
-		.center {
-				width: 400px;
-				margin: 0 auto;
+		.layout-body {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+		}
+		
+		article {
+				flex: 1 0 auto; /*flex-grow, flex-shrink flex-basis*/
+				background: linear-gradient(rgba(0,0,0,3), #eaebff, #292D3E);
 		}
 		
 		#app {
 				width: 100%;
 				height: 100%;
-				overflow: hidden;
-		}
-		
-		.align-center {
-				text-align: center;
-		}
-		
-		.left-layout {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 400px;
-				z-index: 1;
-		}
-		
-		.right-layout {
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 500px;
-				z-index: 1;
-		}
-		
-		.must-be {
-				position: relative;
-				
 		}
 		
 		.clear:after {
@@ -193,39 +165,4 @@
 						transform: rotate(360deg);
 				}
 		}
-</style>
-<style lang="scss" scoped>
-		.home {
-				position: relative;
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-		}
-		
-		.tip-barrage {
-				cursor: pointer;
-				padding: 0 10px;
-		}
-		
-		.in-button {
-				position: absolute;
-				left: 50%;
-				transform: translateX(-50%);
-				bottom: 20px;
-				display: block;
-				line-height: 62px;
-				float: left;
-				font-size: 18px;
-				background: #FF8626;
-				border: 1px solid #FF8626;
-				color: #fff;
-				border-radius: 8px;
-				z-index: 100;
-				
-				a {
-						text-decoration: none;
-				}
-		}
-
-
 </style>
