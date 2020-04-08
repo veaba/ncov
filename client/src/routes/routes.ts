@@ -16,7 +16,6 @@ import {loveRoutes} from "./loveRoutes";
 import {rescueRoutes} from "./rescueRoutes";
 import {travelRoutes} from "./travelRoutes";
 import {whoRoutes} from "./whoRoutes";
-
 export const routes: any[] = [
     {
         path: '',

@@ -1,5 +1,25 @@
 # 前端规划草稿
 
+## 灵感、一些idea、启发
+- 2020年4月8日。武汉解除主城的封锁，可以出个特别专题来纪念
+- 2020年4月8日  收集医生的愿望
+- 2020年4月8日 多国语言对医生的感谢
+- http://www.nhc.gov.cn/xcs/xxgzbd/gzbd_index.shtml 中国卫健委通报使用大数据分析
+    - 使用大数据来定位数值
+    - 截至4月7日24时新型冠状病毒肺炎疫情最新情况
+    - 截至4月6日24时新型冠状病毒肺炎疫情最新情况
+- 中国发布新冠肺炎疫情信息、推进疫情防控国际合作纪事
+    - http://www.nhc.gov.cn/xcs/fkdt/202004/ef0708c0e01f452492dbf6c418ef41a0.shtml
+- 新冠肺炎疫情防控海外华人华侨互联网咨询平台链接 https://covid19consulting.alliancebrh.com/
+- WHO专题： https://who.sprinklr.com/ 疫情地图
+    - https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports 数据统计
+- 中国疫情：
+- Johns Hopkins University (JHU) 约翰斯·霍普金斯大学 现在最权威的： https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
+- 特警摩托车载着医生的动画
+- 航空界最高礼遇
+- 2020年4月8日 重症八仙 http://www.nhc.gov.cn/xcs/yhfc/202004/525ce7df270847b2a0105b3fb84dbb62.shtml
+- 2020年4月8日 患者同乘 http://bmfw.www.gov.cn/ggjtmqjczcx/index.html
+
 ## 工作计划
 - ui 设计
 - 数据来源
