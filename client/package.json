@@ -5,12 +5,11 @@
     "build": "webpack --env.prod --config webpack.config.pro.js"
   },
   "dependencies": {
-    "@posva/vue-router-next": "^4.0.0-alpha.0",
     "axios": "^0.19.2",
     "date-fns": "^2.9.0",
     "socket.io-client": "^2.3.0",
-    "vue": "3.0.0-alpha.10",
-    "vue-router": "^4.0.0-alpha.4"
+    "vue": "^3.0.0-alpha.12",
+    "vue-router": "^4.0.0-alpha.5"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

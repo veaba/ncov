@@ -4,7 +4,14 @@
 - 2020年4月8日。武汉解除主城的封锁，可以出个特别专题来纪念
 - 2020年4月8日  收集医生的愿望
 - 2020年4月8日 多国语言对医生的感谢
-- http://www.nhc.gov.cn/xcs/xxgzbd/gzbd_index.shtml 中国卫健委通报使用大数据分析
+- http://www.nhc.gov.cn/xcs/xxgzbd/gzbd_index.shtml 中国卫健委通报使用大数据分析 todo
+    - python 爬虫爬取信息，然后录入，再打标签
+    - 80个Python练手项目列表 https://www.shiyanlou.com/questions/102676/
+    - word2vec 语料库, 训练模型
+        - word2vec google demo https://github.com/tensorflow/tensorflow/blob/r0.12/tensorflow/examples/tutorials/word2vec/word2vec_basic.py
+    - python-gensim
+    - Jieba 中文分词工具 https://github.com/fxsjy/jieba
+    - 百度飞浆官方模型库 https://github.com/PaddlePaddle/models
     - 使用大数据来定位数值
     - 截至4月7日24时新型冠状病毒肺炎疫情最新情况
     - 截至4月6日24时新型冠状病毒肺炎疫情最新情况
@@ -19,7 +26,19 @@
 - 航空界最高礼遇
 - 2020年4月8日 重症八仙 http://www.nhc.gov.cn/xcs/yhfc/202004/525ce7df270847b2a0105b3fb84dbb62.shtml
 - 2020年4月8日 患者同乘 http://bmfw.www.gov.cn/ggjtmqjczcx/index.html
+- 中国疾病预防控制中心 http://2019ncov.chinacdc.cn/2019-nCoV/
+- 清华大学等机构的开放数据源（COVID-19） https://www.aminer.cn/data-covid19/
+## 全局特性
+- i18n 
+- 因疫情影响，全球失业人数统计，均分到各国
+- 因疫情影响，去年或往年同时期正常死亡人数曲线
+- 因疫情影响，公司倒闭、破产数量
+- 全世界的确诊人数叠加曲线，大致可以看得出全局型的折线图
+- 全世界确诊人数叠加曲线
 
+### 难点和人力
+- 谁来录入这些数据？怎么录入比较轻松
+- 各国的官方机构报出来的人数如何统计？或者说各国的权威卫生网站
 ## 工作计划
 - ui 设计
 - 数据来源
@@ -34,6 +53,16 @@
 ### Country/area 200+个地区（由于路由，此处不再大写开头）
 
 - china                 中国
+    - 确诊人数
+        - 重症人数
+    - 治愈人数
+    - 死亡人数
+    - 风险评估等级
+    - 卫生响应等级：各省份
+    - 从 x日~ x 日
+        - 确认人数曲线
+        - 死亡人数曲线
+    - 
 - america               美国
 - korea                 韩国
 - uk                    英国
