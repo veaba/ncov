@@ -16,9 +16,12 @@ module.exports = (env = {}) => ({
 	mode: 'production',
 	// devtool: env.prod ? false : 'source-map',
 	// devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
-	entry: path.resolve(__dirname, './src/main.js'),
+	entry: path.resolve(__dirname, './src/main.ts'),
 	output: {
 		path: path.resolve(__dirname, './dist'),
+		publicPath: '/',
+		filename: 'bundle.js',
+		chunkFilename: "[id].chunk.js",
 	},
 	resolve: {
 		alias: {
@@ -27,9 +30,16 @@ module.exports = (env = {}) => ({
 			// on the first HMR update and causes the page to reload.
 			'vue': '@vue/runtime-dom'
 		},
+		// Add `.ts` and `.tsx` as a resolvable extension.
+		extensions: ['.ts', 'd.ts', '.tsx', '.js', '.vue'],
 	},
 	module: {
 		rules: [
+			{
+				test: /\.ts$/,
+				exclude: /node_modules/,
+				use: 'ts-loader',
+			},
 			{
 				test: /\.vue$/,
 				exclude: /^node_modules$/,
@@ -65,7 +75,7 @@ module.exports = (env = {}) => ({
 			}
 		]
 	},
-
+	
 	plugins: [
 		new CleanWebpackPlugin(),
 		new VueLoaderPlugin(),
@@ -94,26 +104,11 @@ module.exports = (env = {}) => ({
 			},
 		]),
 	],
-	// optimization: {
-	// 	minimize: true,
-	// 	minimizer: [new TerserPlugin(
-	// 		{
-	// 			extractComments: 'all',
-	// 		}
-	// 	)],
-	// },
-	// optimization: {
-	// 	minimizer: [
-	// 		new UglifyJsPlugin({
-	// 			test: /\.js(\?.*)?$/i,
-	// 		}),
-	// 	],
-	// },
 	devServer: {
 		inline: true,
 		hot: true,
 		stats: 'minimal',
-		contentBase: __dirname,
+		contentBase: "dist",
 		overlay: true
 	}
 });

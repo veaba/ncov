@@ -8,24 +8,34 @@ const {VueLoaderPlugin} = require('vue-loader');                // vue-loader
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');// css
 const HtmlWebpackPlugin = require('html-webpack-plugin');       // 生成index.html 到dist 目录
 const CopyWebpackPlugin = require('copy-webpack-plugin');       // copy 文件
+
 module.exports = (env = {}) => ({
 	mode: env.prod ? 'production' : 'development',
 	devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
-	entry: path.resolve(__dirname, './src/main.js'),
 	output: {
-		path: path.resolve(__dirname, './dist'),
+		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
+		filename: 'bundle.js',
+		chunkFilename: "[id].chunk.js",
 	},
+	entry: path.resolve(__dirname, 'src/main.ts'),
 	resolve: {
 		alias: {
 			// is a simple `export * from '@vue/runtime-dom`. However having this
 			// extra re-export somehow causes webpack to always invalidate the module
 			// on the first HMR update and causes the page to reload.
-			'vue': '@vue/runtime-dom'
+			'vue': '@vue/runtime-dom',
 		},
+		// Add `.ts` and `.tsx` as a resolvable extension.
+		extensions: ['.ts', 'd.ts', '.tsx', '.js', '.vue'],
 	},
 	module: {
 		rules: [
+			{
+				test: /\.ts$/,
+				exclude: /node_modules/,
+				use: 'ts-loader',
+			},
 			{
 				test: /\.vue$/,
 				use: 'vue-loader',
@@ -66,7 +76,7 @@ module.exports = (env = {}) => ({
 	plugins: [
 		// 生成index.html
 		new HtmlWebpackPlugin({
-			title: "关注2019新型冠状病毒(Focus 2019-nCoV)——大数据可视化",
+			title: "hello router 3 !",
 			filename: "index.html",
 			template: __dirname + "/public/index.html",
 			chunks: ["app"],
@@ -83,6 +93,14 @@ module.exports = (env = {}) => ({
 		])
 	],
 	devServer: {
+		historyApiFallback: {
+			rewrites: [
+				{
+					from: new RegExp(`^/(?:\\/?|/.*)$`),
+					to: `index.html`,
+				}
+			]
+		},
 		inline: true,
 		hot: true,
 		stats: 'minimal',

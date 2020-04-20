@@ -5,15 +5,17 @@
     "build": "webpack --env.prod --config webpack.config.pro.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "date-fns": "^2.9.0",
     "socket.io-client": "^2.3.0",
-    "vue": "3.0.0-alpha.4"
+    "vue": "^3.0.0-beta.2",
+    "vue-router": "^4.0.0-alpha.7"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@vue/cli-plugin-babel": "^3.10.0",
-    "@vue/compiler-sfc": "3.0.0-alpha.4",
+    "@vue/compiler-sfc": "3.0.0-beta.2",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "clean-webpack-plugin": "^3.0.0",
@@ -24,8 +26,10 @@
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
     "url-loader": "^3.0.0",
-    "vue-loader": "^16.0.0-alpha.2",
+    "vue-loader": "next",
     "vue-style-loader": "^4.1.2",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",

@@ -1,7 +1,44 @@
 # 前端项目
 
+- 后端：使用Go开发
+    - iris 框架 :https://iris-go.com/start/
+    - iris 中文 https://studyiris.com/example/mvc/overview.html
+    - beego 框架 https://beego.me/
+   
+- 后端：备选 rust
+    - hyper https://docs.rs/hyper/0.10.15/hyper/
+        - hyper起步 https://hyper.rs/guides/
+       
+        
+- 前端：Vue 3
+    - typescript开发
+## 2.x 版本: 多国数据感知
+- 引入vue-router
+
+## todo 多路由
+
+|名称|区域、行业、专题|
+|---|---|
+|/china|中国|
+|/global|全球|
+|/america|美国|
+|/italy|意大利|
+|/spain|西班牙|
+|/korea|韩国|
+|/japan|日本|
+|/germany|德国|
+|/serbia|塞尔维亚|
+|/wuhan|武汉|
+|/newyork|纽约|
+|/tokyo|东京|
+|/star|明星名人|
+|/loss|损失|
+|/sos|紧急呼叫~，援助的意思|
+## china power 来自中国的援助
 
 ## 流程: 
+
+消取都是
 
 ### 授权流程
 **提醒：** 不要刷新页面，本页面与后端交互是通过socket.io，刷新页面即认为重新登录，需要重新走授权流程
@@ -9,13 +46,14 @@
 1. 右上角仪表盘-点击Github小图标OAuth给本项目使用（仅注册使用，相关内容见 [OAuth](https://developer.github.com/v3/oauth/)，你也可以[取消授权](https://github.com/settings/installations)）
 
 ### 报告录入
-1. 授权通过后，出现若干按钮，点击录入，录入信息
+1. 授权通过后，出现若干个按钮，点击录入，录入信息
 
 ### 审核流程
 1. 管理员现为[@veaba](https://github.com/veaba) 人工审核，审核通过，即收录在时间轴里面，同时数据值也会被地图使用
 2. 账号目前仅开放给Github用户，需要管理员权限的，可以联系[@veaba](https://github.com/veaba)
 
 
+## 草稿
 ### 消息推送
 todo 此处需要调整策略
 上述情况下，两分钟一次后端推送权威媒体的新闻，推送给新闻流
@@ -28,8 +66,7 @@ todo 此处需要调整策略
 2. 1分钟后自动关闭modal
 3. 帮助流也会走紧急消息弹窗
 
-### 新闻流又python爬虫+kafka完成，在考虑要不要接入报告流
-
+### todo新闻流又python爬虫+kafka完成，在考虑要不要接入报告流
 
 
 ## 技术栈
@@ -50,7 +87,7 @@ todo 此处需要调整策略
 - todo 地区占比
 - todo 性别占比
 - todo 年龄占比
-- todo 增加爬虫爬取关于`2019-nCoV`权威新闻
+- todo 增加爬虫爬取`2019-nCoV`权威新闻
     - 微博
     - 央视新闻
     - 新华网
@@ -103,71 +140,11 @@ todo 此处需要调整策略
  reportDate: "2020-01-28"
 ```
 
+### 调整，数据录入转为对接腾讯新闻的接口
 
-## bug 
-- [x] 死亡和治愈调换
-- [x] 提交报告点击后设置loading按钮
-- [x] 数据量大的时候，等待太久，insertMany 改进方法
-- [x] 报告时间不必删除，现在当前的默认日
-- [x] 管理员提交，audits库里面出现两个
-- [x] 时间禁止超出当前，业务需要涉及过往时间
-- [x] 国外的时候，考虑下城市可以吗，直接填写该国即可
-- [x] 重置时候，保留中国
-- [x] 提示不需要写省份
-- [x] veaba的账号是管理员，单是没有直接应用生效，管理员也需要审核
-- [x] 审核通过应该立即生效，地图+total
-- [x] 无关点击关闭录入模块
-- [x] 仪表盘打开即收缩右侧rank
-- [x] for循环不需要异步等待
-- [x] 过了一天之后，以前的数据如何同步？
-- [x] 显示输出的input内容长度
-- [x] 审核多余ids
-- [x] 后端的一层mongoose 查询太慢了
-- [x] 数据库查询缓存，不差reports了。只查audits，从18s降低到400ms，但数据的粒度会放大，目前还是保留个人案例的表
-- [] 调整确诊rank 颜色
-- [] 迁徙图
-- [] 增加一个模块
-- [] 爱心地图
-- [] 增加时间去查询
-- [x] 弹幕功能
-- [x] 可以聊天
-- [] 颜色配色
-- [] 抽离微博的消息来生成响应的数据
-- [x] 当前在线的用户
-- [x] 有数据更新才会初始化用例
-- [x] 性能上的问题，前端socket 发起的时间太慢了
-
-## 调整，数据录入转为对接腾讯新闻的接口
-> 人工负责录入爱心的数据,变硬原因：一个人录入数据太慢了。
->
 
 - timeline 
 >  https://view.inews.qq.com/g2/getOnsInfo?name=wuwei_ww_time_line&callback=jQuery341023861980778706648_1580489435728&_=1580489435729
 >
 -  区域数据
 > https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&callback=jQuery34105682990664578291_1580489603511&_=1580489603512
-
-
-
-/*
-* - 世界地图
-* - 中国省份rank
-* - 外国rank榜单，左侧
-* - 轮播的时间轴 中下
-* - 弹幕直接走腾讯的数据，全屏
-* - 过去数据中国和轮播一起绑定
-* - 新增数据 今日新增折线图-中国
-* */
-
-区域感染图
-爱心捐赠图
-迁徙图
-
-
-## todo
-
-- 定时器+vue watch渲染存在一个卡滞问题
-- 抛弃js top移动的方式，改用css动画
-- 肯定不能用transition的方式实现吧~
-- animation 应该也不行
-- vue 3 提供的transition-group会在v-for循环中重复添加内容，这不应该的

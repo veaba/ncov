@@ -6,6 +6,8 @@ node_modules
 config.py
 config.js
 config.ts
+config.go
 __pycache__
 nginx.conf
 ssl
+target
