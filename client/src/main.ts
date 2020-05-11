@@ -3,7 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import {routes} from './routes/routes'
 import {globalState} from './store'
 import App from './App.vue'
-
+import "./assets/styles/g.css"
 
 const router = createRouter({
     history: createWebHistory(),

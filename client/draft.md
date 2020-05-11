@@ -27,6 +27,9 @@
 - 2020年4月8日 重症八仙 http://www.nhc.gov.cn/xcs/yhfc/202004/525ce7df270847b2a0105b3fb84dbb62.shtml
 - 2020年4月8日 患者同乘 http://bmfw.www.gov.cn/ggjtmqjczcx/index.html
 - 中国疾病预防控制中心 http://2019ncov.chinacdc.cn/2019-nCoV/
+    - 获取从20200110 开始的中国数据 http://49.4.25.117/JKZX/yq_20200110.json
+    - 获取从20200119 开始的全世界数据 http://49.4.25.117/JKZX/gb_yq_20200413.json
+    - [中国CDC](http://www.chinacdc.cn/)
 - 清华大学等机构的开放数据源（COVID-19） https://www.aminer.cn/data-covid19/
 ## 全局特性
 - i18n 
