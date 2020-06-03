@@ -5,9 +5,12 @@ authors = ["veaba <Godpu@outlook.com>"]
 edition = "2018"
 
 [dependencies]
-hyper = "0.13"
-tokio = { version = "0.2", features = ["full"] }
+#hyper = "0.13"
+#tokio = { version = "0.2", features = ["full"] }
 #rocket = "0.4.4" # 这玩意有毒，需要nightly 版本的rust
 nickel="*"
-csv="1.1"   # https://github.com/BurntSushi/rust-csv
-
+#csv="1.1"   # https://github.com/BurntSushi/rust-csv
+actix-web="2.0.0"
+actix-files="0.2.2"
+actix-rt = "1.1.1"
+actix-session = "0.4.0-alpha.1"

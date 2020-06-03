@@ -58,15 +58,14 @@ func main() {
 @desc all
 */
 func index(ctx iris.Context) {
-	ctx.HTML(`
-	<h1>Welcome goland iris</h1>
-	<a href="/share/weibo" target="_blank">test share weibo</> <br>
-	<a href="/weibo/createComment" target="_blank">test weibo/createComment</a> <br>
-	<a href="/weibo/createPost" target="_blank">test weibo/createPost</a> <br>
-	<a href="/auth" target="_blank">授权中心</a> <br>
-
-
-`)
+	ctx.WriteString("hello world")
+//	ctx.HTML(`
+//	<h1>Welcome goland iris</h1>
+//	<a href="/share/weibo" target="_blank">test share weibo</> <br>
+//	<a href="/weibo/createComment" target="_blank">test weibo/createComment</a> <br>
+//	<a href="/weibo/createPost" target="_blank">test weibo/createPost</a> <br>
+//	<a href="/auth" target="_blank">授权中心</a> <br>
+//`)
 }
 
 /**
