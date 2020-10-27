@@ -46,7 +46,7 @@ conda-package-handling==1.6.0
 conda-verify==3.4.2
 constantly==15.1.0
 contextlib2==0.6.0
-cryptography==2.7
+cryptography==3.2
 cssselect==1.0.1
 cycler==0.10.0
 Cython==0.29.13
