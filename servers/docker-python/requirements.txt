@@ -1,5 +1,5 @@
 python-socketio==4.4.0
-aiohttp==3.6.2
+aiohttp==3.7.4
 kafka
 kafka-python
 pymongo
