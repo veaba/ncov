@@ -179,7 +179,7 @@ pycrypto==2.6.1
 pycurl==7.43.0.3
 PyDispatcher==2.0.5
 pyflakes==2.1.1
-Pygments==2.4.2
+Pygments==2.7.4
 pyhtmd==1.0.0
 pylint==2.3.1
 pyodbc==4.0.27
