@@ -61,7 +61,7 @@ dnspython==1.16.0
 docutils==0.15.2
 entrypoints==0.3
 et-xmlfile==1.0.1
-eventlet==0.25.1
+eventlet==0.31.0
 fastcache==1.1.0
 filelock==3.0.12
 flake8==3.7.9
