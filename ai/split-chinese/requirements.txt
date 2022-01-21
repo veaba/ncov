@@ -88,7 +88,7 @@ importlib-metadata==0.23
 importlib-resources==1.0.2
 incremental==16.10.1
 ipykernel==5.1.2
-ipython==7.8.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 ipywidgets==7.5.0
 isort==4.3.21
