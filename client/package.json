@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --port 8081",
     "build": "webpack --env.prod --config webpack.config.pro.js"
   },
   "dependencies": {
