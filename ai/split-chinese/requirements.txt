@@ -103,7 +103,7 @@ jsonschema==3.0.2
 jupyter==1.0.0
 jupyter-client==5.3.1
 jupyter-console==6.0.0
-jupyter-core==4.5.0
+jupyter-core==4.11.2
 jupyterlab==1.2.21
 jupyterlab-server==1.0.0
 Keras-Applications==1.0.8
